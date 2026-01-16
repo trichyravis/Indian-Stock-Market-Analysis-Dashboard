@@ -1,5 +1,22 @@
-streamlit==1.28.1
-pandas==2.0.3
-numpy==1.24.3
-plotly==5.17.0
+# Indian Market Analysis Dashboard
+# Streamlit Application Requirements
+# Created: January 2026
+# Python 3.9+ recommended
+
+# Core Streamlit
+streamlit==1.35.0
+
+# Data Processing
+pandas==2.2.0
+numpy==1.26.4
+
+# Visualization
+plotly==5.18.0
 kaleido==0.2.1
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2024.1
+
+# Optional but recommended
+python-dotenv==1.0.1
