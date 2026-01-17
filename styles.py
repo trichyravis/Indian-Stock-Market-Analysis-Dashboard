@@ -1,232 +1,398 @@
+
 """
-Styles Module - Reusable Styling Functions
-Mountain Path Design System
+Styling Module for Indian Stock Market Analysis Dashboard
+
+Provides reusable UI components and styling functions
+consistent with Mountain Path - World of Finance design system.
 """
 
 import streamlit as st
-from config import COLORS
+from config import COLORS, FONTS
 
 # ═══════════════════════════════════════════════════════════════════════════
-# TYPOGRAPHY & HEADERS
+# CSS STYLING
 # ═══════════════════════════════════════════════════════════════════════════
 
-def render_main_title(title: str, subtitle: str = None):
-    """Render main page title with optional subtitle"""
-    st.markdown(f"<h1 style='text-align: center; color: {COLORS['primary_dark']};'>{title}</h1>", 
-                unsafe_allow_html=True)
-    if subtitle:
-        st.markdown(f"<h3 style='text-align: center; color: {COLORS['primary_mid']};'>{subtitle}</h3>", 
-                    unsafe_allow_html=True)
+def get_custom_css():
+    """
+    Returns custom CSS for the application.
+    Applies Mountain Path design system.
+    """
+    css = f"""
+    <style>
+    :root {{
+        --primary: {COLORS['dark_blue']};
+        --secondary: {COLORS['light_blue']};
+        --accent: {COLORS['accent_gold']};
+        --green: {COLORS['accent_green']};
+        --red: {COLORS['accent_red']};
+        --text-dark: {COLORS['text_dark']};
+        --text-muted: {COLORS['text_muted']};
+    }}
 
-def render_section_header(text: str):
-    """Render section header"""
-    st.markdown(f"<h2 style='color: {COLORS['primary_dark']}; border-bottom: 2px solid {COLORS['primary_light']};'>{text}</h2>", 
-                unsafe_allow_html=True)
+    * {{
+        font-family: {FONTS['primary']};
+    }}
 
-def render_subsection_header(text: str):
-    """Render subsection header"""
-    st.markdown(f"<h3 style='color: {COLORS['primary_mid']};'>{text}</h3>", 
-                unsafe_allow_html=True)
+    body {{
+        color: {COLORS['text_dark']};
+        background-color: {COLORS['bg_light']};
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# INFO BOXES & CALLOUTS
-# ═══════════════════════════════════════════════════════════════════════════
+    .main {{
+        padding: 0;
+        background-color: {COLORS['bg_white']};
+    }}
 
-def render_info_box(content: str, icon: str = "ℹ️"):
-    """Render information box"""
-    st.markdown(f"""
-    <div style='
-        background-color: #E8F4F8;
-        border-left: 4px solid {COLORS['primary_dark']};
-        padding: 15px;
-        border-radius: 4px;
-        margin: 10px 0;
-    '>
-    <strong>{icon} Information:</strong><br/>
-    {content.replace(chr(10), '<br/>')}
-    </div>
-    """, unsafe_allow_html=True)
+    /* Card Styles */
+    .metric-card {{
+        background: linear-gradient(135deg, {COLORS['dark_blue']}15, {COLORS['light_blue']}15);
+        border-left: 4px solid {COLORS['dark_blue']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 51, 102, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
 
-def render_warning_box(content: str, icon: str = "⚠️"):
-    """Render warning box"""
-    st.markdown(f"""
-    <div style='
-        background-color: #FFE8E8;
-        border-left: 4px solid {COLORS['accent_red']};
-        padding: 15px;
-        border-radius: 4px;
-        margin: 10px 0;
-    '>
-    <strong>{icon} Warning:</strong><br/>
-    {content.replace(chr(10), '<br/>')}
-    </div>
-    """, unsafe_allow_html=True)
+    .metric-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.12);
+    }}
 
-def render_success_box(content: str, icon: str = "✓"):
-    """Render success box"""
-    st.markdown(f"""
-    <div style='
-        background-color: #E8F8E8;
+    .success-box {{
+        background: {COLORS['accent_green']}10;
         border-left: 4px solid {COLORS['accent_green']};
-        padding: 15px;
-        border-radius: 4px;
-        margin: 10px 0;
-    '>
-    <strong>{icon} Success:</strong><br/>
-    {content.replace(chr(10), '<br/>')}
-    </div>
-    """, unsafe_allow_html=True)
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
 
-def render_alert_box(content: str, alert_type: str = "info"):
-    """Render alert box with type"""
-    color_map = {
-        'info': (COLORS['primary_dark'], '#E8F4F8'),
-        'warning': (COLORS['accent_red'], '#FFE8E8'),
-        'success': (COLORS['accent_green'], '#E8F8E8'),
-        'error': (COLORS['accent_red'], '#FFD1D1')
-    }
-    border_color, bg_color = color_map.get(alert_type, color_map['info'])
-    
-    st.markdown(f"""
-    <div style='
-        background-color: {bg_color};
-        border-left: 4px solid {border_color};
-        padding: 15px;
-        border-radius: 4px;
-        margin: 10px 0;
-    '>
-    {content.replace(chr(10), '<br/>')}
-    </div>
-    """, unsafe_allow_html=True)
+    .warning-box {{
+        background: {COLORS['accent_red']}10;
+        border-left: 4px solid {COLORS['accent_red']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# METRIC DISPLAYS
-# ═══════════════════════════════════════════════════════════════════════════
+    .info-box {{
+        background: {COLORS['light_blue']}10;
+        border-left: 4px solid {COLORS['light_blue']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
 
-def render_metric_grid(metrics: dict):
-    """Render multiple metrics in a grid"""
-    cols = st.columns(len(metrics))
-    for idx, (label, (value, change)) in enumerate(metrics.items()):
-        with cols[idx]:
-            st.metric(label, value, change)
+    /* Dividers */
+    .header-divider {{
+        height: 3px;
+        background: linear-gradient(90deg, {COLORS['dark_blue']}, {COLORS['accent_gold']}, {COLORS['dark_blue']});
+        margin: 1.5rem 0 2rem 0;
+        border-radius: 2px;
+    }}
 
-def render_colored_metric(label: str, value: str, change: str = None, color: str = 'primary_dark'):
-    """Render a colored metric"""
-    st.metric(label, value, change)
+    .subtle-divider {{
+        height: 1px;
+        background-color: {COLORS['border_color']};
+        margin: 1.5rem 0;
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# TABLE STYLING
-# ═══════════════════════════════════════════════════════════════════════════
+    /* Typography */
+    h1, h2, h3 {{
+        color: {COLORS['dark_blue']};
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }}
 
-def style_dataframe_gradient(df, columns: list, cmap: str = 'RdYlGn'):
-    """Apply gradient styling to dataframe"""
-    return df.style.background_gradient(subset=columns, cmap=cmap)
+    h1 {{
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }}
 
-def style_dataframe_conditional(df, column: str):
-    """Apply conditional styling to dataframe"""
-    def highlight_positive_negative(val):
-        if isinstance(val, (int, float)):
-            if val < 0:
-                return f'background-color: #FFE8E8; color: {COLORS["accent_red"]}'
-            elif val > 0:
-                return f'background-color: #E8F8E8; color: {COLORS["accent_green"]}'
-    return df.style.applymap(highlight_positive_negative, subset=[column])
+    h2 {{
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# DIVIDERS & SPACING
-# ═══════════════════════════════════════════════════════════════════════════
+    h3 {{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }}
 
-def render_divider(style: str = 'solid'):
-    """Render custom divider"""
-    st.markdown(f"""
-    <hr style='
-        border: none;
-        height: 2px;
-        background: linear-gradient(to right, {COLORS['primary_light']}, {COLORS['primary_dark']}, {COLORS['primary_light']});
-        margin: 20px 0;
-    '/>
-    """, unsafe_allow_html=True)
+    h4 {{
+        font-size: 1.125rem;
+        color: {COLORS['dark_blue']};
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+    }}
 
-def spacing(lines: int = 1):
-    """Add vertical spacing"""
-    for _ in range(lines):
-        st.write("")
+    /* Metrics */
+    .metric-label {{
+        font-size: 0.875rem;
+        color: {COLORS['text_muted']};
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# FOOTER
-# ═══════════════════════════════════════════════════════════════════════════
+    .metric-value {{
+        font-size: 2rem;
+        font-weight: 700;
+        color: {COLORS['dark_blue']};
+        margin: 0.5rem 0;
+    }}
 
-def render_footer(author: str, brand: str, data_source: str):
-    """Render branded footer"""
-    st.markdown(f"""
-    ---
-    <div style='text-align: center; padding: 20px; color: {COLORS['medium_gray']}; font-size: 12px;'>
-        <strong>{brand}</strong><br/>
-        Created by {author} | Bangalore, India<br/>
-        Data Source: {data_source}<br/>
-        Analysis Period: FY2021 – FY2025 | Created: January 2026<br/>
-        <em>Disclaimer: For educational purposes only. Not investment advice.</em>
-    </div>
-    """, unsafe_allow_html=True)
+    .metric-delta {{
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-top: 0.5rem;
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# SIDEBAR COMPONENTS
-# ═══════════════════════════════════════════════════════════════════════════
+    /* Sidebar */
+    .sidebar {{
+        background-color: {COLORS['dark_blue']}05;
+    }}
 
-def render_sidebar_metrics(metrics: dict):
-    """Render metrics in sidebar"""
-    st.sidebar.markdown("### 📌 Key Metrics")
-    col1, col2 = st.sidebar.columns(2)
-    
-    items = list(metrics.items())
-    for idx, (label, (value, change)) in enumerate(items):
-        with col1 if idx % 2 == 0 else col2:
-            st.metric(label, value, change)
+    .sidebar-metric {{
+        padding: 1rem;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+        border-left: 3px solid {COLORS['dark_blue']};
+    }}
 
-def render_sidebar_alert(title: str, content: str, alert_type: str = "warning"):
-    """Render alert in sidebar"""
-    color_map = {
-        'info': '#E8F4F8',
-        'warning': '#FFE8E8',
-        'success': '#E8F8E8',
-        'error': '#FFD1D1'
-    }
-    
-    st.sidebar.markdown(f"""
-    <div style='
-        background-color: {color_map.get(alert_type, "#E8F4F8")};
-        border-left: 4px solid {COLORS['primary_dark']};
-        padding: 12px;
-        border-radius: 4px;
-        margin: 10px 0;
-    '>
-    <strong>{title}</strong><br/>
-    {content.replace(chr(10), '<br/>')}
-    </div>
-    """, unsafe_allow_html=True)
+    /* Links */
+    a {{
+        color: {COLORS['light_blue']};
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }}
 
-# ═══════════════════════════════════════════════════════════════════════════
-# BADGES & LABELS
-# ═══════════════════════════════════════════════════════════════════════════
+    a:hover {{
+        color: {COLORS['accent_gold']};
+        text-decoration: underline;
+    }}
 
-def render_badge(text: str, badge_type: str = 'default'):
-    """Render badge/label"""
-    color_map = {
-        'default': COLORS['primary_dark'],
-        'success': COLORS['accent_green'],
-        'warning': COLORS['accent_orange'],
-        'error': COLORS['accent_red'],
-        'info': COLORS['primary_mid']
-    }
-    
-    bg_color = color_map.get(badge_type, COLORS['primary_dark'])
-    st.markdown(f"""
-    <span style='
-        background-color: {bg_color};
+    /* Tables */
+    table {{
+        border-collapse: collapse;
+        width: 100%;
+    }}
+
+    th {{
+        background-color: {COLORS['dark_blue']}15;
+        color: {COLORS['dark_blue']};
+        font-weight: 600;
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 2px solid {COLORS['dark_blue']};
+    }}
+
+    td {{
+        padding: 0.75rem;
+        border-bottom: 1px solid {COLORS['border_color']};
+    }}
+
+    tr:hover {{
+        background-color: {COLORS['bg_light']};
+    }}
+
+    /* Buttons */
+    button {{
+        background-color: {COLORS['dark_blue']};
         color: white;
-        padding: 4px 12px;
-        border-radius: 12px;
-        font-size: 12px;
-        font-weight: bold;
-    '>{text}</span>
-    """, unsafe_allow_html=True)
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }}
+
+    button:hover {{
+        background-color: {COLORS['light_blue']};
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+    }}
+
+    /* Responsive */
+    @media (max-width: 768px) {{
+        h1 {{
+            font-size: 1.75rem;
+        }}
+
+        .metric-value {{
+            font-size: 1.5rem;
+        }}
+    }}
+    </style>
+    """
+    return css
+
+# ═══════════════════════════════════════════════════════════════════════════
+# COMPONENT RENDERING FUNCTIONS
+# ═══════════════════════════════════════════════════════════════════════════
+
+def render_main_title(title, subtitle):
+    """Render main page title with subtitle"""
+    st.markdown(f"# {title}")
+    st.markdown(f"*{subtitle}*", unsafe_allow_html=True)
+
+
+def render_section_header(text):
+    """Render section header with divider"""
+    st.markdown(f"### {text}")
+    st.markdown('<div class="header-divider"></div>', unsafe_allow_html=True)
+
+
+def render_subsection_header(text):
+    """Render subsection header"""
+    st.markdown(f"#### {text}")
+
+
+def render_info_box(content):
+    """Render info box with light blue background"""
+    st.markdown(f'<div class="info-box">{content}</div>', unsafe_allow_html=True)
+
+
+def render_warning_box(content):
+    """Render warning box with red background"""
+    st.markdown(f'<div class="warning-box">{content}</div>', unsafe_allow_html=True)
+
+
+def render_success_box(content):
+    """Render success box with green background"""
+    st.markdown(f'<div class="success-box">{content}</div>', unsafe_allow_html=True)
+
+
+def render_divider():
+    """Render subtle divider line"""
+    st.markdown("---")
+
+
+def render_footer(author, brand, sources):
+    """
+    Render page footer with author, brand, and sources.
+    
+    Args:
+        author (str): Author name
+        brand (str): Brand name
+        sources (str): Data sources
+    """
+    st.markdown("---")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f"**Author:** {author}")
+    
+    with col2:
+        st.markdown(f"**Platform:** {brand}")
+    
+    with col3:
+        st.markdown(f"**Sources:** {sources}")
+    
+    st.markdown(
+        f"<p style='text-align:center; color:{COLORS['text_muted']}; "
+        f"font-size:0.85rem; margin-top:2rem;'>"
+        f"<i>© 2026 The Mountain Path - World of Finance | All Rights Reserved</i>"
+        f"</p>",
+        unsafe_allow_html=True
+    )
+
+
+def render_sidebar_metrics(metrics_dict):
+    """
+    Render metrics in sidebar with consistent styling.
+    
+    Args:
+        metrics_dict (dict): Dictionary of {label: (value, note)}
+    """
+    for label, (value, note) in metrics_dict.items():
+        st.sidebar.markdown(f"**{label}**")
+        st.sidebar.markdown(
+            f"<div class='metric-value'>{value}</div>",
+            unsafe_allow_html=True
+        )
+        st.sidebar.markdown(
+            f"<span class='metric-label'>{note}</span>",
+            unsafe_allow_html=True
+        )
+        st.sidebar.markdown("")
+
+
+def render_sidebar_alert(title, content, alert_type="warning"):
+    """
+    Render alert box in sidebar.
+    
+    Args:
+        title (str): Alert title
+        content (str): Alert content
+        alert_type (str): Type - 'warning', 'error', or 'info'
+    """
+    if alert_type == "warning":
+        st.sidebar.warning(f"**{title}**\n\n{content}")
+    elif alert_type == "error":
+        st.sidebar.error(f"**{title}**\n\n{content}")
+    else:
+        st.sidebar.info(f"**{title}**\n\n{content}")
+
+
+def spacing(lines=1):
+    """Add vertical spacing between elements"""
+    for _ in range(lines):
+        st.markdown("")
+
+
+def render_metric_card(label, value, delta=None, delta_color=None):
+    """
+    Render a metric card with label and value.
+    
+    Args:
+        label (str): Metric label
+        value (str): Metric value
+        delta (str, optional): Change indicator (e.g., "+10%")
+        delta_color (str, optional): Color for delta - 'green', 'red', or 'neutral'
+    """
+    delta_html = ""
+    if delta:
+        color_map = {
+            'green': COLORS['accent_green'],
+            'red': COLORS['accent_red'],
+            'neutral': COLORS['text_muted']
+        }
+        color = color_map.get(delta_color, COLORS['text_muted'])
+        delta_html = f'<span class="metric-delta" style="color:{color};">{delta}</span>'
+    
+    html = f"""
+    <div class="metric-card">
+        <div class="metric-label">{label}</div>
+        <div class="metric-value">{value}</div>
+        {delta_html}
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+
+
+def render_comparison_box(title, items):
+    """
+    Render a comparison box with multiple items.
+    
+    Args:
+        title (str): Box title
+        items (dict): Dictionary of {label: value}
+    """
+    html = f"<b>{title}</b><br>"
+    for label, value in items.items():
+        html += f"{label}: <b>{value}</b><br>"
+    
+    render_info_box(html)
+
+
+def apply_custom_css():
+    """Apply custom CSS to Streamlit app"""
+    st.markdown(get_custom_css(), unsafe_allow_html=True)
