@@ -256,18 +256,18 @@ def render_subsection_header(text):
 
 
 def render_info_box(content):
-    """Render info box with light blue background"""
-    st.markdown(f'<div class="info-box">{content}</div>', unsafe_allow_html=True)
+    """Render info box with light blue background, processes Markdown"""
+    st.markdown(f'<div class="info-box">\n\n{content}\n\n</div>', unsafe_allow_html=True)
 
 
 def render_warning_box(content):
-    """Render warning box with red background"""
-    st.markdown(f'<div class="warning-box">{content}</div>', unsafe_allow_html=True)
+    """Render warning box with red background, processes Markdown"""
+    st.markdown(f'<div class="warning-box">\n\n{content}\n\n</div>', unsafe_allow_html=True)
 
 
 def render_success_box(content):
-    """Render success box with green background"""
-    st.markdown(f'<div class="success-box">{content}</div>', unsafe_allow_html=True)
+    """Render success box with green background, processes Markdown"""
+    st.markdown(f'<div class="success-box">\n\n{content}\n\n</div>', unsafe_allow_html=True)
 
 
 def render_divider():
