@@ -90,7 +90,7 @@ if page == PAGES[0]:
     display_styled_dataframe(
         pd.DataFrame(metrics_data),
         columns_to_style=['Value'],
-        use_container_width=True
+        width='stretch'
     )
     
     render_divider()
@@ -167,7 +167,7 @@ elif page == PAGES[1]:
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     render_divider()
     
@@ -202,14 +202,14 @@ elif page == PAGES[1]:
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width='stretch')
     
     render_divider()
     
     display_styled_dataframe(
         five_year,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
 
@@ -224,7 +224,7 @@ elif page == PAGES[2]:
     display_styled_dataframe(
         quarterly,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
     
@@ -247,7 +247,7 @@ elif page == PAGES[3]:
     display_styled_dataframe(
         sectors,
         columns_to_style=['Contribution (%)', 'Growth (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
 
@@ -262,7 +262,7 @@ elif page == PAGES[4]:
     display_styled_dataframe(
         downgrades,
         columns_to_style=['Direction (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
 
