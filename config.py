@@ -46,10 +46,106 @@ LOCATION = "Bangalore, India"
 YEAR = 2026
 
 # ═══════════════════════════════════════════════════════════════════════════
-# DATA SOURCES
+# DATA SOURCES WITH EXACT LINKS
 # ═══════════════════════════════════════════════════════════════════════════
 
-DATA_SOURCES = "NSE Corporate Performance Review (Q3FY25), RBI Annual Reports, Business Standard"
+DATA_SOURCES_INFO = {
+    'NSE': {
+        'name': 'National Stock Exchange of India',
+        'url': 'https://www.nseindia.com/',
+        'description': 'Official source for Nifty 50 index data and corporate announcements',
+        'data_used': '5-year performance, Quarterly data, Sector weights'
+    },
+    'RBI': {
+        'name': 'Reserve Bank of India',
+        'url': 'https://www.rbi.org.in/',
+        'description': 'Central bank data on interest rates, monetary policy, and economic indicators',
+        'data_used': 'Economic context, Inflation data, Policy environment'
+    },
+    'BSE': {
+        'name': 'Bombay Stock Exchange',
+        'url': 'https://www.bseindia.com/',
+        'description': 'Alternative exchange data for validation and cross-checking',
+        'data_used': 'Sector indices, Corporate disclosures'
+    },
+    'MCA': {
+        'name': 'Ministry of Corporate Affairs',
+        'url': 'https://www.mca.gov.in/',
+        'description': 'Government repository for corporate filings and financial statements',
+        'data_used': 'Annual reports, Quarterly earnings'
+    },
+    'SEBI': {
+        'name': 'Securities and Exchange Board of India',
+        'url': 'https://www.sebi.gov.in/',
+        'description': 'Market regulator providing market data and company disclosures',
+        'data_used': 'Regulatory filings, Market circulars'
+    },
+    'Business_Standard': {
+        'name': 'Business Standard (India)',
+        'url': 'https://www.business-standard.com/',
+        'description': 'Financial news and analysis on Indian markets',
+        'data_used': 'Earnings estimates, Market analysis, Downgrades'
+    },
+    'Economic_Times': {
+        'name': 'The Economic Times',
+        'url': 'https://economictimes.indiatimes.com/',
+        'description': 'Indian business and financial news',
+        'data_used': 'Market trends, Sector updates'
+    },
+    'Motilal_Oswal': {
+        'name': 'Motilal Oswal Financial Services',
+        'url': 'https://www.motilaloswal.com/',
+        'description': 'Investment research and market analysis',
+        'data_used': 'Earnings estimates, Sector analysis'
+    },
+    'ICICI_Securities': {
+        'name': 'ICICI Securities Research',
+        'url': 'https://research.icicisecurities.com/',
+        'description': 'Equity research and market insights',
+        'data_used': 'Company analysis, Earnings revisions'
+    },
+    'HDFC_Securities': {
+        'name': 'HDFC Securities Research',
+        'url': 'https://www.hdfcsec.com/',
+        'description': 'Investment advisory and research',
+        'data_used': 'Market outlook, Sector recommendations'
+    },
+    'Nomura': {
+        'name': 'Nomura India Research',
+        'url': 'https://www.nomura.com/indices/india',
+        'description': 'Global investment bank research on Indian markets',
+        'data_used': 'Valuation analysis, Market trends'
+    },
+    'Goldman_Sachs': {
+        'name': 'Goldman Sachs Research',
+        'url': 'https://www.gs.com/',
+        'description': 'Global investment banking and research',
+        'data_used': 'Market forecasts, Scenario analysis'
+    }
+}
+
+# Primary data sources
+PRIMARY_DATA_SOURCES = [
+    'NSE (https://www.nseindia.com/)',
+    'RBI (https://www.rbi.org.in/)',
+    'BSE (https://www.bseindia.com/)',
+    'MCA (https://www.mca.gov.in/)'
+]
+
+# Research sources
+RESEARCH_SOURCES = [
+    'Business Standard (https://www.business-standard.com/)',
+    'Economic Times (https://economictimes.indiatimes.com/)',
+    'Motilal Oswal (https://www.motilaloswal.com/)',
+    'ICICI Securities (https://research.icicisecurities.com/)',
+    'HDFC Securities (https://www.hdfcsec.com/)'
+]
+
+# Global research
+GLOBAL_RESEARCH = [
+    'Nomura (https://www.nomura.com/)',
+    'Goldman Sachs (https://www.gs.com/)'
+]
 ANALYSIS_PERIOD = "FY2021-FY2025"
 CURRENT_QUARTER = "Q3FY25"
 
@@ -89,8 +185,19 @@ PAGES = [
     "🏦 Sector Analysis",
     "📉 Earnings Downgrades",
     "🎯 Scenarios",
-    "📋 Data Explorer"
+    "📋 Data Explorer",
+    "📚 Data Sources"
 ]
+
+# ═══════════════════════════════════════════════════════════════════════════
+# MESSAGES & LABELS
+# ═══════════════════════════════════════════════════════════════════════════
+
+MESSAGES = {
+    'header_title': '📊 Indian Stock Market Analysis Dashboard',
+    'header_subtitle': 'Is Growth Driven by Revenue Expansion or Margin Re-Rating?',
+    'sidebar_title': '🏔️ The Mountain Path - World of Finance',
+}
 
 # ═══════════════════════════════════════════════════════════════════════════
 # METRICS & KPIs
