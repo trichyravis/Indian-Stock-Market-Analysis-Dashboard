@@ -217,13 +217,13 @@ if page == PAGES[0]:
     
     sector_display = pd.DataFrame({
         'Sector': top_sectors['Sector'],
-        'Contribution %': top_sectors['Contribution (%)'].round(1),
-        'Growth %': top_sectors['Growth (%)'].round(1)
+        'Weight in Nifty %': top_sectors['Weight in Nifty (%)'].round(1),
+        'Revenue Growth %': top_sectors['Revenue Growth FY25 (%)'].round(1),
+        'Status': top_sectors['Status']
     })
     
     display_styled_dataframe(
         sector_display,
-        columns_to_style=['Contribution %', 'Growth %'],
         width='stretch'
     )
     
