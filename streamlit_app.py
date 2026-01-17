@@ -2,7 +2,7 @@
 """
 Indian Stock Market Analysis Dashboard
 Analysis of Nifty 50 Growth: Revenue Expansion vs Margin Re-Rating
-Version 2.3.8 - Production Ready
+Version 2.4.0 - Restored Original State (7 Pages)
 """
 
 import streamlit as st
@@ -10,10 +10,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
 from datetime import datetime
-import matplotlib
-matplotlib.use('Agg')
 
-from config import COLORS, FONTS, AUTHOR, BRAND_NAME, EXPERIENCE, LOCATION, YEAR, PAGES, DATA_SOURCES_INFO
+from config import COLORS, AUTHOR, BRAND_NAME, EXPERIENCE, LOCATION, YEAR, PAGES
 from data import generate_data
 from styles import (
     get_custom_css, display_styled_dataframe,
@@ -45,9 +43,12 @@ st.sidebar.markdown(f"**Prof. V. Ravichandran**")
 st.sidebar.markdown(f"*{EXPERIENCE}*")
 st.sidebar.markdown("---")
 
+# Only show first 7 pages (exclude data sources)
+pages_list = PAGES[:7]
+
 page = st.sidebar.radio(
     "📍 Choose Analysis:",
-    PAGES,
+    pages_list,
     key="main_nav"
 )
 
@@ -89,7 +90,7 @@ if page == PAGES[0]:
     display_styled_dataframe(
         pd.DataFrame(metrics_data),
         columns_to_style=['Value'],
-        width='stretch'
+        use_container_width=True
     )
     
     render_divider()
@@ -145,8 +146,7 @@ elif page == PAGES[1]:
         mode='lines+markers',
         name='Revenue Growth',
         line=dict(color=COLORS['chart_blue'], width=3),
-        marker=dict(size=10),
-        hovertemplate='<b>%{x}</b><br>Revenue: %{y:.1f}%<extra></extra>'
+        marker=dict(size=10)
     ))
     
     fig.add_trace(go.Scatter(
@@ -155,8 +155,7 @@ elif page == PAGES[1]:
         mode='lines+markers',
         name='Profit Growth',
         line=dict(color=COLORS['accent_red'], width=3),
-        marker=dict(size=10),
-        hovertemplate='<b>%{x}</b><br>Profit: %{y:.1f}%<extra></extra>'
+        marker=dict(size=10)
     ))
     
     fig.update_layout(
@@ -168,7 +167,7 @@ elif page == PAGES[1]:
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig, width='stretch')
+    st.plotly_chart(fig, use_container_width=True)
     
     render_divider()
     
@@ -203,14 +202,14 @@ elif page == PAGES[1]:
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig2, width='stretch')
+    st.plotly_chart(fig2, use_container_width=True)
     
     render_divider()
     
     display_styled_dataframe(
         five_year,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        width='stretch',
+        use_container_width=True,
         hide_index=True
     )
 
@@ -225,7 +224,7 @@ elif page == PAGES[2]:
     display_styled_dataframe(
         quarterly,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        width='stretch',
+        use_container_width=True,
         hide_index=True
     )
     
@@ -248,7 +247,7 @@ elif page == PAGES[3]:
     display_styled_dataframe(
         sectors,
         columns_to_style=['Contribution (%)', 'Growth (%)'],
-        width='stretch',
+        use_container_width=True,
         hide_index=True
     )
 
@@ -263,7 +262,7 @@ elif page == PAGES[4]:
     display_styled_dataframe(
         downgrades,
         columns_to_style=['Direction (%)'],
-        width='stretch',
+        use_container_width=True,
         hide_index=True
     )
 
@@ -302,84 +301,16 @@ elif page == PAGES[6]:
     tab1, tab2, tab3, tab4 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades"])
     
     with tab1:
-        display_styled_dataframe(data['five_year'], width='stretch', hide_index=True)
+        display_styled_dataframe(data['five_year'], use_container_width=True, hide_index=True)
     
     with tab2:
-        display_styled_dataframe(data['quarterly'], width='stretch', hide_index=True)
+        display_styled_dataframe(data['quarterly'], use_container_width=True, hide_index=True)
     
     with tab3:
-        display_styled_dataframe(data['sector'], width='stretch', hide_index=True)
+        display_styled_dataframe(data['sector'], use_container_width=True, hide_index=True)
     
     with tab4:
-        display_styled_dataframe(data['downgrades'], width='stretch', hide_index=True)
-
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 7: DATA SOURCES
-# ═══════════════════════════════════════════════════════════════════════════
-
-elif page == PAGES[7]:
-    render_section_header("📚 Data Sources & References")
-    
-    st.markdown("""
-    This dashboard aggregates data from multiple authoritative sources to provide 
-    comprehensive analysis of the Indian stock market.
-    """)
-    
-    render_divider()
-    
-    render_section_header("🏛️ Primary Data Sources")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("#### 📊 [National Stock Exchange (NSE)](https://www.nseindia.com/)")
-        st.info("**Used For:** 5-year performance, sector weights, quarterly trends")
-        
-        st.markdown("#### 🏦 [Reserve Bank of India (RBI)](https://www.rbi.org.in/)")
-        st.info("**Used For:** Economic context, policy environment, valuation assumptions")
-    
-    with col2:
-        st.markdown("#### 📈 [Bombay Stock Exchange (BSE)](https://www.bseindia.com/)")
-        st.info("**Used For:** Data validation, cross-checking, sector analysis")
-        
-        st.markdown("#### 📋 [Ministry of Corporate Affairs (MCA)](https://www.mca.gov.in/)")
-        st.info("**Used For:** Earnings data, financial metrics, quarterly performance")
-    
-    render_divider()
-    
-    render_section_header("📊 Data Collection & Quality")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        render_info_box(
-            "**🔍 Data Validation Process**\n\n"
-            "1. **Collection**: Multi-source gathering\n"
-            "2. **Verification**: Cross-source checking\n"
-            "3. **Reconciliation**: Discrepancy resolution\n"
-            "4. **Normalization**: Standardized formatting\n"
-            "5. **Validation**: Range & consistency checks"
-        )
-    
-    with col2:
-        render_success_box(
-            "**✅ Data Quality Standards**\n\n"
-            "• **Accuracy**: Verified against official sources\n"
-            "• **Timeliness**: Updated monthly/quarterly\n"
-            "• **Completeness**: All key metrics present\n"
-            "• **Traceability**: Direct source links provided"
-        )
-    
-    render_divider()
-    
-    render_warning_box(
-        "**📌 Important Disclaimer**\n\n"
-        "• Data is aggregated from publicly available sources.\n"
-        "• While efforts are made to ensure accuracy, no guarantee is provided.\n"
-        "• Users should verify critical data points from original sources.\n"
-        "• **This dashboard is for informational purposes only and is not financial advice.**\n"
-        "• All sources and links are accurate as of: Feb 21, 2025."
-    )
+        display_styled_dataframe(data['downgrades'], use_container_width=True, hide_index=True)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FOOTER
