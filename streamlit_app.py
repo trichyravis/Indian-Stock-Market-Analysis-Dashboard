@@ -219,7 +219,7 @@ render_main_title(
 
 st.markdown(
     f"<p style='text-align:center; color:{COLORS['text_muted']}; font-size:0.9rem;'>"
-    f"Analysis of Nifty 50 (FY2021-FY2025 YTD) | Data: {DATA_SOURCES}"
+    f"Analysis of Nifty 50 (FY2021-FY2025 YTD) | Data: NSE, RBI, BSE, MCA"
     f"</p>",
     unsafe_allow_html=True
 )
@@ -1222,7 +1222,7 @@ elif page == PAGES[7]:  # 📚 Data Sources
 # ═══════════════════════════════════════════════════════════════════════════
 
 render_divider()
-render_footer(AUTHOR, BRAND_NAME, DATA_SOURCES)
+render_footer(AUTHOR, BRAND_NAME, "NSE, RBI, BSE, MCA, SEBI | Research: Business Standard, Economic Times, Brokerages")
 
 st.markdown(
     f"<p style='text-align:center; color:{COLORS['text_muted']}; font-size:0.85rem; margin-top:3rem;'>"
