@@ -1,301 +1,390 @@
 
 """
-Configuration Module for Indian Stock Market Analysis Dashboard
-
-Defines all constants, color schemes, and configuration settings.
-Follows Mountain Path - World of Finance design standards.
+Indian Stock Market Analysis Dashboard
+Analysis of Nifty 50 Growth: Revenue Expansion vs Margin Re-Rating
+Version 2.3.6 - Fixed Markdown Rendering
 """
 
-# ═══════════════════════════════════════════════════════════════════════════
-# COLOR SCHEME - MOUNTAIN PATH BRANDING
-# ═══════════════════════════════════════════════════════════════════════════
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+from datetime import datetime
+import matplotlib
+matplotlib.use('Agg')
 
-COLORS = {
-    # Primary Colors
-    'dark_blue': '#003366',          # RGB(0, 51, 102)
-    'light_blue': '#004d80',         # RGB(0, 77, 128)
-    'accent_gold': '#FFD700',        # RGB(255, 215, 0)
-    
-    # Chart Colors
-    'chart_blue': '#0066CC',
-    'accent_green': '#10B981',
-    'accent_red': '#EF4444',
-    'accent_orange': '#F97316',
-    'accent_purple': '#8B5CF6',
-    
-    # Background & Text
-    'bg_light': '#F8F9FA',
-    'bg_white': '#FFFFFF',
-    'text_dark': '#1F2937',
-    'text_muted': '#6B7280',
-    'text_light': '#9CA3AF',
-    
-    # UI Elements
-    'border_color': '#E5E7EB',
-    'hover_bg': '#F3F4F6',
-}
-
-# ═══════════════════════════════════════════════════════════════════════════
-# AUTHOR & BRANDING
-# ═══════════════════════════════════════════════════════════════════════════
-
-AUTHOR = "Prof. V. Ravichandran"
-BRAND_NAME = "The Mountain Path - World of Finance"
-EXPERIENCE = "28+ Years Corporate Finance & Banking | 10+ Years Academic Excellence"
-LOCATION = "Bangalore, India"
-YEAR = 2026
-
-# ═══════════════════════════════════════════════════════════════════════════
-# DATA SOURCES WITH EXACT LINKS
-# ═══════════════════════════════════════════════════════════════════════════
-
-DATA_SOURCES_INFO = {
-    'NSE': {
-        'name': 'National Stock Exchange of India',
-        'url': 'https://www.nseindia.com/',
-        'description': 'Official source for Nifty 50 index data and corporate announcements',
-        'data_used': '5-year performance, Quarterly data, Sector weights'
-    },
-    'RBI': {
-        'name': 'Reserve Bank of India',
-        'url': 'https://www.rbi.org.in/',
-        'description': 'Central bank data on interest rates, monetary policy, and economic indicators',
-        'data_used': 'Economic context, Inflation data, Policy environment'
-    },
-    'BSE': {
-        'name': 'Bombay Stock Exchange',
-        'url': 'https://www.bseindia.com/',
-        'description': 'Alternative exchange data for validation and cross-checking',
-        'data_used': 'Sector indices, Corporate disclosures'
-    },
-    'MCA': {
-        'name': 'Ministry of Corporate Affairs',
-        'url': 'https://www.mca.gov.in/',
-        'description': 'Government repository for corporate filings and financial statements',
-        'data_used': 'Annual reports, Quarterly earnings'
-    },
-    'SEBI': {
-        'name': 'Securities and Exchange Board of India',
-        'url': 'https://www.sebi.gov.in/',
-        'description': 'Market regulator providing market data and company disclosures',
-        'data_used': 'Regulatory filings, Market circulars'
-    },
-    'Business_Standard': {
-        'name': 'Business Standard (India)',
-        'url': 'https://www.business-standard.com/',
-        'description': 'Financial news and analysis on Indian markets',
-        'data_used': 'Earnings estimates, Market analysis, Downgrades'
-    },
-    'Economic_Times': {
-        'name': 'The Economic Times',
-        'url': 'https://economictimes.indiatimes.com/',
-        'description': 'Indian business and financial news',
-        'data_used': 'Market trends, Sector updates'
-    },
-    'Motilal_Oswal': {
-        'name': 'Motilal Oswal Financial Services',
-        'url': 'https://www.motilaloswal.com/',
-        'description': 'Investment research and market analysis',
-        'data_used': 'Earnings estimates, Sector analysis'
-    },
-    'ICICI_Securities': {
-        'name': 'ICICI Securities Research',
-        'url': 'https://research.icicisecurities.com/',
-        'description': 'Equity research and market insights',
-        'data_used': 'Company analysis, Earnings revisions'
-    },
-    'HDFC_Securities': {
-        'name': 'HDFC Securities Research',
-        'url': 'https://www.hdfcsec.com/',
-        'description': 'Investment advisory and research',
-        'data_used': 'Market outlook, Sector recommendations'
-    },
-    'Nomura': {
-        'name': 'Nomura India Research',
-        'url': 'https://www.nomura.com/indices/india',
-        'description': 'Global investment bank research on Indian markets',
-        'data_used': 'Valuation analysis, Market trends'
-    },
-    'Goldman_Sachs': {
-        'name': 'Goldman Sachs Research',
-        'url': 'https://www.gs.com/',
-        'description': 'Global investment banking and research',
-        'data_used': 'Market forecasts, Scenario analysis'
-    }
-}
-
-# Primary data sources
-PRIMARY_DATA_SOURCES = [
-    'NSE (https://www.nseindia.com/)',
-    'RBI (https://www.rbi.org.in/)',
-    'BSE (https://www.bseindia.com/)',
-    'MCA (https://www.mca.gov.in/)'
-]
-
-# Research sources
-RESEARCH_SOURCES = [
-    'Business Standard (https://www.business-standard.com/)',
-    'Economic Times (https://economictimes.indiatimes.com/)',
-    'Motilal Oswal (https://www.motilaloswal.com/)',
-    'ICICI Securities (https://research.icicisecurities.com/)',
-    'HDFC Securities (https://www.hdfcsec.com/)'
-]
-
-# Global research
-GLOBAL_RESEARCH = [
-    'Nomura (https://www.nomura.com/)',
-    'Goldman Sachs (https://www.gs.com/)'
-]
-ANALYSIS_PERIOD = "FY2021-FY2025"
-CURRENT_QUARTER = "Q3FY25"
-
-# ═══════════════════════════════════════════════════════════════════════════
-# CHART SETTINGS
-# ═══════════════════════════════════════════════════════════════════════════
-
-CHART_HEIGHT = 500
-CHART_HEIGHT_SMALL = 350
-CHART_HEIGHT_MINI = 250
-
-# ═══════════════════════════════════════════════════════════════════════════
-# CACHE SETTINGS
-# ═══════════════════════════════════════════════════════════════════════════
-
-CACHE_TTL = 3600  # 1 hour in seconds
+from config import COLORS, FONTS, AUTHOR, BRAND_NAME, EXPERIENCE, LOCATION, YEAR, PAGES, DATA_SOURCES_INFO
+from data import generate_data
+from styles import (
+    get_custom_css, display_styled_dataframe,
+    render_section_header, render_subsection_header, render_divider,
+    render_info_box, render_warning_box, render_success_box,
+    render_footer
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════════════
 
-PAGE_CONFIG = {
-    'page_title': 'Indian Stock Market Analysis | The Mountain Path',
-    'page_icon': '📊',
-    'layout': 'wide',
-    'initial_sidebar_state': 'expanded',
-}
+st.set_page_config(
+    page_title="Indian Stock Market Analysis",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.markdown(get_custom_css(), unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════
-# NAVIGATION PAGES
+# SIDEBAR & NAVIGATION
 # ═══════════════════════════════════════════════════════════════════════════
 
-PAGES = [
-    "🏠 Overview",
-    "📈 5-Year Trend",
-    "📊 Quarterly Deep-Dive",
-    "🏦 Sector Analysis",
-    "📉 Earnings Downgrades",
-    "🎯 Scenarios",
-    "📋 Data Explorer",
-    "📚 Data Sources"
-]
+st.sidebar.markdown(f"# 📊 {BRAND_NAME}")
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"**Prof. V. Ravichandran**")
+st.sidebar.markdown(f"*{EXPERIENCE}*")
+st.sidebar.markdown("---")
+
+page = st.sidebar.radio(
+    "📍 Choose Analysis:",
+    PAGES,
+    key="main_nav"
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"📍 {LOCATION} | {YEAR}")
 
 # ═══════════════════════════════════════════════════════════════════════════
-# MESSAGES & LABELS
+# LOAD DATA
 # ═══════════════════════════════════════════════════════════════════════════
 
-MESSAGES = {
-    'header_title': '📊 Indian Stock Market Analysis Dashboard',
-    'header_subtitle': 'Is Growth Driven by Revenue Expansion or Margin Re-Rating?',
-    'sidebar_title': '🏔️ The Mountain Path - World of Finance',
-}
+@st.cache_data
+def load_dashboard_data():
+    return generate_data()
+
+data = load_dashboard_data()
 
 # ═══════════════════════════════════════════════════════════════════════════
-# METRICS & KPIs
+# PAGE 0: OVERVIEW
 # ═══════════════════════════════════════════════════════════════════════════
 
-KEY_METRICS = {
-    'revenue_cagr': 11.5,
-    'revenue_current': 4.5,
-    'profit_cagr': 14.7,
-    'profit_current': 9.5,
-    'pe_current': 25,
-    'pe_fair_min': 10,
-    'pe_fair_max': 12,
-    'nifty_current': 23000,
-}
+if page == PAGES[0]:
+    render_section_header("📈 Nifty 50 Analysis: Growth Drivers & Sustainability")
+    
+    st.markdown("""
+    **Analysis Period:** FY2021 - FY2025 YTD  
+    **Focus:** Is growth driven by revenue expansion or margin re-rating?
+    """)
+    
+    render_divider()
+    
+    # Key Metrics
+    render_subsection_header("📊 Key Metrics Summary")
+    
+    metrics_data = {
+        'Metric': ['Revenue CAGR (FY21-25)', 'Profit CAGR (FY21-25)', 'EBITDA Margin (FY25)', 'PAT Margin (FY25)'],
+        'Value': ['9.2%', '19.8%', '33.0%', '10.5%']
+    }
+    
+    display_styled_dataframe(
+        pd.DataFrame(metrics_data),
+        columns_to_style=['Value'],
+        width='stretch'
+    )
+    
+    render_divider()
+    
+    # Key Insights
+    render_subsection_header("📌 Key Insights")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_success_box(
+            "**FY2021-2024: Healthy Growth**\n\n"
+            "✅ Revenue expanding (+10.5% avg)\n"
+            "✅ Margins improving (+50 bps)\n"
+            "✅ Both drivers working\n"
+            "✅ Sustainable model"
+        )
+    
+    with col2:
+        render_warning_box(
+            "**FY2025: Concerning Shift**\n\n"
+            "⚠️ Revenue decelerating (6.9%)\n"
+            "⚠️ Margins propping profits\n"
+            "⚠️ One-time tailwinds fading\n"
+            "❌ Unsustainable"
+        )
+    
+    render_divider()
+    
+    # Investment Takeaway
+    render_info_box(
+        "**Investment Perspective**\n\n"
+        "The Nifty 50 profit growth (19.8% CAGR) masks slowing revenue growth (9.2% CAGR). "
+        "While margin expansion provided tailwinds through FY24, FY25 shows concerning revenue deceleration. "
+        "Investors should focus on revenue growth sustainability rather than margin-driven earnings growth."
+    )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# SCENARIO ASSUMPTIONS
+# PAGE 1: 5-YEAR TREND
 # ═══════════════════════════════════════════════════════════════════════════
 
-SCENARIOS_CONFIG = {
-    'Base Case (50%)': {
-        'description': 'Margin resilience persists',
-        'probability': 0.50,
-        'color': '#FFD700',
-        'nifty_return_pa': 0.10,
-        'earnings_cagr_range': (8.5, 10.8),
-    },
-    'Bear Case (25%)': {
-        'description': 'Margin compression hits',
-        'probability': 0.25,
-        'color': '#EF4444',
-        'nifty_return_pa': -0.002,
-        'earnings_cagr_range': (1.5, 8.0),
-    },
-    'Bull Case (25%)': {
-        'description': 'Revenue reaccelerates',
-        'probability': 0.25,
-        'color': '#10B981',
-        'nifty_return_pa': 0.145,
-        'earnings_cagr_range': (12.0, 15.6),
-    },
-}
+elif page == PAGES[1]:
+    render_section_header("📈 5-Year Trend Analysis")
+    
+    render_subsection_header("💹 5-Year Performance")
+    
+    five_year = data['five_year']
+    fig = go.Figure()
+    
+    fig.add_trace(go.Scatter(
+        x=five_year['Fiscal Year'],
+        y=five_year['Revenue Growth (%)'],
+        mode='lines+markers',
+        name='Revenue Growth',
+        line=dict(color=COLORS['chart_blue'], width=3),
+        marker=dict(size=10),
+        hovertemplate='<b>%{x}</b><br>Revenue: %{y:.1f}%<extra></extra>'
+    ))
+    
+    fig.add_trace(go.Scatter(
+        x=five_year['Fiscal Year'],
+        y=five_year['PAT Growth (%)'],
+        mode='lines+markers',
+        name='Profit Growth',
+        line=dict(color=COLORS['accent_red'], width=3),
+        marker=dict(size=10),
+        hovertemplate='<b>%{x}</b><br>Profit: %{y:.1f}%<extra></extra>'
+    ))
+    
+    fig.update_layout(
+        title="Revenue vs Profit Growth Trends",
+        xaxis_title="Fiscal Year",
+        yaxis_title="Growth Rate (%)",
+        template='plotly_white',
+        height=400,
+        hovermode='x unified'
+    )
+    
+    st.plotly_chart(fig, width='stretch')
+    
+    render_divider()
+    
+    render_subsection_header("📊 Margin Trends")
+    
+    fig2 = go.Figure()
+    
+    fig2.add_trace(go.Scatter(
+        x=five_year['Fiscal Year'],
+        y=five_year['EBITDA Margin (%)'],
+        mode='lines+markers',
+        name='EBITDA Margin',
+        line=dict(color=COLORS['accent_gold'], width=3),
+        marker=dict(size=10)
+    ))
+    
+    fig2.add_trace(go.Scatter(
+        x=five_year['Fiscal Year'],
+        y=five_year['PAT Margin (%)'],
+        mode='lines+markers',
+        name='PAT Margin',
+        line=dict(color=COLORS['accent_red'], width=3),
+        marker=dict(size=10)
+    ))
+    
+    fig2.update_layout(
+        title="Margin Trends",
+        xaxis_title="Fiscal Year",
+        yaxis_title="Margin (%)",
+        template='plotly_white',
+        height=400,
+        hovermode='x unified'
+    )
+    
+    st.plotly_chart(fig2, width='stretch')
+    
+    render_divider()
+    
+    display_styled_dataframe(
+        five_year,
+        columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
+        width='stretch',
+        hide_index=True
+    )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# SECTOR CLASSIFICATIONS
+# PAGE 2: QUARTERLY DEEP-DIVE  
 # ═══════════════════════════════════════════════════════════════════════════
 
-SECTORS = {
-    'Financials': {'weight': 35, 'color': '#0066CC'},
-    'Energy': {'weight': 30, 'color': '#F97316'},
-    'IT': {'weight': 12, 'color': '#8B5CF6'},
-    'Industrials': {'weight': 5, 'color': '#10B981'},
-    'Materials': {'weight': 10, 'color': '#EF4444'},
-    'Consumer': {'weight': 8, 'color': '#FFD700'},
-}
+elif page == PAGES[2]:
+    render_section_header("📊 FY2025 Quarterly Analysis")
+    
+    quarterly = data['quarterly']
+    display_styled_dataframe(
+        quarterly,
+        columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
+        width='stretch',
+        hide_index=True
+    )
+    
+    render_divider()
+    
+    render_info_box(
+        "**Quarterly Insights**\n\n"
+        "FY25 shows declining revenue growth quarter-on-quarter, while profit growth remains supported by margin expansion. "
+        "Q3 data should clarify if revenue stabilizes or continues decelerating."
+    )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# ANALYSIS THRESHOLDS
+# PAGE 3: SECTOR ANALYSIS
 # ═══════════════════════════════════════════════════════════════════════════
 
-THRESHOLDS = {
-    'revenue_growth_warning': 5.0,      # Below this is concerning
-    'profit_growth_warning': 0.0,       # Below zero is problematic
-    'margin_compression_alert': -1.0,   # Basis points
-    'estimate_downgrade_alert': -30,    # Percentage downgrade
-    'divergence_alert': 40,             # Profit growing faster than revenue (%)
-}
+elif page == PAGES[3]:
+    render_section_header("🏦 Sector Performance Analysis")
+    
+    sectors = data['sectors']
+    display_styled_dataframe(
+        sectors,
+        columns_to_style=['Contribution (%)', 'Growth (%)'],
+        width='stretch',
+        hide_index=True
+    )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# TYPOGRAPHY
+# PAGE 4: EARNINGS DOWNGRADES
 # ═══════════════════════════════════════════════════════════════════════════
 
-FONTS = {
-    'primary': '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto"',
-    'mono': '"Courier New", monospace',
-}
+elif page == PAGES[4]:
+    render_section_header("📉 6-Month Earnings Revision Trend")
+    
+    downgrades = data['downgrades']
+    display_styled_dataframe(
+        downgrades,
+        columns_to_style=['Direction (%)'],
+        width='stretch',
+        hide_index=True
+    )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# MESSAGES & LABELS
+# PAGE 5: SCENARIOS
 # ═══════════════════════════════════════════════════════════════════════════
 
-MESSAGES = {
-    'header_title': '📊 Indian Stock Market Analysis',
-    'header_subtitle': 'Is Growth Driven by Revenue Expansion or Margin Re-Rating?',
-    'sidebar_title': '🏔️ The Mountain Path - World of Finance',
-    'nav_label': '📍 Choose Analysis:',
-    'valuation_alert': '⚠️ Valuation Alert',
-    'valuation_content': 'Current P/E: 25x\nFair Value P/E: 10-12x\nGap: -50% to -60%',
-}
+elif page == PAGES[5]:
+    render_section_header("🎯 Investment Scenarios")
+    
+    scenarios = {
+        'Base Case (50%)': {'description': 'Margin Resilience', 'return': '+10% p.a.'},
+        'Bear Case (25%)': {'description': 'Margin Compression', 'return': '-0.2% p.a.'},
+        'Bull Case (25%)': {'description': 'Revenue Recovery', 'return': '+18% p.a.'}
+    }
+    
+    cols = st.columns(3)
+    
+    for idx, (scenario, details) in enumerate(scenarios.items()):
+        with cols[idx]:
+            render_info_box(
+                f"**{scenario}**\n\n"
+                f"*{details['description']}*\n\n"
+                f"Expected Return: {details['return']}"
+            )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# EXPORT SETTINGS
+# PAGE 6: DATA EXPLORER
 # ═══════════════════════════════════════════════════════════════════════════
 
-EXPORT_FORMATS = {
-    '5_year': '5_year_nifty_data.csv',
-    'quarterly': 'quarterly_fy25_data.csv',
-    'sector': 'sector_analysis.csv',
-    'downgrades': 'earnings_downgrades.csv',
-}
+elif page == PAGES[6]:
+    render_section_header("📋 Data Explorer")
+    
+    st.markdown("**All Datasets**")
+    
+    tab1, tab2, tab3, tab4 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades"])
+    
+    with tab1:
+        display_styled_dataframe(data['five_year'], width='stretch', hide_index=True)
+    
+    with tab2:
+        display_styled_dataframe(data['quarterly'], width='stretch', hide_index=True)
+    
+    with tab3:
+        display_styled_dataframe(data['sectors'], width='stretch', hide_index=True)
+    
+    with tab4:
+        display_styled_dataframe(data['downgrades'], width='stretch', hide_index=True)
+
+# ═══════════════════════════════════════════════════════════════════════════
+# PAGE 7: DATA SOURCES
+# ═══════════════════════════════════════════════════════════════════════════
+
+elif page == PAGES[7]:
+    render_section_header("📚 Data Sources & References")
+    
+    st.markdown("""
+    This dashboard aggregates data from multiple authoritative sources to provide 
+    comprehensive analysis of the Indian stock market.
+    """)
+    
+    render_divider()
+    
+    render_section_header("🏛️ Primary Data Sources")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 📊 [National Stock Exchange (NSE)](https://www.nseindia.com/)")
+        st.info("**Used For:** 5-year performance, sector weights, quarterly trends")
+        
+        st.markdown("#### 🏦 [Reserve Bank of India (RBI)](https://www.rbi.org.in/)")
+        st.info("**Used For:** Economic context, policy environment, valuation assumptions")
+    
+    with col2:
+        st.markdown("#### 📈 [Bombay Stock Exchange (BSE)](https://www.bseindia.com/)")
+        st.info("**Used For:** Data validation, cross-checking, sector analysis")
+        
+        st.markdown("#### 📋 [Ministry of Corporate Affairs (MCA)](https://www.mca.gov.in/)")
+        st.info("**Used For:** Earnings data, financial metrics, quarterly performance")
+    
+    render_divider()
+    
+    render_section_header("📊 Data Collection & Quality")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_info_box(
+            "**🔍 Data Validation Process**\n\n"
+            "1. **Collection**: Multi-source gathering\n"
+            "2. **Verification**: Cross-source checking\n"
+            "3. **Reconciliation**: Discrepancy resolution\n"
+            "4. **Normalization**: Standardized formatting\n"
+            "5. **Validation**: Range & consistency checks"
+        )
+    
+    with col2:
+        render_success_box(
+            "**✅ Data Quality Standards**\n\n"
+            "• **Accuracy**: Verified against official sources\n"
+            "• **Timeliness**: Updated monthly/quarterly\n"
+            "• **Completeness**: All key metrics present\n"
+            "• **Traceability**: Direct source links provided"
+        )
+    
+    render_divider()
+    
+    render_warning_box(
+        "**📌 Important Disclaimer**\n\n"
+        "• Data is aggregated from publicly available sources.\n"
+        "• While efforts are made to ensure accuracy, no guarantee is provided.\n"
+        "• Users should verify critical data points from original sources.\n"
+        "• **This dashboard is for informational purposes only and is not financial advice.**\n"
+        "• All sources and links are accurate as of: Feb 21, 2025."
+    )
+
+# ═══════════════════════════════════════════════════════════════════════════
+# FOOTER
+# ═══════════════════════════════════════════════════════════════════════════
+
+st.markdown("---")
+render_footer(AUTHOR, BRAND_NAME, "NSE, RBI, BSE, MCA, SEBI | Research: Business Standard, Economic Times, Brokerages")
