@@ -111,14 +111,14 @@ warnings.filterwarnings('ignore')
 # UTILITY FUNCTIONS
 # ═══════════════════════════════════════════════════════════════════════════
 
-def display_styled_dataframe(df, columns_to_style=None, use_container_width=True, hide_index=True):
+def display_styled_dataframe(df, columns_to_style=None, width='stretch', hide_index=True):
     """
     Display DataFrame with optional styling, fallback if matplotlib unavailable
     
     Args:
         df: DataFrame to display
         columns_to_style: List of columns to apply gradient to
-        use_container_width: Use full container width
+        width: Column width ('stretch' or 'content')
         hide_index: Hide row index
     """
     if MATPLOTLIB_AVAILABLE and columns_to_style:
@@ -127,14 +127,14 @@ def display_styled_dataframe(df, columns_to_style=None, use_container_width=True
                 subset=columns_to_style,
                 cmap='RdYlGn'
             )
-            st.dataframe(styled_df, use_container_width=use_container_width, hide_index=hide_index)
+            st.dataframe(styled_df, width=width, hide_index=hide_index)
         except Exception as e:
             # Fallback to unstyled
             st.warning(f"⚠️ Styling failed: {str(e)}. Displaying without styling.")
-            st.dataframe(df, use_container_width=use_container_width, hide_index=hide_index)
+            st.dataframe(df, width=width, hide_index=hide_index)
     else:
         # Display without styling
-        st.dataframe(df, use_container_width=use_container_width, hide_index=hide_index)
+        st.dataframe(df, width=width, hide_index=hide_index)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE INITIALIZATION
@@ -306,7 +306,7 @@ if page == PAGES[0]:  # 🏠 Overview
         margin=dict(l=50, r=50, t=80, b=50)
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     render_divider()
     render_subsection_header("🎯 Scenario Framework")
@@ -351,7 +351,7 @@ elif page == PAGES[1]:  # 📈 5-Year Trend
     display_styled_dataframe(
         five_year,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
     
@@ -391,7 +391,7 @@ elif page == PAGES[1]:  # 📈 5-Year Trend
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width='stretch')
     
     render_divider()
     
@@ -425,7 +425,7 @@ elif page == PAGES[1]:  # 📈 5-Year Trend
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width='stretch')
     
     render_divider()
     render_subsection_header("📌 Key Insights")
@@ -461,7 +461,7 @@ elif page == PAGES[2]:  # 📊 Quarterly Deep-Dive
     display_styled_dataframe(
         quarterly,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
     
@@ -505,7 +505,7 @@ elif page == PAGES[2]:  # 📊 Quarterly Deep-Dive
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     render_divider()
     
@@ -542,7 +542,7 @@ elif page == PAGES[3]:  # 🏦 Sector Analysis
     display_styled_dataframe(
         sector,
         columns_to_style=['Profit Growth FY25 (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
     
@@ -565,7 +565,7 @@ elif page == PAGES[3]:  # 🏦 Sector Analysis
     fig1.add_hline(y=0, line_dash="dash", line_color="gray", annotation_text="Break-even")
     fig1.add_vline(x=7, line_dash="dash", line_color="gray", annotation_text="Nominal GDP")
     
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width='stretch')
     
     render_divider()
     
@@ -577,7 +577,7 @@ elif page == PAGES[3]:  # 🏦 Sector Analysis
             values=sector['Weight in Nifty (%)'],
             title='Sector Weights'
         )])
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width='stretch')
     
     with col2:
         render_subsection_header("🎯 Risk Assessment")
@@ -609,7 +609,7 @@ elif page == PAGES[4]:  # 📉 Earnings Downgrades
     display_styled_dataframe(
         downgrades,
         columns_to_style=['FY25 Profit Growth (%)'],
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
     
@@ -637,7 +637,7 @@ elif page == PAGES[4]:  # 📉 Earnings Downgrades
         hovermode='x unified'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     render_divider()
     
@@ -744,7 +744,7 @@ elif page == PAGES[5]:  # 🎯 Scenarios
             height=CHART_HEIGHT_SMALL,
             template='plotly_white'
         )
-        st.plotly_chart(fig1, use_container_width=True)
+        st.plotly_chart(fig1, width='stretch')
     
     with col2:
         fig2 = go.Figure()
@@ -765,7 +765,7 @@ elif page == PAGES[5]:  # 🎯 Scenarios
             height=CHART_HEIGHT_SMALL,
             template='plotly_white'
         )
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width='stretch')
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE: DATA EXPLORER
@@ -786,7 +786,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
         
         with col1:
             st.markdown("##### 📈 5-Year Performance")
-            st.dataframe(data['five_year'], use_container_width=True, hide_index=True)
+            st.dataframe(data['five_year'], width='stretch', hide_index=True)
             csv = data['five_year'].to_csv(index=False)
             st.download_button(
                 label="📥 Download 5-Year Data (CSV)",
@@ -797,7 +797,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
         
         with col2:
             st.markdown("##### 📊 Quarterly FY2025")
-            st.dataframe(data['quarterly'], use_container_width=True, hide_index=True)
+            st.dataframe(data['quarterly'], width='stretch', hide_index=True)
             csv = data['quarterly'].to_csv(index=False)
             st.download_button(
                 label="📥 Download Quarterly Data (CSV)",
@@ -812,7 +812,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
         
         with col3:
             st.markdown("##### 🏦 Sector Analysis")
-            st.dataframe(data['sector'], use_container_width=True, hide_index=True)
+            st.dataframe(data['sector'], width='stretch', hide_index=True)
             csv = data['sector'].to_csv(index=False)
             st.download_button(
                 label="📥 Download Sector Data (CSV)",
@@ -823,7 +823,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
         
         with col4:
             st.markdown("##### 📉 Earnings Downgrades")
-            st.dataframe(data['downgrades'], use_container_width=True, hide_index=True)
+            st.dataframe(data['downgrades'], width='stretch', hide_index=True)
             csv = data['downgrades'].to_csv(index=False)
             st.download_button(
                 label="📥 Download Downgrades (CSV)",
@@ -857,7 +857,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
     
     elif data_option == "5-Year Trend":
         st.markdown("#### 📊 5-Year Performance Data")
-        st.dataframe(data['five_year'], use_container_width=True, hide_index=True)
+        st.dataframe(data['five_year'], width='stretch', hide_index=True)
         
         csv = data['five_year'].to_csv(index=False)
         st.download_button(
@@ -869,7 +869,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
     
     elif data_option == "Quarterly Trends":
         st.markdown("#### 📊 FY2025 Quarterly Data")
-        st.dataframe(data['quarterly'], use_container_width=True, hide_index=True)
+        st.dataframe(data['quarterly'], width='stretch', hide_index=True)
         
         csv = data['quarterly'].to_csv(index=False)
         st.download_button(
@@ -881,7 +881,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
     
     elif data_option == "Sector Performance":
         st.markdown("#### 🏦 Sector Analysis")
-        st.dataframe(data['sector'], use_container_width=True, hide_index=True)
+        st.dataframe(data['sector'], width='stretch', hide_index=True)
         
         csv = data['sector'].to_csv(index=False)
         st.download_button(
@@ -893,7 +893,7 @@ elif page == PAGES[6]:  # 📋 Data Explorer
     
     elif data_option == "Earnings Downgrades":
         st.markdown("#### 📉 Earnings Revision Tracking")
-        st.dataframe(data['downgrades'], use_container_width=True, hide_index=True)
+        st.dataframe(data['downgrades'], width='stretch', hide_index=True)
         
         csv = data['downgrades'].to_csv(index=False)
         st.download_button(
