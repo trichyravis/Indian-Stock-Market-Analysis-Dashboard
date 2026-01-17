@@ -252,19 +252,27 @@ if page == PAGES[0]:  # 🏠 Overview
     
     with col1:
         render_success_box(
-            "<b>FY2021-2024: Healthy Growth</b><br>"
-            "✅ Revenue expanding (+10.5% avg)<br>"
-            "✅ Margins improving (+50 bps)<br>"
-            "✅ Both drivers working<br>"
+            "**FY2021-2024: Healthy Growth**
+"
+            "✅ Revenue expanding (+10.5% avg)
+"
+            "✅ Margins improving (+50 bps)
+"
+            "✅ Both drivers working
+"
             "✅ Sustainable model"
         )
     
     with col2:
         render_warning_box(
-            "<b>FY2025: Concerning Shift</b><br>"
-            "⚠️ Revenue decelerating (6.9%)<br>"
-            "⚠️ Margins propping profits<br>"
-            "⚠️ One-time tailwinds fading<br>"
+            "**FY2025: Concerning Shift**
+"
+            "⚠️ Revenue decelerating (6.9%)
+"
+            "⚠️ Margins propping profits
+"
+            "⚠️ One-time tailwinds fading
+"
             "❌ Unsustainable"
         )
     
@@ -281,7 +289,8 @@ if page == PAGES[0]:  # 🏠 Overview
         name='Revenue Growth',
         line=dict(color=COLORS['chart_blue'], width=3),
         marker=dict(size=10),
-        hovertemplate='<b>%{x}</b><br>Revenue: %{y:.1f}%<extra></extra>'
+        hovertemplate='**%{x}**
+Revenue: %{y:.1f}%<extra></extra>'
     ))
     
     fig.add_trace(go.Scatter(
@@ -291,7 +300,8 @@ if page == PAGES[0]:  # 🏠 Overview
         name='Profit Growth',
         line=dict(color=COLORS['accent_red'], width=3),
         marker=dict(size=10),
-        hovertemplate='<b>%{x}</b><br>Profit: %{y:.1f}%<extra></extra>'
+        hovertemplate='**%{x}**
+Profit: %{y:.1f}%<extra></extra>'
     ))
     
     fig.update_layout(
@@ -315,28 +325,40 @@ if page == PAGES[0]:  # 🏠 Overview
     
     with col1:
         render_success_box(
-            "<b>Base Case (50%)</b><br>"
-            "<i>Margin Resilience</i><br>"
-            f"• Earnings: {scenarios['Base Case (50%)']['fy25_earnings']:.1f}%<br>"
-            "• Nifty: +10% p.a.<br>"
+            "**Base Case (50%)**
+"
+            "*Margin Resilience*
+"
+            f"• Earnings: {scenarios['Base Case (50%)']['fy25_earnings']:.1f}%
+"
+            "• Nifty: +10% p.a.
+"
             "• Fair value"
         )
     
     with col2:
         render_warning_box(
-            "<b>Bear Case (25%)</b><br>"
-            "<i>Margin Compression</i><br>"
-            f"• Earnings: {scenarios['Bear Case (25%)']['fy25_earnings']:.1f}%<br>"
-            "• Nifty: -0.2% p.a.<br>"
+            "**Bear Case (25%)**
+"
+            "*Margin Compression*
+"
+            f"• Earnings: {scenarios['Bear Case (25%)']['fy25_earnings']:.1f}%
+"
+            "• Nifty: -0.2% p.a.
+"
             "• Risky"
         )
     
     with col3:
         render_success_box(
-            "<b>Bull Case (25%)</b><br>"
-            "<i>Revenue Recovery</i><br>"
-            f"• Earnings: {scenarios['Bull Case (25%)']['fy25_earnings']:.1f}%<br>"
-            "• Nifty: +14.5% p.a.<br>"
+            "**Bull Case (25%)**
+"
+            "*Revenue Recovery*
+"
+            f"• Earnings: {scenarios['Bull Case (25%)']['fy25_earnings']:.1f}%
+"
+            "• Nifty: +14.5% p.a.
+"
             "• Catalyst needed"
         )
 
@@ -434,19 +456,27 @@ elif page == PAGES[1]:  # 📈 5-Year Trend
     
     with col1:
         render_info_box(
-            "<b>Historical Narrative:</b><br>"
-            "• FY21-FY23: Strong revenue growth (10-15%)<br>"
-            "• FY24: Revenue slowed to 10.7%<br>"
-            "• FY25: Sharp deceleration to 6.9%<br>"
+            "**Historical Narrative:**
+"
+            "• FY21-FY23: Strong revenue growth (10-15%)
+"
+            "• FY24: Revenue slowed to 10.7%
+"
+            "• FY25: Sharp deceleration to 6.9%
+"
             "• Margins: Stable 33% EBITDA / 10.5% PAT"
         )
     
     with col2:
         render_info_box(
-            "<b>Divergence Analysis:</b><br>"
-            "• Revenue CAGR: Declining trajectory<br>"
-            "• Profit CAGR: Elevated by margin expansion<br>"
-            "• Gap widening: Profit 53% faster than revenue<br>"
+            "**Divergence Analysis:**
+"
+            "• Revenue CAGR: Declining trajectory
+"
+            "• Profit CAGR: Elevated by margin expansion
+"
+            "• Gap widening: Profit 53% faster than revenue
+"
             "• Sustainability: Limited 2-3 quarter runway"
         )
 
@@ -514,20 +544,28 @@ elif page == PAGES[2]:  # 📊 Quarterly Deep-Dive
     with col1:
         render_subsection_header("Q3FY25 Summary")
         render_warning_box(
-            "<b>Revenue Concern:</b><br>"
-            f"• Growth: {quarterly.iloc[-1]['Revenue Growth (%)']}% YoY<br>"
-            "• Trend: Declining 3 quarters<br>"
-            "• Status: Multi-quarter LOW<br>"
+            "**Revenue Concern:**
+"
+            f"• Growth: {quarterly.iloc[-1]['Revenue Growth (%)']}% YoY
+"
+            "• Trend: Declining 3 quarters
+"
+            "• Status: Multi-quarter LOW
+"
             "• Implication: Structural slowdown"
         )
     
     with col2:
         render_subsection_header("Margin Support")
         render_warning_box(
-            "<b>Profit Rebound:</b><br>"
-            f"• Growth: {quarterly.iloc[-1]['PAT Growth (%)']}% (vs -1% Q2)<br>"
-            "• Driver: Margin expansion<br>"
-            "• Sustainability: Limited<br>"
+            "**Profit Rebound:**
+"
+            f"• Growth: {quarterly.iloc[-1]['PAT Growth (%)']}% (vs -1% Q2)
+"
+            "• Driver: Margin expansion
+"
+            "• Sustainability: Limited
+"
             "• Risk: Mean reversion coming"
         )
 
@@ -588,13 +626,15 @@ elif page == PAGES[3]:  # 🏦 Sector Analysis
         
         for _, row in crisis_sectors.iterrows():
             render_warning_box(
-                f"<b>🔴 {row['Sector'].upper()}</b><br>"
+                f"**🔴 {row['Sector'].upper()}**
+"
                 f"Profit: {row['Profit Growth FY25 (%)']:.1f}% | Weight: {row['Weight in Nifty (%)']:.0f}%"
             )
         
         for _, row in strong_sectors.iterrows():
             render_success_box(
-                f"<b>🟢 {row['Sector'].upper()}</b><br>"
+                f"**🟢 {row['Sector'].upper()}**
+"
                 f"Profit: {row['Profit Growth FY25 (%)']:.1f}% | Weight: {row['Weight in Nifty (%)']:.0f}%"
             )
 
@@ -659,19 +699,27 @@ elif page == PAGES[4]:  # 📉 Earnings Downgrades
     
     with col1:
         render_warning_box(
-            "<b>Near-term Triggers (Oct-Nov):</b><br>"
-            "1. Q2 earnings miss<br>"
-            "2. Revenue slowdown 9.6%→6.6%<br>"
-            "3. Cost pressures<br>"
+            "**Near-term Triggers (Oct-Nov):**
+"
+            "1. Q2 earnings miss
+"
+            "2. Revenue slowdown 9.6%→6.6%
+"
+            "3. Cost pressures
+"
             "4. Trade uncertainty"
         )
     
     with col2:
         render_warning_box(
-            "<b>Deep-dive Triggers (Dec-Feb):</b><br>"
-            "1. Energy crisis (-35%)<br>"
-            "2. Margin ceiling identified<br>"
-            "3. Consensus reset<br>"
+            "**Deep-dive Triggers (Dec-Feb):**
+"
+            "1. Energy crisis (-35%)
+"
+            "2. Margin ceiling identified
+"
+            "3. Consensus reset
+"
             "4. Q3 confirms weakness"
         )
 
@@ -903,7 +951,6 @@ elif page == PAGES[6]:  # 📋 Data Explorer
             mime="text/csv"
         )
 
-
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE: DATA SOURCES
 # ═══════════════════════════════════════════════════════════════════════════
@@ -985,7 +1032,7 @@ render_footer(AUTHOR, BRAND_NAME, "NSE, RBI, BSE, MCA, SEBI | Research: Business
 
 st.markdown(
     f"<p style='text-align:center; color:{COLORS['text_muted']}; font-size:0.85rem; margin-top:3rem;'>"
-    f"<i>© 2026 The Mountain Path - World of Finance | All Rights Reserved</i>"
+    f"*© 2026 The Mountain Path - World of Finance | All Rights Reserved*"
     f"</p>",
     unsafe_allow_html=True
 )
