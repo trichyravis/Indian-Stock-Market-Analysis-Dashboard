@@ -2,13 +2,12 @@
 """
 Indian Stock Market Analysis Dashboard
 Analysis of Nifty 50 Growth: Revenue Expansion vs Margin Re-Rating
-Version 2.3.6 - Fixed Markdown Rendering
+Version 2.3.8 - Production Ready
 """
 
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime
 import matplotlib
@@ -216,7 +215,7 @@ elif page == PAGES[1]:
     )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PAGE 2: QUARTERLY DEEP-DIVE  
+# PAGE 2: QUARTERLY DEEP-DIVE
 # ═══════════════════════════════════════════════════════════════════════════
 
 elif page == PAGES[2]:
@@ -245,7 +244,7 @@ elif page == PAGES[2]:
 elif page == PAGES[3]:
     render_section_header("🏦 Sector Performance Analysis")
     
-    sectors = data['sectors']
+    sectors = data['sector']
     display_styled_dataframe(
         sectors,
         columns_to_style=['Contribution (%)', 'Growth (%)'],
@@ -309,7 +308,7 @@ elif page == PAGES[6]:
         display_styled_dataframe(data['quarterly'], width='stretch', hide_index=True)
     
     with tab3:
-        display_styled_dataframe(data['sectors'], width='stretch', hide_index=True)
+        display_styled_dataframe(data['sector'], width='stretch', hide_index=True)
     
     with tab4:
         display_styled_dataframe(data['downgrades'], width='stretch', hide_index=True)
