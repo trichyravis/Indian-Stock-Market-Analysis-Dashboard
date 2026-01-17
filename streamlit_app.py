@@ -1117,26 +1117,26 @@ elif page == PAGES[7]:  # 📚 Data Sources
     
     with col1:
         render_info_box("""
-        <b>🔍 Data Validation Process</b>
+        **🔍 Data Validation Process**
         
-        1. <b>Collection</b>: Data gathered from multiple sources
-        2. <b>Verification</b>: Cross-checked across sources
-        3. <b>Reconciliation</b>: Discrepancies resolved
-        4. <b>Normalization</b>: Standardized formats
-        5. <b>Validation</b>: Range and consistency checks
-        6. <b>Documentation</b>: Source attribution
+        1. **Collection**: Data gathered from multiple sources
+        2. **Verification**: Cross-checked across sources
+        3. **Reconciliation**: Discrepancies resolved
+        4. **Normalization**: Standardized formats
+        5. **Validation**: Range and consistency checks
+        6. **Documentation**: Source attribution
         """)
     
     with col2:
         render_success_box("""
-        <b>✅ Data Quality Standards</b>
+        **✅ Data Quality Standards**
         
-        ✓ <b>Accuracy</b>: Verified against official sources
-        ✓ <b>Timeliness</b>: Updated monthly or quarterly
-        ✓ <b>Completeness</b>: All required fields present
-        ✓ <b>Consistency</b>: Cross-validated
-        ✓ <b>Attribution</b>: All sources documented
-        ✓ <b>Traceability</b>: Source links provided
+        ✓ **Accuracy**: Verified against official sources
+        ✓ **Timeliness**: Updated monthly or quarterly
+        ✓ **Completeness**: All required fields present
+        ✓ **Consistency**: Cross-validated
+        ✓ **Attribution**: All sources documented
+        ✓ **Traceability**: Source links provided
         """)
     
     render_divider()
@@ -1191,14 +1191,14 @@ elif page == PAGES[7]:  # 📚 Data Sources
     
     # Data Disclaimer
     render_warning_box("""
-    <b>📌 Important Disclaimer</b><br>
+    **📌 Important Disclaimer**
     
-    • Data is aggregated from publicly available sources<br>
-    • While efforts are made to ensure accuracy, no guarantee is provided<br>
-    • Users should verify critical data points from original sources<br>
-    • This dashboard is for informational purposes only<br>
-    • Not financial advice - consult professionals for decisions<br>
-    • Sources may update their data; dashboard updated monthly<br>
+    • Data is aggregated from publicly available sources
+    • While efforts are made to ensure accuracy, no guarantee is provided
+    • Users should verify critical data points from original sources
+    • This dashboard is for informational purposes only
+    • Not financial advice - consult professionals for decisions
+    • Sources may update their data; dashboard updated monthly
     • All sources and links are accurate as of: Feb 21, 2025
     """)
     
