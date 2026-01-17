@@ -218,9 +218,38 @@ elif page == PAGES[1]:
 # ═══════════════════════════════════════════════════════════════════════════
 
 elif page == PAGES[2]:
-    render_section_header("📊 FY2025 Quarterly Analysis")
+    render_section_header("📊 FY2025 Quarterly Deep-Dive Analysis")
     
+    st.markdown("""
+    **Comprehensive Annual vs Quarterly Performance Analysis**  
+    Analyzing FY2025 performance through both annual and quarterly lens
+    """)
+    
+    render_divider()
+    
+    # Get data
+    five_year = data['five_year']
     quarterly = data['quarterly']
+    
+    # ANNUAL PERFORMANCE (Last row of 5-year data)
+    render_subsection_header("📈 Annual Performance (FY2025 YTD)")
+    
+    annual_row = five_year.iloc[-1]
+    annual_cols = st.columns(4)
+    with annual_cols[0]:
+        st.metric("Revenue Growth", f"{annual_row['Revenue Growth (%)']:.1f}%", delta="YoY")
+    with annual_cols[1]:
+        st.metric("EBITDA Growth", f"{annual_row['EBITDA Growth (%)']:.1f}%", delta="YoY")
+    with annual_cols[2]:
+        st.metric("PAT Growth", f"{annual_row['PAT Growth (%)']:.1f}%", delta="YoY")
+    with annual_cols[3]:
+        st.metric("EBITDA Margin", f"{annual_row['EBITDA Margin (%)']:.1f}%", delta="vs FY24")
+    
+    render_divider()
+    
+    # QUARTERLY PERFORMANCE
+    render_subsection_header("📊 Quarterly Breakdown (FY2025)")
+    
     display_styled_dataframe(
         quarterly,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
@@ -230,10 +259,74 @@ elif page == PAGES[2]:
     
     render_divider()
     
+    # QUARTERLY vs ANNUAL COMPARISON
+    render_subsection_header("🔍 Quarterly vs Annual Comparison")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_info_box(
+            "**Quarterly Trend**\n\n"
+            "• Q1 FY25: Revenue 9.6% | PAT 0.8%\n"
+            "• Q2 FY25: Revenue 6.6% | PAT -1.0%\n"
+            "• Q3 FY25: Revenue 4.5% | PAT 9.5%\n\n"
+            "**Observation:** Revenue declining QoQ while profit recovery in Q3"
+        )
+    
+    with col2:
+        render_warning_box(
+            "**Key Insights**\n\n"
+            "• Annual revenue growth (6.9%) lower than prior years\n"
+            "• Q2 showed negative PAT growth (-1.0%)\n"
+            "• Q3 recovery driven by margin expansion\n"
+            "• Divergence between revenue and profit trends"
+        )
+    
+    render_divider()
+    
+    # COMPARATIVE CHART
+    render_subsection_header("📈 Annual Trend with Quarterly Details")
+    
+    fig = go.Figure()
+    
+    # Annual trend (5-year)
+    fig.add_trace(go.Scatter(
+        x=five_year['Fiscal Year'],
+        y=five_year['Revenue Growth (%)'],
+        mode='lines+markers',
+        name='Annual Revenue Growth',
+        line=dict(color=COLORS['chart_blue'], width=3, dash='solid'),
+        marker=dict(size=10)
+    ))
+    
+    # Quarterly points
+    q_labels = quarterly['Quarter'].tolist()
+    fig.add_trace(go.Scatter(
+        x=q_labels,
+        y=quarterly['Revenue Growth (%)'],
+        mode='markers',
+        name='Quarterly Revenue Growth',
+        marker=dict(size=12, color=COLORS['accent_red'], symbol='diamond')
+    ))
+    
+    fig.update_layout(
+        title="Annual vs Quarterly Revenue Growth Trend",
+        xaxis_title="Period",
+        yaxis_title="Growth Rate (%)",
+        template='plotly_white',
+        height=400,
+        hovermode='x unified'
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+    
+    render_divider()
+    
     render_info_box(
-        "**Quarterly Insights**\n\n"
-        "FY25 shows declining revenue growth quarter-on-quarter, while profit growth remains supported by margin expansion. "
-        "Q3 data should clarify if revenue stabilizes or continues decelerating."
+        "**Deep-Dive Takeaway**\n\n"
+        "FY2025 shows concerning revenue deceleration when analyzed quarterly, suggesting temporary tailwinds may have faded. "
+        "However, profit recovery in Q3 indicates management's ability to defend margins through cost management. "
+        "The key question: Is Q3 recovery sustainable, or is it driven by one-time factors?"
     )
 
 # ═══════════════════════════════════════════════════════════════════════════
