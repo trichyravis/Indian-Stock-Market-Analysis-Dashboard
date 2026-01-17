@@ -301,16 +301,16 @@ elif page == PAGES[6]:
     tab1, tab2, tab3, tab4 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades"])
     
     with tab1:
-        display_styled_dataframe(data['five_year'], use_container_width=True, hide_index=True)
+        display_styled_dataframe(data['five_year'], width='stretch', hide_index=True)
     
     with tab2:
-        display_styled_dataframe(data['quarterly'], use_container_width=True, hide_index=True)
+        display_styled_dataframe(data['quarterly'], width='stretch', hide_index=True)
     
     with tab3:
-        display_styled_dataframe(data['sector'], use_container_width=True, hide_index=True)
+        display_styled_dataframe(data['sector'], width='stretch', hide_index=True)
     
     with tab4:
-        display_styled_dataframe(data['downgrades'], use_container_width=True, hide_index=True)
+        display_styled_dataframe(data['downgrades'], width='stretch', hide_index=True)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FOOTER
