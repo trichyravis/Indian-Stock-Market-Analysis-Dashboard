@@ -763,10 +763,86 @@ elif page == PAGES[6]:  # 📋 Data Explorer
     
     data_option = st.selectbox(
         "Choose Dataset:",
-        ["5-Year Trend", "Quarterly Trends", "Sector Performance", "Earnings Downgrades"]
+        ["All Data", "5-Year Trend", "Quarterly Trends", "Sector Performance", "Earnings Downgrades"]
     )
     
-    if data_option == "5-Year Trend":
+    if data_option == "All Data":
+        st.markdown("#### 📊 Complete Dataset Overview")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("##### 📈 5-Year Performance")
+            st.dataframe(data['five_year'], use_container_width=True, hide_index=True)
+            csv = data['five_year'].to_csv(index=False)
+            st.download_button(
+                label="📥 Download 5-Year Data (CSV)",
+                data=csv,
+                file_name="5_year_nifty_data.csv",
+                mime="text/csv"
+            )
+        
+        with col2:
+            st.markdown("##### 📊 Quarterly FY2025")
+            st.dataframe(data['quarterly'], use_container_width=True, hide_index=True)
+            csv = data['quarterly'].to_csv(index=False)
+            st.download_button(
+                label="📥 Download Quarterly Data (CSV)",
+                data=csv,
+                file_name="quarterly_fy25_data.csv",
+                mime="text/csv"
+            )
+        
+        render_divider()
+        
+        col3, col4 = st.columns(2)
+        
+        with col3:
+            st.markdown("##### 🏦 Sector Analysis")
+            st.dataframe(data['sector'], use_container_width=True, hide_index=True)
+            csv = data['sector'].to_csv(index=False)
+            st.download_button(
+                label="📥 Download Sector Data (CSV)",
+                data=csv,
+                file_name="sector_analysis.csv",
+                mime="text/csv"
+            )
+        
+        with col4:
+            st.markdown("##### 📉 Earnings Downgrades")
+            st.dataframe(data['downgrades'], use_container_width=True, hide_index=True)
+            csv = data['downgrades'].to_csv(index=False)
+            st.download_button(
+                label="📥 Download Downgrades (CSV)",
+                data=csv,
+                file_name="earnings_downgrades.csv",
+                mime="text/csv"
+            )
+        
+        render_divider()
+        
+        # Summary Statistics
+        st.markdown("#### 📊 Data Summary")
+        
+        summary = {
+            '📈 Analysis Periods': '5 Years (FY2021-FY2025 YTD)',
+            '📅 Quarterly Data': '3 Quarters (Q1-Q3 FY2025)',
+            '🏦 Sectors Analyzed': '10 major sectors',
+            '📉 Downgrade Tracking': '6 months (Sep 2024 - Feb 2025)',
+            '🎯 Scenarios Modeled': '3 scenarios (Bull/Base/Bear)',
+            '📊 Total Data Points': '100+ metrics',
+            '🔄 Data Updated': 'Feb 21, 2025',
+            '⏱️ Cache Duration': '1 hour'
+        }
+        
+        col1, col2, col3, col4 = st.columns(4)
+        
+        stats = list(summary.items())
+        for i, (col, (label, value)) in enumerate(zip([col1, col2, col3, col4] * 2, stats)):
+            with col:
+                st.metric(label, value)
+    
+    elif data_option == "5-Year Trend":
         st.markdown("#### 📊 5-Year Performance Data")
         st.dataframe(data['five_year'], use_container_width=True, hide_index=True)
         
