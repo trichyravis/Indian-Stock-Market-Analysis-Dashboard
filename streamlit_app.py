@@ -63,7 +63,10 @@ try:
         BRAND_NAME,
         EXPERIENCE,
         LOCATION,
-        DATA_SOURCES,
+        DATA_SOURCES_INFO,
+        PRIMARY_DATA_SOURCES,
+        RESEARCH_SOURCES,
+        GLOBAL_RESEARCH,
         CHART_HEIGHT,
         CHART_HEIGHT_SMALL,
         PAGES,
@@ -889,6 +892,320 @@ elif page == PAGES[6]:  # 📋 Data Explorer
             file_name="earnings_downgrades.csv",
             mime="text/csv"
         )
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# PAGE: DATA SOURCES
+# ═══════════════════════════════════════════════════════════════════════════
+
+elif page == PAGES[7]:  # 📚 Data Sources
+    render_section_header("📚 Data Sources & References")
+    
+    st.markdown("""
+    This dashboard aggregates data from multiple authoritative sources to provide 
+    comprehensive analysis of the Indian stock market. Below are the key data sources 
+    used in this analysis with direct links.
+    """)
+    
+    render_divider()
+    
+    # Primary Data Sources
+    render_section_header("🏛️ Primary Data Sources")
+    
+    st.markdown("""
+    These are the official government and market regulatory bodies providing 
+    authoritative market data and corporate disclosures.
+    """)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # NSE
+        st.markdown("""
+        #### 📊 [National Stock Exchange (NSE)](https://www.nseindia.com/)
+        
+        **Official Website:** https://www.nseindia.com/
+        
+        **Data Provided:**
+        - Nifty 50 Index historical data
+        - Company corporate actions
+        - Real-time market data
+        - Sector indices and weights
+        - Historical performance metrics
+        
+        **Used For:** 5-year performance, sector weights, quarterly trends
+        """)
+        
+        # RBI
+        st.markdown("""
+        #### 🏦 [Reserve Bank of India (RBI)](https://www.rbi.org.in/)
+        
+        **Official Website:** https://www.rbi.org.in/
+        
+        **Data Provided:**
+        - Interest rate data
+        - Monetary policy decisions
+        - Economic indicators
+        - Inflation metrics
+        - Market surveys
+        
+        **Used For:** Economic context, policy environment, valuation assumptions
+        """)
+    
+    with col2:
+        # BSE
+        st.markdown("""
+        #### 📈 [Bombay Stock Exchange (BSE)](https://www.bseindia.com/)
+        
+        **Official Website:** https://www.bseindia.com/
+        
+        **Data Provided:**
+        - Alternative market indices
+        - Corporate disclosures
+        - Market data and analytics
+        - Sector indices
+        
+        **Used For:** Data validation, cross-checking, sector analysis
+        """)
+        
+        # MCA
+        st.markdown("""
+        #### 📋 [Ministry of Corporate Affairs (MCA)](https://www.mca.gov.in/)
+        
+        **Official Website:** https://www.mca.gov.in/
+        
+        **Data Provided:**
+        - Annual reports (Form 20-B)
+        - Quarterly results (Form 20-B)
+        - Corporate filings
+        - Financial statements
+        
+        **Used For:** Earnings data, financial metrics, quarterly performance
+        """)
+    
+    render_divider()
+    
+    # Research & Media Sources
+    render_section_header("📰 Research & Media Sources")
+    
+    st.markdown("""
+    These are leading financial news outlets and research houses providing 
+    analysis, estimates, and market commentary.
+    """)
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        #### 📰 [Business Standard](https://www.business-standard.com/)
+        https://www.business-standard.com/
+        
+        • Earnings estimates
+        • Market analysis
+        • Company downgrades
+        • Sector trends
+        """)
+        
+        st.markdown("""
+        #### 📰 [The Economic Times](https://economictimes.indiatimes.com/)
+        https://economictimes.indiatimes.com/
+        
+        • Market updates
+        • Company news
+        • Economic reports
+        • Policy analysis
+        """)
+    
+    with col2:
+        st.markdown("""
+        #### 🏢 [Motilal Oswal](https://www.motilaloswal.com/)
+        https://www.motilaloswal.com/
+        
+        • Equity research
+        • Earnings forecasts
+        • Sector analysis
+        • Company ratings
+        """)
+        
+        st.markdown("""
+        #### 🏢 [ICICI Securities](https://research.icicisecurities.com/)
+        https://research.icicisecurities.com/
+        
+        • Company analysis
+        • Earnings revisions
+        • Market insights
+        • Stock recommendations
+        """)
+    
+    with col3:
+        st.markdown("""
+        #### 🏢 [HDFC Securities](https://www.hdfcsec.com/)
+        https://www.hdfcsec.com/
+        
+        • Investment research
+        • Market outlook
+        • Sector studies
+        • Economic analysis
+        """)
+        
+        st.markdown("""
+        #### 🌐 [SEBI](https://www.sebi.gov.in/)
+        https://www.sebi.gov.in/
+        
+        • Regulatory filings
+        • Market circulars
+        • Compliance data
+        • Enforcement actions
+        """)
+    
+    render_divider()
+    
+    # Global Research
+    render_section_header("🌍 Global Research Houses")
+    
+    st.markdown("""
+    International investment banks providing global perspective and 
+    sophisticated analysis of Indian markets.
+    """)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        #### 🏦 [Nomura](https://www.nomura.com/)
+        https://www.nomura.com/
+        
+        **Global Investment Bank**
+        
+        • India equity research
+        • Valuation analysis
+        • Market forecasts
+        • Sector research
+        • Scenario modeling
+        """)
+    
+    with col2:
+        st.markdown("""
+        #### 🏦 [Goldman Sachs](https://www.gs.com/)
+        https://www.gs.com/
+        
+        **Global Investment Bank**
+        
+        • Market research
+        • Economic analysis
+        • Investment insights
+        • Trend analysis
+        • Risk assessment
+        """)
+    
+    render_divider()
+    
+    # Data Collection Methodology
+    render_section_header("📊 Data Collection Methodology")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_info_box("""
+        <b>🔍 Data Validation Process</b><br>
+        
+        1. <b>Collection</b>: Data gathered from multiple sources<br>
+        2. <b>Verification</b>: Cross-checked across sources<br>
+        3. <b>Reconciliation</b>: Discrepancies resolved<br>
+        4. <b>Normalization</b>: Standardized formats<br>
+        5. <b>Validation</b>: Range and consistency checks<br>
+        6. <b>Documentation</b>: Source attribution
+        """)
+    
+    with col2:
+        render_success_box("""
+        <b>✅ Data Quality Standards</b><br>
+        
+        ✓ <b>Accuracy</b>: Verified against official sources<br>
+        ✓ <b>Timeliness</b>: Updated monthly or quarterly<br>
+        ✓ <b>Completeness</b>: All required fields present<br>
+        ✓ <b>Consistency</b>: Cross-validated<br>
+        ✓ <b>Attribution</b>: All sources documented<br>
+        ✓ <b>Traceability</b>: Source links provided
+        """)
+    
+    render_divider()
+    
+    # Data Timeline
+    render_section_header("📅 Data Timeline & Updates")
+    
+    st.markdown("""
+    | Data Type | Frequency | Latest | Source |
+    |-----------|-----------|--------|--------|
+    | **Nifty 50 Levels** | Real-time | Daily | NSE |
+    | **Corporate Actions** | Event-based | Immediate | NSE/BSE |
+    | **Quarterly Earnings** | Quarterly | Q3 FY2025 | MCA/Company websites |
+    | **Sector Indices** | Daily | Daily | NSE/BSE |
+    | **Research Estimates** | Monthly | Feb 2025 | Brokerages |
+    | **Economic Data** | Monthly | Latest | RBI/Government |
+    | **News & Analysis** | Daily | Real-time | Media sources |
+    """)
+    
+    render_divider()
+    
+    # How to Access
+    render_section_header("🔗 How to Access These Sources")
+    
+    st.markdown("""
+    ### **For Real-Time Market Data:**
+    1. Visit: https://www.nseindia.com/
+    2. Navigate to: Market Data section
+    3. Select: Indices → Nifty 50
+    4. View: Historical data, daily updates
+    
+    ### **For Corporate Filings:**
+    1. Visit: https://www.mca.gov.in/ (MCA Portal)
+    2. Search: Company name
+    3. View: Financial statements, annual reports
+    4. Download: Official documents
+    
+    ### **For Research Reports:**
+    1. Visit: Individual brokerage websites
+    2. Navigate: Research/Reports section
+    3. Search: Company or sector name
+    4. Read: Latest analyst views and estimates
+    
+    ### **For Economic Context:**
+    1. Visit: https://www.rbi.org.in/
+    2. Navigate: Statistics and Publications
+    3. View: Interest rates, inflation data
+    4. Download: RBI research papers
+    """)
+    
+    render_divider()
+    
+    # Data Disclaimer
+    render_warning_box("""
+    <b>📌 Important Disclaimer</b><br>
+    
+    • Data is aggregated from publicly available sources<br>
+    • While efforts are made to ensure accuracy, no guarantee is provided<br>
+    • Users should verify critical data points from original sources<br>
+    • This dashboard is for informational purposes only<br>
+    • Not financial advice - consult professionals for decisions<br>
+    • Sources may update their data; dashboard updated monthly<br>
+    • All sources and links are accurate as of: Feb 21, 2025
+    """)
+    
+    render_divider()
+    
+    # Contact for data issues
+    st.markdown("""
+    ### 📞 Data Issues or Feedback?
+    
+    If you notice any data discrepancies or outdated information:
+    - Verify the original source (links provided above)
+    - Contact the respective organization
+    - Report issues for dashboard improvement
+    
+    **Last Data Update:** Feb 21, 2025  
+    **Next Expected Update:** March 21, 2025
+    """)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FOOTER
