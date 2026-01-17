@@ -1,320 +1,435 @@
 
 """
-Indian Stock Market Analysis Dashboard
-Analysis of Nifty 50 Growth: Revenue Expansion vs Margin Re-Rating
-Version 2.4.0 - Restored Original State (7 Pages)
+Styling Module for Indian Stock Market Analysis Dashboard
+
+Provides reusable UI components and styling functions
+consistent with Mountain Path - World of Finance design system.
 """
 
-import streamlit as st
-import pandas as pd
-import plotly.graph_objects as go
-import numpy as np
-from datetime import datetime
+try:
+    import streamlit as st
+except ImportError:
+    st = None
 
-from config import COLORS, AUTHOR, BRAND_NAME, EXPERIENCE, LOCATION, YEAR, PAGES
-from data import generate_data
-from styles import (
-    get_custom_css, display_styled_dataframe,
-    render_section_header, render_subsection_header, render_divider,
-    render_info_box, render_warning_box, render_success_box,
-    render_footer
-)
+from config import COLORS, FONTS
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PAGE CONFIGURATION
+# CSS STYLING
 # ═══════════════════════════════════════════════════════════════════════════
 
-st.set_page_config(
-    page_title="Indian Stock Market Analysis",
-    page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+def get_custom_css():
+    """
+    Returns custom CSS for the application.
+    Applies Mountain Path design system.
+    """
+    css = f"""
+    <style>
+    :root {{
+        --primary: {COLORS['dark_blue']};
+        --secondary: {COLORS['light_blue']};
+        --accent: {COLORS['accent_gold']};
+        --green: {COLORS['accent_green']};
+        --red: {COLORS['accent_red']};
+        --text-dark: {COLORS['text_dark']};
+        --text-muted: {COLORS['text_muted']};
+    }}
 
-st.markdown(get_custom_css(), unsafe_allow_html=True)
+    * {{
+        font-family: {FONTS['primary']};
+    }}
+
+    body {{
+        color: {COLORS['text_dark']};
+        background-color: {COLORS['bg_light']};
+    }}
+
+    .main {{
+        padding: 0;
+        background-color: {COLORS['bg_white']};
+    }}
+
+    /* Card Styles */
+    .metric-card {{
+        background: linear-gradient(135deg, {COLORS['dark_blue']}15, {COLORS['light_blue']}15);
+        border-left: 4px solid {COLORS['dark_blue']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 51, 102, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
+
+    .metric-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.12);
+    }}
+
+    .success-box {{
+        background: {COLORS['accent_green']}10;
+        border-left: 4px solid {COLORS['accent_green']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
+
+    .warning-box {{
+        background: {COLORS['accent_red']}10;
+        border-left: 4px solid {COLORS['accent_red']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
+
+    .info-box {{
+        background: {COLORS['light_blue']}10;
+        border-left: 4px solid {COLORS['light_blue']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
+
+    /* Dividers */
+    .header-divider {{
+        height: 3px;
+        background: linear-gradient(90deg, {COLORS['dark_blue']}, {COLORS['accent_gold']}, {COLORS['dark_blue']});
+        margin: 1.5rem 0 2rem 0;
+        border-radius: 2px;
+    }}
+
+    .subtle-divider {{
+        height: 1px;
+        background-color: {COLORS['border_color']};
+        margin: 1.5rem 0;
+    }}
+
+    /* Typography */
+    h1, h2, h3 {{
+        color: {COLORS['dark_blue']};
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }}
+
+    h1 {{
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }}
+
+    h2 {{
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }}
+
+    h3 {{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }}
+
+    h4 {{
+        font-size: 1.125rem;
+        color: {COLORS['dark_blue']};
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+    }}
+
+    /* Metrics */
+    .metric-label {{
+        font-size: 0.875rem;
+        color: {COLORS['text_muted']};
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }}
+
+    .metric-value {{
+        font-size: 2rem;
+        font-weight: 700;
+        color: {COLORS['dark_blue']};
+        margin: 0.5rem 0;
+    }}
+
+    .metric-delta {{
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-top: 0.5rem;
+    }}
+
+    /* Sidebar */
+    .sidebar {{
+        background-color: {COLORS['dark_blue']}05;
+    }}
+
+    .sidebar-metric {{
+        padding: 1rem;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+        border-left: 3px solid {COLORS['dark_blue']};
+    }}
+
+    /* Links */
+    a {{
+        color: {COLORS['light_blue']};
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }}
+
+    a:hover {{
+        color: {COLORS['accent_gold']};
+        text-decoration: underline;
+    }}
+
+    /* Tables */
+    table {{
+        border-collapse: collapse;
+        width: 100%;
+    }}
+
+    th {{
+        background-color: {COLORS['dark_blue']}15;
+        color: {COLORS['dark_blue']};
+        font-weight: 600;
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 2px solid {COLORS['dark_blue']};
+    }}
+
+    td {{
+        padding: 0.75rem;
+        border-bottom: 1px solid {COLORS['border_color']};
+    }}
+
+    tr:hover {{
+        background-color: {COLORS['bg_light']};
+    }}
+
+    /* Buttons */
+    button {{
+        background-color: {COLORS['dark_blue']};
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }}
+
+    button:hover {{
+        background-color: {COLORS['light_blue']};
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+    }}
+
+    /* Responsive */
+    @media (max-width: 768px) {{
+        h1 {{
+            font-size: 1.75rem;
+        }}
+
+        .metric-value {{
+            font-size: 1.5rem;
+        }}
+    }}
+    </style>
+    """
+    return css
 
 # ═══════════════════════════════════════════════════════════════════════════
-# SIDEBAR & NAVIGATION
+# COMPONENT RENDERING FUNCTIONS
 # ═══════════════════════════════════════════════════════════════════════════
 
-st.sidebar.markdown(f"# 📊 {BRAND_NAME}")
-st.sidebar.markdown("---")
-st.sidebar.markdown(f"**Prof. V. Ravichandran**")
-st.sidebar.markdown(f"*{EXPERIENCE}*")
-st.sidebar.markdown("---")
+def render_main_title(title, subtitle):
+    """Render main page title with subtitle"""
+    st.markdown(f"# {title}")
+    st.markdown(f"*{subtitle}*", unsafe_allow_html=True)
 
-# Only show first 7 pages (exclude data sources)
-pages_list = PAGES[:7]
 
-page = st.sidebar.radio(
-    "📍 Choose Analysis:",
-    pages_list,
-    key="main_nav"
-)
+def render_section_header(text):
+    """Render section header with divider"""
+    if st is None:
+        return
+    st.markdown(f"### {text}")
+    st.markdown('<div class="header-divider"></div>', unsafe_allow_html=True)
 
-st.sidebar.markdown("---")
-st.sidebar.markdown(f"📍 {LOCATION} | {YEAR}")
 
-# ═══════════════════════════════════════════════════════════════════════════
-# LOAD DATA
-# ═══════════════════════════════════════════════════════════════════════════
+def render_subsection_header(text):
+    """Render subsection header"""
+    if st is None:
+        return
+    st.markdown(f"#### {text}")
 
-@st.cache_data
-def load_dashboard_data():
-    return generate_data()
 
-data = load_dashboard_data()
+def render_info_box(content):
+    """Render info box using st.info with markdown support"""
+    if st is None:
+        return
+    st.info(content)
 
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 0: OVERVIEW
-# ═══════════════════════════════════════════════════════════════════════════
 
-if page == PAGES[0]:
-    render_section_header("📈 Nifty 50 Analysis: Growth Drivers & Sustainability")
+def render_warning_box(content):
+    """Render warning box using st.warning with markdown support"""
+    if st is None:
+        return
+    st.warning(content)
+
+
+def render_success_box(content):
+    """Render success box using st.success with markdown support"""
+    if st is None:
+        return
+    st.success(content)
+
+
+def render_divider():
+    """Render subtle divider line"""
+    if st is None:
+        return
+    st.markdown("---")
+
+
+def display_styled_dataframe(df, columns_to_style=None, width='stretch', hide_index=True):
+    """
+    Display DataFrame with optional styling and full width support.
     
-    st.markdown("""
-    **Analysis Period:** FY2021 - FY2025 YTD  
-    **Focus:** Is growth driven by revenue expansion or margin re-rating?
-    """)
+    Args:
+        df: DataFrame to display
+        columns_to_style: List of columns to apply gradient styling
+        width: Column width ('stretch' or 'content')
+        hide_index: Hide row index
+    """
+    if st is None:
+        return
     
-    render_divider()
+    try:
+        st.dataframe(df, width=width, hide_index=hide_index)
+    except Exception as e:
+        st.warning(f"Could not display dataframe: {str(e)}")
+
+
+def render_footer(author, brand, sources):
+    """
+    Render page footer with author, brand, and sources.
     
-    # Key Metrics
-    render_subsection_header("📊 Key Metrics Summary")
-    
-    metrics_data = {
-        'Metric': ['Revenue CAGR (FY21-25)', 'Profit CAGR (FY21-25)', 'EBITDA Margin (FY25)', 'PAT Margin (FY25)'],
-        'Value': ['9.2%', '19.8%', '33.0%', '10.5%']
-    }
-    
-    display_styled_dataframe(
-        pd.DataFrame(metrics_data),
-        columns_to_style=['Value'],
-        use_container_width=True
-    )
-    
-    render_divider()
-    
-    # Key Insights
-    render_subsection_header("📌 Key Insights")
-    
-    col1, col2 = st.columns(2)
+    Args:
+        author (str): Author name
+        brand (str): Brand name
+        sources (str): Data sources
+    """
+    if st is None:
+        return
+    st.markdown("---")
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        render_success_box(
-            "**FY2021-2024: Healthy Growth**\n\n"
-            "✅ Revenue expanding (+10.5% avg)\n"
-            "✅ Margins improving (+50 bps)\n"
-            "✅ Both drivers working\n"
-            "✅ Sustainable model"
-        )
+        st.markdown(f"**Author:** {author}")
     
     with col2:
-        render_warning_box(
-            "**FY2025: Concerning Shift**\n\n"
-            "⚠️ Revenue decelerating (6.9%)\n"
-            "⚠️ Margins propping profits\n"
-            "⚠️ One-time tailwinds fading\n"
-            "❌ Unsustainable"
+        st.markdown(f"**Platform:** {brand}")
+    
+    with col3:
+        st.markdown(f"**Sources:** {sources}")
+    
+    st.markdown(
+        f"<p style='text-align:center; color:{COLORS['text_muted']}; "
+        f"font-size:0.85rem; margin-top:2rem;'>"
+        f"<i>© 2026 The Mountain Path - World of Finance | All Rights Reserved</i>"
+        f"</p>",
+        unsafe_allow_html=True
+    )
+
+
+def render_sidebar_metrics(metrics_dict):
+    """
+    Render metrics in sidebar with consistent styling.
+    
+    Args:
+        metrics_dict (dict): Dictionary of {label: (value, note)}
+    """
+    for label, (value, note) in metrics_dict.items():
+        st.sidebar.markdown(f"**{label}**")
+        st.sidebar.markdown(
+            f"<div class='metric-value'>{value}</div>",
+            unsafe_allow_html=True
         )
-    
-    render_divider()
-    
-    # Investment Takeaway
-    render_info_box(
-        "**Investment Perspective**\n\n"
-        "The Nifty 50 profit growth (19.8% CAGR) masks slowing revenue growth (9.2% CAGR). "
-        "While margin expansion provided tailwinds through FY24, FY25 shows concerning revenue deceleration. "
-        "Investors should focus on revenue growth sustainability rather than margin-driven earnings growth."
-    )
+        st.sidebar.markdown(
+            f"<span class='metric-label'>{note}</span>",
+            unsafe_allow_html=True
+        )
+        st.sidebar.markdown("")
 
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 1: 5-YEAR TREND
-# ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[1]:
-    render_section_header("📈 5-Year Trend Analysis")
+def render_sidebar_alert(title, content, alert_type="warning"):
+    """
+    Render alert box in sidebar.
     
-    render_subsection_header("💹 5-Year Performance")
-    
-    five_year = data['five_year']
-    fig = go.Figure()
-    
-    fig.add_trace(go.Scatter(
-        x=five_year['Fiscal Year'],
-        y=five_year['Revenue Growth (%)'],
-        mode='lines+markers',
-        name='Revenue Growth',
-        line=dict(color=COLORS['chart_blue'], width=3),
-        marker=dict(size=10)
-    ))
-    
-    fig.add_trace(go.Scatter(
-        x=five_year['Fiscal Year'],
-        y=five_year['PAT Growth (%)'],
-        mode='lines+markers',
-        name='Profit Growth',
-        line=dict(color=COLORS['accent_red'], width=3),
-        marker=dict(size=10)
-    ))
-    
-    fig.update_layout(
-        title="Revenue vs Profit Growth Trends",
-        xaxis_title="Fiscal Year",
-        yaxis_title="Growth Rate (%)",
-        template='plotly_white',
-        height=400,
-        hovermode='x unified'
-    )
-    
-    st.plotly_chart(fig, use_container_width=True)
-    
-    render_divider()
-    
-    render_subsection_header("📊 Margin Trends")
-    
-    fig2 = go.Figure()
-    
-    fig2.add_trace(go.Scatter(
-        x=five_year['Fiscal Year'],
-        y=five_year['EBITDA Margin (%)'],
-        mode='lines+markers',
-        name='EBITDA Margin',
-        line=dict(color=COLORS['accent_gold'], width=3),
-        marker=dict(size=10)
-    ))
-    
-    fig2.add_trace(go.Scatter(
-        x=five_year['Fiscal Year'],
-        y=five_year['PAT Margin (%)'],
-        mode='lines+markers',
-        name='PAT Margin',
-        line=dict(color=COLORS['accent_red'], width=3),
-        marker=dict(size=10)
-    ))
-    
-    fig2.update_layout(
-        title="Margin Trends",
-        xaxis_title="Fiscal Year",
-        yaxis_title="Margin (%)",
-        template='plotly_white',
-        height=400,
-        hovermode='x unified'
-    )
-    
-    st.plotly_chart(fig2, use_container_width=True)
-    
-    render_divider()
-    
-    display_styled_dataframe(
-        five_year,
-        columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        use_container_width=True,
-        hide_index=True
-    )
+    Args:
+        title (str): Alert title
+        content (str): Alert content
+        alert_type (str): Type - 'warning', 'error', or 'info'
+    """
+    if alert_type == "warning":
+        st.sidebar.warning(f"**{title}**\n\n{content}")
+    elif alert_type == "error":
+        st.sidebar.error(f"**{title}**\n\n{content}")
+    else:
+        st.sidebar.info(f"**{title}**\n\n{content}")
 
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 2: QUARTERLY DEEP-DIVE
-# ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[2]:
-    render_section_header("📊 FY2025 Quarterly Analysis")
-    
-    quarterly = data['quarterly']
-    display_styled_dataframe(
-        quarterly,
-        columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
-        use_container_width=True,
-        hide_index=True
-    )
-    
-    render_divider()
-    
-    render_info_box(
-        "**Quarterly Insights**\n\n"
-        "FY25 shows declining revenue growth quarter-on-quarter, while profit growth remains supported by margin expansion. "
-        "Q3 data should clarify if revenue stabilizes or continues decelerating."
-    )
+def spacing(lines=1):
+    """Add vertical spacing between elements"""
+    for _ in range(lines):
+        st.markdown("")
 
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 3: SECTOR ANALYSIS
-# ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[3]:
-    render_section_header("🏦 Sector Performance Analysis")
+def render_metric_card(label, value, delta=None, delta_color=None):
+    """
+    Render a metric card with label and value.
     
-    sectors = data['sector']
-    display_styled_dataframe(
-        sectors,
-        columns_to_style=['Contribution (%)', 'Growth (%)'],
-        use_container_width=True,
-        hide_index=True
-    )
+    Args:
+        label (str): Metric label
+        value (str): Metric value
+        delta (str, optional): Change indicator (e.g., "+10%")
+        delta_color (str, optional): Color for delta - 'green', 'red', or 'neutral'
+    """
+    delta_html = ""
+    if delta:
+        color_map = {
+            'green': COLORS['accent_green'],
+            'red': COLORS['accent_red'],
+            'neutral': COLORS['text_muted']
+        }
+        color = color_map.get(delta_color, COLORS['text_muted'])
+        delta_html = f'<span class="metric-delta" style="color:{color};">{delta}</span>'
+    
+    html = f"""
+    <div class="metric-card">
+        <div class="metric-label">{label}</div>
+        <div class="metric-value">{value}</div>
+        {delta_html}
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 4: EARNINGS DOWNGRADES
-# ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[4]:
-    render_section_header("📉 6-Month Earnings Revision Trend")
+def render_comparison_box(title, items):
+    """
+    Render a comparison box with multiple items.
     
-    downgrades = data['downgrades']
-    display_styled_dataframe(
-        downgrades,
-        columns_to_style=['Direction (%)'],
-        use_container_width=True,
-        hide_index=True
-    )
+    Args:
+        title (str): Box title
+        items (dict): Dictionary of {label: value}
+    """
+    html = f"<b>{title}</b><br>"
+    for label, value in items.items():
+        html += f"{label}: <b>{value}</b><br>"
+    
+    render_info_box(html)
 
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 5: SCENARIOS
-# ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[5]:
-    render_section_header("🎯 Investment Scenarios")
-    
-    scenarios = {
-        'Base Case (50%)': {'description': 'Margin Resilience', 'return': '+10% p.a.'},
-        'Bear Case (25%)': {'description': 'Margin Compression', 'return': '-0.2% p.a.'},
-        'Bull Case (25%)': {'description': 'Revenue Recovery', 'return': '+18% p.a.'}
-    }
-    
-    cols = st.columns(3)
-    
-    for idx, (scenario, details) in enumerate(scenarios.items()):
-        with cols[idx]:
-            render_info_box(
-                f"**{scenario}**\n\n"
-                f"*{details['description']}*\n\n"
-                f"Expected Return: {details['return']}"
-            )
-
-# ═══════════════════════════════════════════════════════════════════════════
-# PAGE 6: DATA EXPLORER
-# ═══════════════════════════════════════════════════════════════════════════
-
-elif page == PAGES[6]:
-    render_section_header("📋 Data Explorer")
-    
-    st.markdown("**All Datasets**")
-    
-    tab1, tab2, tab3, tab4 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades"])
-    
-    with tab1:
-        display_styled_dataframe(data['five_year'], use_container_width=True, hide_index=True)
-    
-    with tab2:
-        display_styled_dataframe(data['quarterly'], use_container_width=True, hide_index=True)
-    
-    with tab3:
-        display_styled_dataframe(data['sector'], use_container_width=True, hide_index=True)
-    
-    with tab4:
-        display_styled_dataframe(data['downgrades'], use_container_width=True, hide_index=True)
-
-# ═══════════════════════════════════════════════════════════════════════════
-# FOOTER
-# ═══════════════════════════════════════════════════════════════════════════
-
-st.markdown("---")
-render_footer(AUTHOR, BRAND_NAME, "NSE, RBI, BSE, MCA, SEBI | Research: Business Standard, Economic Times, Brokerages")
+def apply_custom_css():
+    """Apply custom CSS to Streamlit app"""
+    st.markdown(get_custom_css(), unsafe_allow_html=True)
