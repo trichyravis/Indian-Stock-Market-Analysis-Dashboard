@@ -1117,25 +1117,25 @@ elif page == PAGES[7]:  # 📚 Data Sources
     
     with col1:
         render_info_box("""
-        <b>🔍 Data Validation Process</b><br>
+        <b>🔍 Data Validation Process</b>
         
-        1. <b>Collection</b>: Data gathered from multiple sources<br>
-        2. <b>Verification</b>: Cross-checked across sources<br>
-        3. <b>Reconciliation</b>: Discrepancies resolved<br>
-        4. <b>Normalization</b>: Standardized formats<br>
-        5. <b>Validation</b>: Range and consistency checks<br>
+        1. <b>Collection</b>: Data gathered from multiple sources
+        2. <b>Verification</b>: Cross-checked across sources
+        3. <b>Reconciliation</b>: Discrepancies resolved
+        4. <b>Normalization</b>: Standardized formats
+        5. <b>Validation</b>: Range and consistency checks
         6. <b>Documentation</b>: Source attribution
         """)
     
     with col2:
         render_success_box("""
-        <b>✅ Data Quality Standards</b><br>
+        <b>✅ Data Quality Standards</b>
         
-        ✓ <b>Accuracy</b>: Verified against official sources<br>
-        ✓ <b>Timeliness</b>: Updated monthly or quarterly<br>
-        ✓ <b>Completeness</b>: All required fields present<br>
-        ✓ <b>Consistency</b>: Cross-validated<br>
-        ✓ <b>Attribution</b>: All sources documented<br>
+        ✓ <b>Accuracy</b>: Verified against official sources
+        ✓ <b>Timeliness</b>: Updated monthly or quarterly
+        ✓ <b>Completeness</b>: All required fields present
+        ✓ <b>Consistency</b>: Cross-validated
+        ✓ <b>Attribution</b>: All sources documented
         ✓ <b>Traceability</b>: Source links provided
         """)
     
