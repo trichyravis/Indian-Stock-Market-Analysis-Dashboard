@@ -56,6 +56,229 @@ st.sidebar.markdown("---")
 st.sidebar.markdown(f"📍 {LOCATION} | {YEAR}")
 
 # ═══════════════════════════════════════════════════════════════════════════
+# DOWNLOAD EXCEL FEATURE
+# ═══════════════════════════════════════════════════════════════════════════
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 📥 Download Report")
+
+if st.sidebar.button("📊 Download Analysis (Excel)", use_container_width=True):
+    # Import openpyxl for Excel creation
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+    from io import BytesIO
+    
+    # Create Excel workbook
+    wb = Workbook()
+    wb.remove(wb.active)  # Remove default sheet
+    
+    # Get all data
+    five_year = data['five_year']
+    quarterly = data['quarterly']
+    sectors = data['sector']
+    downgrades = data['downgrades']
+    scenarios = data['scenarios']
+    nifty_levels = data['nifty_levels']
+    metrics = data['metrics']
+    
+    # Define styles
+    header_fill = PatternFill(start_color="003366", end_color="003366", fill_type="solid")
+    header_font = Font(bold=True, color="FFFFFF", size=12)
+    title_fill = PatternFill(start_color="FFD700", end_color="FFD700", fill_type="solid")
+    title_font = Font(bold=True, color="000000", size=14)
+    
+    thin_border = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+    
+    # Sheet 1: Executive Summary
+    ws_summary = wb.create_sheet("Executive Summary")
+    ws_summary['A1'] = "Indian Stock Market Analysis Dashboard"
+    ws_summary['A1'].font = title_font
+    ws_summary['A1'].fill = title_fill
+    ws_summary.merge_cells('A1:D1')
+    
+    ws_summary['A3'] = "Key Metrics"
+    ws_summary['A3'].font = header_font
+    ws_summary['A3'].fill = header_fill
+    
+    row = 4
+    for key, value in metrics.items():
+        ws_summary[f'A{row}'] = key.replace('_', ' ').title()
+        ws_summary[f'B{row}'] = value
+        row += 1
+    
+    # Sheet 2: 5-Year Analysis
+    ws_5year = wb.create_sheet("5-Year Trend")
+    ws_5year['A1'] = "5-Year Performance Analysis"
+    ws_5year['A1'].font = title_font
+    ws_5year['A1'].fill = title_fill
+    ws_5year.merge_cells('A1:F1')
+    
+    # Headers
+    for col, header in enumerate(five_year.columns, 1):
+        cell = ws_5year.cell(row=3, column=col)
+        cell.value = header
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = thin_border
+    
+    # Data
+    for r_idx, row_data in enumerate(five_year.values, 4):
+        for c_idx, value in enumerate(row_data, 1):
+            cell = ws_5year.cell(row=r_idx, column=c_idx)
+            cell.value = value
+            cell.border = thin_border
+    
+    # Sheet 3: Quarterly Analysis
+    ws_quarterly = wb.create_sheet("Quarterly Analysis")
+    ws_quarterly['A1'] = "FY2025 Quarterly Performance"
+    ws_quarterly['A1'].font = title_font
+    ws_quarterly['A1'].fill = title_fill
+    ws_quarterly.merge_cells('A1:D1')
+    
+    # Headers
+    for col, header in enumerate(quarterly.columns, 1):
+        cell = ws_quarterly.cell(row=3, column=col)
+        cell.value = header
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = thin_border
+    
+    # Data
+    for r_idx, row_data in enumerate(quarterly.values, 4):
+        for c_idx, value in enumerate(row_data, 1):
+            cell = ws_quarterly.cell(row=r_idx, column=c_idx)
+            cell.value = value
+            cell.border = thin_border
+    
+    # Sheet 4: Sector Analysis
+    ws_sector = wb.create_sheet("Sector Analysis")
+    ws_sector['A1'] = "Sector Performance"
+    ws_sector['A1'].font = title_font
+    ws_sector['A1'].fill = title_fill
+    ws_sector.merge_cells('A1:E1')
+    
+    # Headers
+    for col, header in enumerate(sectors.columns, 1):
+        cell = ws_sector.cell(row=3, column=col)
+        cell.value = header
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = thin_border
+    
+    # Data
+    for r_idx, row_data in enumerate(sectors.values, 4):
+        for c_idx, value in enumerate(row_data, 1):
+            cell = ws_sector.cell(row=r_idx, column=c_idx)
+            cell.value = value
+            cell.border = thin_border
+    
+    # Sheet 5: Earnings Downgrades
+    ws_downgrades = wb.create_sheet("Earnings Downgrades")
+    ws_downgrades['A1'] = "6-Month Earnings Revision Trend"
+    ws_downgrades['A1'].font = title_font
+    ws_downgrades['A1'].fill = title_fill
+    ws_downgrades.merge_cells('A1:C1')
+    
+    # Headers
+    for col, header in enumerate(downgrades.columns, 1):
+        cell = ws_downgrades.cell(row=3, column=col)
+        cell.value = header
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.border = thin_border
+    
+    # Data
+    for r_idx, row_data in enumerate(downgrades.values, 4):
+        for c_idx, value in enumerate(row_data, 1):
+            cell = ws_downgrades.cell(row=r_idx, column=c_idx)
+            cell.value = value
+            cell.border = thin_border
+    
+    # Sheet 6: Scenarios
+    ws_scenarios = wb.create_sheet("Investment Scenarios")
+    ws_scenarios['A1'] = "Investment Scenarios Analysis"
+    ws_scenarios['A1'].font = title_font
+    ws_scenarios['A1'].fill = title_fill
+    ws_scenarios.merge_cells('A1:D1')
+    
+    row = 3
+    for scenario_name, scenario_data in scenarios.items():
+        ws_scenarios[f'A{row}'] = scenario_name
+        ws_scenarios[f'A{row}'].font = Font(bold=True, size=11)
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "Description"
+        ws_scenarios[f'B{row}'] = scenario_data['description']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "Probability"
+        ws_scenarios[f'B{row}'] = f"{scenario_data['probability']*100:.0f}%"
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "FY25 Earnings"
+        ws_scenarios[f'B{row}'] = scenario_data['fy25_earnings']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "FY26 Earnings"
+        ws_scenarios[f'B{row}'] = scenario_data['fy26_earnings']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "FY27 Earnings"
+        ws_scenarios[f'B{row}'] = scenario_data['fy27_earnings']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "FY25 P/E"
+        ws_scenarios[f'B{row}'] = scenario_data['fy25_pe']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "FY26 P/E"
+        ws_scenarios[f'B{row}'] = scenario_data['fy26_pe']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "FY27 P/E"
+        ws_scenarios[f'B{row}'] = scenario_data['fy27_pe']
+        row += 1
+        
+        ws_scenarios[f'A{row}'] = "Nifty Targets"
+        ws_scenarios[f'B{row}'] = f"FY25: {nifty_levels[scenario_name][0]:.0f} | FY26: {nifty_levels[scenario_name][1]:.0f} | FY27: {nifty_levels[scenario_name][2]:.0f}"
+        row += 2
+    
+    # Auto-adjust column widths
+    for ws in [ws_summary, ws_5year, ws_quarterly, ws_sector, ws_downgrades, ws_scenarios]:
+        for column in ws.columns:
+            max_length = 0
+            column_letter = column[0].column_letter
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = min(max_length + 2, 50)
+            ws.column_dimensions[column_letter].width = adjusted_width
+    
+    # Save to bytes
+    excel_buffer = BytesIO()
+    wb.save(excel_buffer)
+    excel_buffer.seek(0)
+    
+    # Download button
+    st.sidebar.download_button(
+        label="⬇️ Click to Download",
+        data=excel_buffer,
+        file_name=f"Nifty_50_Analysis_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        use_container_width=True
+    )
+
+st.sidebar.markdown("---")
+
+# ═══════════════════════════════════════════════════════════════════════════
 # LOAD DATA
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -364,23 +587,180 @@ elif page == PAGES[4]:
 # ═══════════════════════════════════════════════════════════════════════════
 
 elif page == PAGES[5]:
-    render_section_header("🎯 Investment Scenarios")
+    render_section_header("🎯 Investment Scenarios - Detailed Analysis")
     
-    scenarios = {
-        'Base Case (50%)': {'description': 'Margin Resilience', 'return': '+10% p.a.'},
-        'Bear Case (25%)': {'description': 'Margin Compression', 'return': '-0.2% p.a.'},
-        'Bull Case (25%)': {'description': 'Revenue Recovery', 'return': '+18% p.a.'}
-    }
+    st.markdown("""
+    **Select a scenario below to view detailed analysis including:**
+    - Earnings projections (FY2025-2027)
+    - P/E multiple assumptions
+    - Nifty 50 target levels
+    - Probability-weighted returns
+    """)
     
-    cols = st.columns(3)
+    render_divider()
     
-    for idx, (scenario, details) in enumerate(scenarios.items()):
-        with cols[idx]:
-            render_info_box(
-                f"**{scenario}**\n\n"
-                f"*{details['description']}*\n\n"
-                f"Expected Return: {details['return']}"
-            )
+    # Get scenarios data
+    scenarios_data = data['scenarios']
+    nifty_levels = data['nifty_levels']
+    
+    # Radio button to select scenario
+    scenario_names = list(scenarios_data.keys())
+    selected_scenario = st.radio(
+        "📍 Choose Investment Scenario:",
+        scenario_names,
+        index=0,
+        key="scenario_selector"
+    )
+    
+    render_divider()
+    
+    # Get selected scenario data
+    scenario_info = scenarios_data[selected_scenario]
+    nifty_targets = nifty_levels[selected_scenario]
+    
+    # Display selected scenario
+    render_subsection_header(f"📊 {selected_scenario}")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown(f"""
+        **Scenario Description:**
+        
+        {scenario_info['description']}
+        
+        **Probability:** {scenario_info['probability']*100:.0f}%
+        """)
+    
+    with col2:
+        # Color indicator
+        st.markdown(f"""
+        **Scenario Color Code:** <span style='color: {scenario_info['color']}'>●</span>
+        
+        **Key Characteristics:**
+        - Focuses on {scenario_info['description'].lower()}
+        """)
+    
+    render_divider()
+    
+    # Earnings Projections
+    render_subsection_header("💰 Earnings Projections (FY2025-2027)")
+    
+    earnings_col1, earnings_col2, earnings_col3 = st.columns(3)
+    
+    with earnings_col1:
+        st.metric("FY2025 Earnings", f"₹{scenario_info['fy25_earnings']:.1f}", delta="Growth")
+    with earnings_col2:
+        st.metric("FY2026 Earnings", f"₹{scenario_info['fy26_earnings']:.1f}", delta="CAGR")
+    with earnings_col3:
+        st.metric("FY2027 Earnings", f"₹{scenario_info['fy27_earnings']:.1f}", delta="Projection")
+    
+    render_divider()
+    
+    # P/E Multiples
+    render_subsection_header("📈 P/E Multiple Assumptions")
+    
+    pe_col1, pe_col2, pe_col3 = st.columns(3)
+    
+    with pe_col1:
+        st.metric("FY2025 P/E", f"{scenario_info['fy25_pe']:.1f}x", delta="Valuation")
+    with pe_col2:
+        st.metric("FY2026 P/E", f"{scenario_info['fy26_pe']:.1f}x", delta="Normalized")
+    with pe_col3:
+        st.metric("FY2027 P/E", f"{scenario_info['fy27_pe']:.1f}x", delta="Terminal")
+    
+    render_divider()
+    
+    # Nifty 50 Target Levels
+    render_subsection_header("🎯 Nifty 50 Target Levels")
+    
+    target_col1, target_col2, target_col3 = st.columns(3)
+    
+    with target_col1:
+        st.metric("FY2025 Target", f"{nifty_targets[0]:.0f}", delta="Near-term")
+    with target_col2:
+        st.metric("FY2026 Target", f"{nifty_targets[1]:.0f}", delta="Medium-term")
+    with target_col3:
+        st.metric("FY2027 Target", f"{nifty_targets[2]:.0f}", delta="Long-term")
+    
+    render_divider()
+    
+    # Scenario Analysis Table
+    render_subsection_header("📊 Scenario Comparison Matrix")
+    
+    # Create comparison dataframe
+    comparison_df = pd.DataFrame({
+        'Metric': ['Probability', 'FY25 Earnings', 'FY26 Earnings', 'FY27 Earnings', 
+                   'FY25 P/E', 'FY26 P/E', 'FY27 P/E',
+                   'FY25 Target', 'FY26 Target', 'FY27 Target'],
+        'Base Case (50%)': [
+            f"{scenarios_data['Base Case (50%)']['probability']*100:.0f}%",
+            f"₹{scenarios_data['Base Case (50%)']['fy25_earnings']:.1f}",
+            f"₹{scenarios_data['Base Case (50%)']['fy26_earnings']:.1f}",
+            f"₹{scenarios_data['Base Case (50%)']['fy27_earnings']:.1f}",
+            f"{scenarios_data['Base Case (50%)']['fy25_pe']:.1f}x",
+            f"{scenarios_data['Base Case (50%)']['fy26_pe']:.1f}x",
+            f"{scenarios_data['Base Case (50%)']['fy27_pe']:.1f}x",
+            f"{nifty_levels['Base Case (50%)'][0]:.0f}",
+            f"{nifty_levels['Base Case (50%)'][1]:.0f}",
+            f"{nifty_levels['Base Case (50%)'][2]:.0f}"
+        ],
+        'Bear Case (25%)': [
+            f"{scenarios_data['Bear Case (25%)']['probability']*100:.0f}%",
+            f"₹{scenarios_data['Bear Case (25%)']['fy25_earnings']:.1f}",
+            f"₹{scenarios_data['Bear Case (25%)']['fy26_earnings']:.1f}",
+            f"₹{scenarios_data['Bear Case (25%)']['fy27_earnings']:.1f}",
+            f"{scenarios_data['Bear Case (25%)']['fy25_pe']:.1f}x",
+            f"{scenarios_data['Bear Case (25%)']['fy26_pe']:.1f}x",
+            f"{scenarios_data['Bear Case (25%)']['fy27_pe']:.1f}x",
+            f"{nifty_levels['Bear Case (25%)'][0]:.0f}",
+            f"{nifty_levels['Bear Case (25%)'][1]:.0f}",
+            f"{nifty_levels['Bear Case (25%)'][2]:.0f}"
+        ],
+        'Bull Case (25%)': [
+            f"{scenarios_data['Bull Case (25%)']['probability']*100:.0f}%",
+            f"₹{scenarios_data['Bull Case (25%)']['fy25_earnings']:.1f}",
+            f"₹{scenarios_data['Bull Case (25%)']['fy26_earnings']:.1f}",
+            f"₹{scenarios_data['Bull Case (25%)']['fy27_earnings']:.1f}",
+            f"{scenarios_data['Bull Case (25%)']['fy25_pe']:.1f}x",
+            f"{scenarios_data['Bull Case (25%)']['fy26_pe']:.1f}x",
+            f"{scenarios_data['Bull Case (25%)']['fy27_pe']:.1f}x",
+            f"{nifty_levels['Bull Case (25%)'][0]:.0f}",
+            f"{nifty_levels['Bull Case (25%)'][1]:.0f}",
+            f"{nifty_levels['Bull Case (25%)'][2]:.0f}"
+        ]
+    })
+    
+    display_styled_dataframe(
+        comparison_df,
+        width='stretch',
+        hide_index=True
+    )
+    
+    render_divider()
+    
+    # Investment Perspective
+    if selected_scenario == 'Base Case (50%)':
+        render_success_box(
+            "**Base Case (Most Likely - 50% Probability)**\n\n"
+            "Margin resilience with slow revenue growth. Earnings grow from ₹5.5 (FY25) to ₹12.5 (FY27). "
+            "P/E multiple compresses from 25x to 24x, limiting re-rating. Nifty target ranges from 56,700 to 67,900. "
+            "This is the consensus scenario with moderate upside."
+        )
+    elif selected_scenario == 'Bear Case (25%)':
+        render_warning_box(
+            "**Bear Case (Stress - 25% Probability)**\n\n"
+            "Margin compression due to input cost spike. Earnings growth severely impacted: ₹2.0 → ₹7.5. "
+            "P/E multiple contracts from 23x to 21.5x. Nifty downside risk to 50,400-53,200. "
+            "Triggered by commodities rally or demand shock."
+        )
+    else:
+        render_info_box(
+            "**Bull Case (Optimistic - 25% Probability)**\n\n"
+            "Revenue recovery accelerates with margin stability. Strong earnings growth: ₹9.0 → ₹15.5. "
+            "P/E multiple expands from 25.5x to 26.5x as confidence returns. Nifty upside to 59,700-81,700. "
+            "Requires revenue inflection + operational efficiency."
+        )
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 6: DATA EXPLORER
