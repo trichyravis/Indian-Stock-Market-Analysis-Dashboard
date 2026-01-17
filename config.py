@@ -1,187 +1,398 @@
+
 """
-Configuration Module - Indian Market Analysis Dashboard
-Color Scheme: Mountain Path (Dark Blue & Gold)
+Styling Module for Indian Stock Market Analysis Dashboard
+
+Provides reusable UI components and styling functions
+consistent with Mountain Path - World of Finance design system.
 """
 
 import streamlit as st
-from typing import Dict
+from config import COLORS, FONTS
 
 # ═══════════════════════════════════════════════════════════════════════════
-# COLOR PALETTE - Mountain Path Theme
+# CSS STYLING
 # ═══════════════════════════════════════════════════════════════════════════
 
-COLORS = {
-    'primary_dark': '#003366',      # Dark Blue (Main)
-    'primary_mid': '#004d80',       # Medium Blue
-    'primary_light': '#ADD8E6',     # Light Blue
-    'accent_gold': '#FFD700',       # Gold
-    'accent_red': '#CC0000',        # Red (Alerts)
-    'accent_green': '#00AA00',      # Green (Positive)
-    'accent_orange': '#FFA500',     # Orange (Neutral)
-    'white': '#FFFFFF',
-    'light_gray': '#f8f9fa',
-    'medium_gray': '#666666',
-    'chart_blue': '#0066CC',
-}
+def get_custom_css():
+    """
+    Returns custom CSS for the application.
+    Applies Mountain Path design system.
+    """
+    css = f"""
+    <style>
+    :root {{
+        --primary: {COLORS['dark_blue']};
+        --secondary: {COLORS['light_blue']};
+        --accent: {COLORS['accent_gold']};
+        --green: {COLORS['accent_green']};
+        --red: {COLORS['accent_red']};
+        --text-dark: {COLORS['text_dark']};
+        --text-muted: {COLORS['text_muted']};
+    }}
+
+    * {{
+        font-family: {FONTS['primary']};
+    }}
+
+    body {{
+        color: {COLORS['text_dark']};
+        background-color: {COLORS['bg_light']};
+    }}
+
+    .main {{
+        padding: 0;
+        background-color: {COLORS['bg_white']};
+    }}
+
+    /* Card Styles */
+    .metric-card {{
+        background: linear-gradient(135deg, {COLORS['dark_blue']}15, {COLORS['light_blue']}15);
+        border-left: 4px solid {COLORS['dark_blue']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 51, 102, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
+
+    .metric-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.12);
+    }}
+
+    .success-box {{
+        background: {COLORS['accent_green']}10;
+        border-left: 4px solid {COLORS['accent_green']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
+
+    .warning-box {{
+        background: {COLORS['accent_red']}10;
+        border-left: 4px solid {COLORS['accent_red']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
+
+    .info-box {{
+        background: {COLORS['light_blue']}10;
+        border-left: 4px solid {COLORS['light_blue']};
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }}
+
+    /* Dividers */
+    .header-divider {{
+        height: 3px;
+        background: linear-gradient(90deg, {COLORS['dark_blue']}, {COLORS['accent_gold']}, {COLORS['dark_blue']});
+        margin: 1.5rem 0 2rem 0;
+        border-radius: 2px;
+    }}
+
+    .subtle-divider {{
+        height: 1px;
+        background-color: {COLORS['border_color']};
+        margin: 1.5rem 0;
+    }}
+
+    /* Typography */
+    h1, h2, h3 {{
+        color: {COLORS['dark_blue']};
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }}
+
+    h1 {{
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }}
+
+    h2 {{
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }}
+
+    h3 {{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }}
+
+    h4 {{
+        font-size: 1.125rem;
+        color: {COLORS['dark_blue']};
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+    }}
+
+    /* Metrics */
+    .metric-label {{
+        font-size: 0.875rem;
+        color: {COLORS['text_muted']};
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }}
+
+    .metric-value {{
+        font-size: 2rem;
+        font-weight: 700;
+        color: {COLORS['dark_blue']};
+        margin: 0.5rem 0;
+    }}
+
+    .metric-delta {{
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-top: 0.5rem;
+    }}
+
+    /* Sidebar */
+    .sidebar {{
+        background-color: {COLORS['dark_blue']}05;
+    }}
+
+    .sidebar-metric {{
+        padding: 1rem;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+        border-left: 3px solid {COLORS['dark_blue']};
+    }}
+
+    /* Links */
+    a {{
+        color: {COLORS['light_blue']};
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }}
+
+    a:hover {{
+        color: {COLORS['accent_gold']};
+        text-decoration: underline;
+    }}
+
+    /* Tables */
+    table {{
+        border-collapse: collapse;
+        width: 100%;
+    }}
+
+    th {{
+        background-color: {COLORS['dark_blue']}15;
+        color: {COLORS['dark_blue']};
+        font-weight: 600;
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 2px solid {COLORS['dark_blue']};
+    }}
+
+    td {{
+        padding: 0.75rem;
+        border-bottom: 1px solid {COLORS['border_color']};
+    }}
+
+    tr:hover {{
+        background-color: {COLORS['bg_light']};
+    }}
+
+    /* Buttons */
+    button {{
+        background-color: {COLORS['dark_blue']};
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }}
+
+    button:hover {{
+        background-color: {COLORS['light_blue']};
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+    }}
+
+    /* Responsive */
+    @media (max-width: 768px) {{
+        h1 {{
+            font-size: 1.75rem;
+        }}
+
+        .metric-value {{
+            font-size: 1.5rem;
+        }}
+    }}
+    </style>
+    """
+    return css
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PAGE CONFIGURATION
+# COMPONENT RENDERING FUNCTIONS
 # ═══════════════════════════════════════════════════════════════════════════
 
-def configure_page():
-    """Configure Streamlit page settings"""
-    st.set_page_config(
-        page_title="Indian Market Analysis: Revenue vs Margins",
-        page_icon="📊",
-        layout="wide",
-        initial_sidebar_state="expanded",
-        menu_items={
-            'About': "Indian Stock Market Analysis Dashboard\nCreated by Prof. V. Ravichandran\nThe Mountain Path - World of Finance"
-        }
+def render_main_title(title, subtitle):
+    """Render main page title with subtitle"""
+    st.markdown(f"# {title}")
+    st.markdown(f"*{subtitle}*", unsafe_allow_html=True)
+
+
+def render_section_header(text):
+    """Render section header with divider"""
+    st.markdown(f"### {text}")
+    st.markdown('<div class="header-divider"></div>', unsafe_allow_html=True)
+
+
+def render_subsection_header(text):
+    """Render subsection header"""
+    st.markdown(f"#### {text}")
+
+
+def render_info_box(content):
+    """Render info box with light blue background"""
+    st.markdown(f'<div class="info-box">{content}</div>', unsafe_allow_html=True)
+
+
+def render_warning_box(content):
+    """Render warning box with red background"""
+    st.markdown(f'<div class="warning-box">{content}</div>', unsafe_allow_html=True)
+
+
+def render_success_box(content):
+    """Render success box with green background"""
+    st.markdown(f'<div class="success-box">{content}</div>', unsafe_allow_html=True)
+
+
+def render_divider():
+    """Render subtle divider line"""
+    st.markdown("---")
+
+
+def render_footer(author, brand, sources):
+    """
+    Render page footer with author, brand, and sources.
+    
+    Args:
+        author (str): Author name
+        brand (str): Brand name
+        sources (str): Data sources
+    """
+    st.markdown("---")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f"**Author:** {author}")
+    
+    with col2:
+        st.markdown(f"**Platform:** {brand}")
+    
+    with col3:
+        st.markdown(f"**Sources:** {sources}")
+    
+    st.markdown(
+        f"<p style='text-align:center; color:{COLORS['text_muted']}; "
+        f"font-size:0.85rem; margin-top:2rem;'>"
+        f"<i>© 2026 The Mountain Path - World of Finance | All Rights Reserved</i>"
+        f"</p>",
+        unsafe_allow_html=True
     )
 
-# ═══════════════════════════════════════════════════════════════════════════
-# CUSTOM CSS STYLING
-# ═══════════════════════════════════════════════════════════════════════════
+
+def render_sidebar_metrics(metrics_dict):
+    """
+    Render metrics in sidebar with consistent styling.
+    
+    Args:
+        metrics_dict (dict): Dictionary of {label: (value, note)}
+    """
+    for label, (value, note) in metrics_dict.items():
+        st.sidebar.markdown(f"**{label}**")
+        st.sidebar.markdown(
+            f"<div class='metric-value'>{value}</div>",
+            unsafe_allow_html=True
+        )
+        st.sidebar.markdown(
+            f"<span class='metric-label'>{note}</span>",
+            unsafe_allow_html=True
+        )
+        st.sidebar.markdown("")
+
+
+def render_sidebar_alert(title, content, alert_type="warning"):
+    """
+    Render alert box in sidebar.
+    
+    Args:
+        title (str): Alert title
+        content (str): Alert content
+        alert_type (str): Type - 'warning', 'error', or 'info'
+    """
+    if alert_type == "warning":
+        st.sidebar.warning(f"**{title}**\n\n{content}")
+    elif alert_type == "error":
+        st.sidebar.error(f"**{title}**\n\n{content}")
+    else:
+        st.sidebar.info(f"**{title}**\n\n{content}")
+
+
+def spacing(lines=1):
+    """Add vertical spacing between elements"""
+    for _ in range(lines):
+        st.markdown("")
+
+
+def render_metric_card(label, value, delta=None, delta_color=None):
+    """
+    Render a metric card with label and value.
+    
+    Args:
+        label (str): Metric label
+        value (str): Metric value
+        delta (str, optional): Change indicator (e.g., "+10%")
+        delta_color (str, optional): Color for delta - 'green', 'red', or 'neutral'
+    """
+    delta_html = ""
+    if delta:
+        color_map = {
+            'green': COLORS['accent_green'],
+            'red': COLORS['accent_red'],
+            'neutral': COLORS['text_muted']
+        }
+        color = color_map.get(delta_color, COLORS['text_muted'])
+        delta_html = f'<span class="metric-delta" style="color:{color};">{delta}</span>'
+    
+    html = f"""
+    <div class="metric-card">
+        <div class="metric-label">{label}</div>
+        <div class="metric-value">{value}</div>
+        {delta_html}
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+
+
+def render_comparison_box(title, items):
+    """
+    Render a comparison box with multiple items.
+    
+    Args:
+        title (str): Box title
+        items (dict): Dictionary of {label: value}
+    """
+    html = f"<b>{title}</b><br>"
+    for label, value in items.items():
+        html += f"{label}: <b>{value}</b><br>"
+    
+    render_info_box(html)
+
 
 def apply_custom_css():
-    """Apply Mountain Path branded CSS styling"""
-    st.markdown(f"""
-    <style>
-        /* Main Background */
-        .main {{
-            background-color: {COLORS['light_gray']};
-        }}
-        
-        /* Metric Cards */
-        .metric-card {{
-            background: {COLORS['white']};
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-left: 4px solid {COLORS['primary_dark']};
-        }}
-        
-        /* Headers */
-        .header-style {{
-            color: {COLORS['primary_dark']};
-            font-weight: bold;
-            font-size: 24px;
-            margin: 20px 0 10px 0;
-        }}
-        
-        .subheader-style {{
-            color: {COLORS['primary_mid']};
-            font-weight: bold;
-            font-size: 18px;
-            margin: 15px 0 8px 0;
-        }}
-        
-        /* Info/Alert Boxes */
-        .info-box {{
-            background-color: #E8F4F8;
-            border-left: 4px solid {COLORS['primary_dark']};
-            padding: 12px;
-            border-radius: 4px;
-        }}
-        
-        .alert-box {{
-            background-color: #FFE8E8;
-            border-left: 4px solid {COLORS['accent_red']};
-            padding: 12px;
-            border-radius: 4px;
-        }}
-        
-        .success-box {{
-            background-color: #E8F8E8;
-            border-left: 4px solid {COLORS['accent_green']};
-            padding: 12px;
-            border-radius: 4px;
-        }}
-        
-        /* Links */
-        a {{
-            color: {COLORS['primary_dark']};
-        }}
-        
-        /* Divider */
-        hr {{
-            border: 1px solid {COLORS['primary_light']};
-            margin: 20px 0;
-        }}
-    </style>
-    """, unsafe_allow_html=True)
-
-# ═══════════════════════════════════════════════════════════════════════════
-# THEME CONFIGURATION
-# ═══════════════════════════════════════════════════════════════════════════
-
-STREAMLIT_THEME = {
-    'primaryColor': COLORS['primary_dark'],
-    'backgroundColor': COLORS['light_gray'],
-    'secondaryBackgroundColor': COLORS['white'],
-    'textColor': COLORS['medium_gray'],
-    'font': 'sans serif'
-}
-
-# ═══════════════════════════════════════════════════════════════════════════
-# NAVIGATION STRUCTURE
-# ═══════════════════════════════════════════════════════════════════════════
-
-PAGES = {
-    '🏠 Overview': 'pages/01_overview.py',
-    '📈 5-Year Trend': 'pages/02_five_year_trend.py',
-    '📊 Quarterly Deep-Dive': 'pages/03_quarterly_analysis.py',
-    '🏦 Sector Analysis': 'pages/04_sector_analysis.py',
-    '📉 Earnings Downgrades': 'pages/05_earnings_downgrades.py',
-    '🎯 Scenarios': 'pages/06_scenarios.py',
-    '📋 Data Explorer': 'pages/07_data_explorer.py'
-}
-
-# ═══════════════════════════════════════════════════════════════════════════
-# CHART CONFIGURATION
-# ═══════════════════════════════════════════════════════════════════════════
-
-PLOTLY_CONFIG = {
-    'responsive': True,
-    'displayModeBar': True,
-    'displaylogo': False,
-    'modeBarButtonsToRemove': ['lasso2d'],
-}
-
-CHART_HEIGHT = 450
-CHART_HEIGHT_SMALL = 350
-
-# ═══════════════════════════════════════════════════════════════════════════
-# DATA CONFIGURATION
-# ═══════════════════════════════════════════════════════════════════════════
-
-BASE_EPS_FY24 = 920
-CURRENT_NIFTY = 23000
-
-# Scenario Probability Weights
-SCENARIO_WEIGHTS = {
-    'Base Case (50%)': 0.50,
-    'Bear Case (25%)': 0.25,
-    'Bull Case (25%)': 0.25
-}
-
-# ═══════════════════════════════════════════════════════════════════════════
-# BRANDING
-# ═══════════════════════════════════════════════════════════════════════════
-
-BRAND_NAME = "The Mountain Path - World of Finance"
-AUTHOR = "Prof. V. Ravichandran"
-EXPERIENCE = "28+ Years Corporate Finance & Banking Experience, 10+ Years Academic Excellence"
-LOCATION = "Bangalore, India"
-
-# ═══════════════════════════════════════════════════════════════════════════
-# DATA SOURCES
-# ═══════════════════════════════════════════════════════════════════════════
-
-DATA_SOURCES = {
-    'primary': "NSE Corporate Performance Review (Q3FY25)",
-    'secondary': ["RBI Annual Reports", "Business Standard"],
-    'analysis_period': "FY2021 – FY2025",
-    'created': "January 2026"
-}
+    """Apply custom CSS to Streamlit app"""
+    st.markdown(get_custom_css(), unsafe_allow_html=True)
