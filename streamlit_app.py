@@ -633,12 +633,19 @@ elif page == PAGES[5]:
         """)
     
     with col2:
-        # Color indicator
+        # Color indicator with HTML rendering
         st.markdown(f"""
-        **Scenario Color Code:** <span style='color: {scenario_info['color']}'>●</span>
+        **Scenario Type & Color:**
+        """)
         
+        # Display colored indicator
+        color = scenario_info['color']
+        st.markdown(f"<p style='font-size: 24px; color: {color};'>● {selected_scenario}</p>", unsafe_allow_html=True)
+        
+        st.markdown(f"""
         **Key Characteristics:**
-        - Focuses on {scenario_info['description'].lower()}
+        
+        {scenario_info['description']}
         """)
     
     render_divider()
