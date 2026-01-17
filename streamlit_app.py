@@ -66,229 +66,6 @@ def load_dashboard_data():
 data = load_dashboard_data()
 
 # ═══════════════════════════════════════════════════════════════════════════
-# DOWNLOAD EXCEL FEATURE (AFTER DATA LOADING)
-# ═══════════════════════════════════════════════════════════════════════════
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("### 📥 Download Report")
-
-if st.sidebar.button("📊 Download Analysis (Excel)", use_container_width=True):
-    # Import openpyxl for Excel creation
-    from openpyxl import Workbook
-    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-    from io import BytesIO
-    
-    # Create Excel workbook
-    wb = Workbook()
-    wb.remove(wb.active)  # Remove default sheet
-    
-    # Get all data
-    five_year = data['five_year']
-    quarterly = data['quarterly']
-    sectors = data['sector']
-    downgrades = data['downgrades']
-    scenarios = data['scenarios']
-    nifty_levels = data['nifty_levels']
-    metrics = data['metrics']
-    
-    # Define styles
-    header_fill = PatternFill(start_color="003366", end_color="003366", fill_type="solid")
-    header_font = Font(bold=True, color="FFFFFF", size=12)
-    title_fill = PatternFill(start_color="FFD700", end_color="FFD700", fill_type="solid")
-    title_font = Font(bold=True, color="000000", size=14)
-    
-    thin_border = Border(
-        left=Side(style='thin'),
-        right=Side(style='thin'),
-        top=Side(style='thin'),
-        bottom=Side(style='thin')
-    )
-    
-    # Sheet 1: Executive Summary
-    ws_summary = wb.create_sheet("Executive Summary")
-    ws_summary['A1'] = "Indian Stock Market Analysis Dashboard"
-    ws_summary['A1'].font = title_font
-    ws_summary['A1'].fill = title_fill
-    ws_summary.merge_cells('A1:D1')
-    
-    ws_summary['A3'] = "Key Metrics"
-    ws_summary['A3'].font = header_font
-    ws_summary['A3'].fill = header_fill
-    
-    row = 4
-    for key, value in metrics.items():
-        ws_summary[f'A{row}'] = key.replace('_', ' ').title()
-        ws_summary[f'B{row}'] = value
-        row += 1
-    
-    # Sheet 2: 5-Year Analysis
-    ws_5year = wb.create_sheet("5-Year Trend")
-    ws_5year['A1'] = "5-Year Performance Analysis"
-    ws_5year['A1'].font = title_font
-    ws_5year['A1'].fill = title_fill
-    ws_5year.merge_cells('A1:F1')
-    
-    # Headers
-    for col, header in enumerate(five_year.columns, 1):
-        cell = ws_5year.cell(row=3, column=col)
-        cell.value = header
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = thin_border
-    
-    # Data
-    for r_idx, row_data in enumerate(five_year.values, 4):
-        for c_idx, value in enumerate(row_data, 1):
-            cell = ws_5year.cell(row=r_idx, column=c_idx)
-            cell.value = value
-            cell.border = thin_border
-    
-    # Sheet 3: Quarterly Analysis
-    ws_quarterly = wb.create_sheet("Quarterly Analysis")
-    ws_quarterly['A1'] = "FY2025 Quarterly Performance"
-    ws_quarterly['A1'].font = title_font
-    ws_quarterly['A1'].fill = title_fill
-    ws_quarterly.merge_cells('A1:D1')
-    
-    # Headers
-    for col, header in enumerate(quarterly.columns, 1):
-        cell = ws_quarterly.cell(row=3, column=col)
-        cell.value = header
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = thin_border
-    
-    # Data
-    for r_idx, row_data in enumerate(quarterly.values, 4):
-        for c_idx, value in enumerate(row_data, 1):
-            cell = ws_quarterly.cell(row=r_idx, column=c_idx)
-            cell.value = value
-            cell.border = thin_border
-    
-    # Sheet 4: Sector Analysis
-    ws_sector = wb.create_sheet("Sector Analysis")
-    ws_sector['A1'] = "Sector Performance"
-    ws_sector['A1'].font = title_font
-    ws_sector['A1'].fill = title_fill
-    ws_sector.merge_cells('A1:E1')
-    
-    # Headers
-    for col, header in enumerate(sectors.columns, 1):
-        cell = ws_sector.cell(row=3, column=col)
-        cell.value = header
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = thin_border
-    
-    # Data
-    for r_idx, row_data in enumerate(sectors.values, 4):
-        for c_idx, value in enumerate(row_data, 1):
-            cell = ws_sector.cell(row=r_idx, column=c_idx)
-            cell.value = value
-            cell.border = thin_border
-    
-    # Sheet 5: Earnings Downgrades
-    ws_downgrades = wb.create_sheet("Earnings Downgrades")
-    ws_downgrades['A1'] = "6-Month Earnings Revision Trend"
-    ws_downgrades['A1'].font = title_font
-    ws_downgrades['A1'].fill = title_fill
-    ws_downgrades.merge_cells('A1:C1')
-    
-    # Headers
-    for col, header in enumerate(downgrades.columns, 1):
-        cell = ws_downgrades.cell(row=3, column=col)
-        cell.value = header
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.border = thin_border
-    
-    # Data
-    for r_idx, row_data in enumerate(downgrades.values, 4):
-        for c_idx, value in enumerate(row_data, 1):
-            cell = ws_downgrades.cell(row=r_idx, column=c_idx)
-            cell.value = value
-            cell.border = thin_border
-    
-    # Sheet 6: Scenarios
-    ws_scenarios = wb.create_sheet("Investment Scenarios")
-    ws_scenarios['A1'] = "Investment Scenarios Analysis"
-    ws_scenarios['A1'].font = title_font
-    ws_scenarios['A1'].fill = title_fill
-    ws_scenarios.merge_cells('A1:D1')
-    
-    row = 3
-    for scenario_name, scenario_data in scenarios.items():
-        ws_scenarios[f'A{row}'] = scenario_name
-        ws_scenarios[f'A{row}'].font = Font(bold=True, size=11)
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "Description"
-        ws_scenarios[f'B{row}'] = scenario_data['description']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "Probability"
-        ws_scenarios[f'B{row}'] = f"{scenario_data['probability']*100:.0f}%"
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "FY25 Earnings"
-        ws_scenarios[f'B{row}'] = scenario_data['fy25_earnings']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "FY26 Earnings"
-        ws_scenarios[f'B{row}'] = scenario_data['fy26_earnings']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "FY27 Earnings"
-        ws_scenarios[f'B{row}'] = scenario_data['fy27_earnings']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "FY25 P/E"
-        ws_scenarios[f'B{row}'] = scenario_data['fy25_pe']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "FY26 P/E"
-        ws_scenarios[f'B{row}'] = scenario_data['fy26_pe']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "FY27 P/E"
-        ws_scenarios[f'B{row}'] = scenario_data['fy27_pe']
-        row += 1
-        
-        ws_scenarios[f'A{row}'] = "Nifty Targets"
-        ws_scenarios[f'B{row}'] = f"FY25: {nifty_levels[scenario_name][0]:.0f} | FY26: {nifty_levels[scenario_name][1]:.0f} | FY27: {nifty_levels[scenario_name][2]:.0f}"
-        row += 2
-    
-    # Auto-adjust column widths
-    for ws in [ws_summary, ws_5year, ws_quarterly, ws_sector, ws_downgrades, ws_scenarios]:
-        for column in ws.columns:
-            max_length = 0
-            column_letter = column[0].column_letter
-            for cell in column:
-                try:
-                    if len(str(cell.value)) > max_length:
-                        max_length = len(str(cell.value))
-                except:
-                    pass
-            adjusted_width = min(max_length + 2, 50)
-            ws.column_dimensions[column_letter].width = adjusted_width
-    
-    # Save to bytes
-    excel_buffer = BytesIO()
-    wb.save(excel_buffer)
-    excel_buffer.seek(0)
-    
-    # Download button
-    st.sidebar.download_button(
-        label="⬇️ Click to Download",
-        data=excel_buffer,
-        file_name=f"Nifty_50_Analysis_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        use_container_width=True
-    )
-
-st.sidebar.markdown("---")
-
-# ═══════════════════════════════════════════════════════════════════════════
 # PAGE 0: OVERVIEW
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -318,6 +95,25 @@ if page == PAGES[0]:
     
     render_divider()
     
+    # Metric Cards
+    render_subsection_header("💹 Performance Metrics (FY2025 YTD)")
+    
+    five_year = data['five_year']
+    current_year = five_year.iloc[-1]
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Revenue Growth", f"{current_year['Revenue Growth (%)']:.1f}%", delta="YoY")
+    with col2:
+        st.metric("EBITDA Growth", f"{current_year['EBITDA Growth (%)']:.1f}%", delta="YoY")
+    with col3:
+        st.metric("PAT Growth", f"{current_year['PAT Growth (%)']:.1f}%", delta="YoY")
+    with col4:
+        st.metric("EBITDA Margin", f"{current_year['EBITDA Margin (%)']:.1f}%", delta="vs FY24")
+    
+    render_divider()
+    
     # Key Insights
     render_subsection_header("📌 Key Insights")
     
@@ -343,12 +139,130 @@ if page == PAGES[0]:
     
     render_divider()
     
+    # Growth Divergence Analysis
+    render_subsection_header("🔍 Growth Divergence: Revenue vs Profit")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("#### Revenue Story")
+        st.markdown("""
+        - **FY21-FY24:** Consistent 10-15% growth
+        - **FY25:** Sharp deceleration to 6.9%
+        - **Trend:** Deteriorating
+        - **Concern:** Sustainability question
+        """)
+    
+    with col2:
+        st.markdown("#### Profit Story")
+        st.markdown("""
+        - **CAGR:** 19.8% (vs Revenue 9.2%)
+        - **Source:** Margin expansion (+150 bps)
+        - **Driver:** Operational leverage
+        - **Risk:** Not sustainable indefinitely
+        """)
+    
+    with col3:
+        st.markdown("#### Key Question")
+        st.markdown("""
+        ### Can Nifty 50 profit growth sustain if revenue continues to decelerate?
+        
+        **Answer:** NO
+        
+        - Margin expansion is finite
+        - One-time cost benefits fading
+        - Needs revenue recovery
+        """)
+    
+    render_divider()
+    
+    # Margin Analysis
+    render_subsection_header("📈 Margin Expansion Breakdown")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### EBITDA Margin Evolution")
+        ebitda_margins = five_year['EBITDA Margin (%)'].values
+        st.markdown(f"""
+        - **FY2021:** {ebitda_margins[0]:.1f}%
+        - **FY2022:** {ebitda_margins[1]:.1f}%
+        - **FY2023:** {ebitda_margins[2]:.1f}%
+        - **FY2024:** {ebitda_margins[3]:.1f}%
+        - **FY2025:** {ebitda_margins[4]:.1f}%
+        
+        **Trend:** Plateauing (marginal improvement)
+        """)
+    
+    with col2:
+        st.markdown("#### PAT Margin Evolution")
+        pat_margins = five_year['PAT Margin (%)'].values
+        st.markdown(f"""
+        - **FY2021:** {pat_margins[0]:.1f}%
+        - **FY2022:** {pat_margins[1]:.1f}%
+        - **FY2023:** {pat_margins[2]:.1f}%
+        - **FY2024:** {pat_margins[3]:.1f}%
+        - **FY2025:** {pat_margins[4]:.1f}%
+        
+        **Trend:** Near peak (limited upside)
+        """)
+    
+    render_divider()
+    
+    # Sector Contribution
+    render_subsection_header("🏢 Top Contributing Sectors")
+    
+    sectors = data['sector']
+    top_sectors = sectors.head(5)
+    
+    sector_display = pd.DataFrame({
+        'Sector': top_sectors['Sector'],
+        'Contribution %': top_sectors['Contribution (%)'].round(1),
+        'Growth %': top_sectors['Growth (%)'].round(1)
+    })
+    
+    display_styled_dataframe(
+        sector_display,
+        columns_to_style=['Contribution %', 'Growth %'],
+        width='stretch'
+    )
+    
+    render_divider()
+    
+    # Investment Recommendation
+    render_subsection_header("💼 Investment Recommendation")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_info_box(
+            "**For Growth Investors:**\n\n"
+            "⚠️ CAUTION\n\n"
+            "• Nifty 50 earnings growth at peak\n"
+            "• Revenue deceleration is concerning\n"
+            "• Valuation may not justify growth\n"
+            "• Better opportunities in high-growth stocks"
+        )
+    
+    with col2:
+        render_info_box(
+            "**For Value Investors:**\n\n"
+            "✓ MONITOR\n\n"
+            "• Solid dividend yields likely\n"
+            "• Defensive characteristics\n"
+            "• Look for margin stabilization\n"
+            "• Wait for revenue recovery"
+        )
+    
+    render_divider()
+    
     # Investment Takeaway
     render_info_box(
-        "**Investment Perspective**\n\n"
+        "**Bottom Line**\n\n"
         "The Nifty 50 profit growth (19.8% CAGR) masks slowing revenue growth (9.2% CAGR). "
-        "While margin expansion provided tailwinds through FY24, FY25 shows concerning revenue deceleration. "
-        "Investors should focus on revenue growth sustainability rather than margin-driven earnings growth."
+        "While margin expansion provided tailwinds through FY24, FY25 shows concerning revenue deceleration to 6.9%. "
+        "**Key Risk:** Profit growth cannot sustain if revenue continues to decelerate. "
+        "Investors should focus on revenue growth recovery and sector-specific opportunities rather than broad-based index investing at current levels."
     )
 
 # ═══════════════════════════════════════════════════════════════════════════
