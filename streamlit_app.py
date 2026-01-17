@@ -63,15 +63,25 @@ try:
         BRAND_NAME,
         EXPERIENCE,
         LOCATION,
-        DATA_SOURCES_INFO,
-        PRIMARY_DATA_SOURCES,
-        RESEARCH_SOURCES,
-        GLOBAL_RESEARCH,
         CHART_HEIGHT,
         CHART_HEIGHT_SMALL,
         PAGES,
         MESSAGES
     )
+    # Try to import data sources (may not exist in old config)
+    try:
+        from config import (
+            DATA_SOURCES_INFO,
+            PRIMARY_DATA_SOURCES,
+            RESEARCH_SOURCES,
+            GLOBAL_RESEARCH
+        )
+    except ImportError:
+        # Fallback if data sources not in config
+        DATA_SOURCES_INFO = {}
+        PRIMARY_DATA_SOURCES = []
+        RESEARCH_SOURCES = []
+        GLOBAL_RESEARCH = []
 except ImportError as e:
     st.error(f"Error importing config module: {str(e)}")
     st.stop()
