@@ -12,8 +12,32 @@ Comprehensive data management with:
 
 import pandas as pd
 import numpy as np
-import streamlit as st
+
+# Try to import streamlit (required for caching decorators in production)
+try:
+    import streamlit as st
+except ImportError:
+    # Fallback for environments where streamlit is not available
+    st = None
+
 from typing import Dict, Tuple
+
+# ═══════════════════════════════════════════════════════════════════════════
+# CACHE DECORATOR HELPER
+# ═══════════════════════════════════════════════════════════════════════════
+
+def cache_data(ttl=None):
+    """
+    Create a cache decorator that works with or without streamlit.
+    In Streamlit apps, uses st.cache_data.
+    In other environments, returns the function unchanged.
+    """
+    def decorator(func):
+        if st is not None:
+            return st.cache_data(ttl=ttl)(func)
+        else:
+            return func
+    return decorator
 
 # ═══════════════════════════════════════════════════════════════════════════
 # CONSTANTS
@@ -29,7 +53,7 @@ CACHE_TTL = 3600
 # 5-YEAR HISTORICAL DATA
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def get_five_year_data() -> pd.DataFrame:
     """
     Get 5-year Nifty 50 performance data (FY2021-FY2025 YTD)
@@ -50,7 +74,7 @@ def get_five_year_data() -> pd.DataFrame:
 # QUARTERLY DATA
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def get_quarterly_data() -> pd.DataFrame:
     """
     Get quarterly FY2025 performance data
@@ -69,7 +93,7 @@ def get_quarterly_data() -> pd.DataFrame:
 # SECTOR PERFORMANCE DATA
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def get_sector_data() -> pd.DataFrame:
     """
     Get sector performance data for FY2025
@@ -95,7 +119,7 @@ def get_sector_data() -> pd.DataFrame:
 # EARNINGS DOWNGRADE TRAJECTORY
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def get_downgrade_data() -> pd.DataFrame:
     """
     Get earnings downgrade trajectory (Sep 2024 - Feb 2025)
@@ -116,7 +140,7 @@ def get_downgrade_data() -> pd.DataFrame:
 # SCENARIO DEFINITIONS
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def get_scenarios() -> Dict:
     """
     Get scenario definitions for future earnings projections
@@ -164,7 +188,7 @@ def get_scenarios() -> Dict:
 # NIFTY LEVEL CALCULATIONS
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def calculate_nifty_levels(scenarios: Dict) -> Dict:
     """
     Calculate Nifty 50 levels for each scenario
@@ -208,7 +232,7 @@ def calculate_nifty_levels(scenarios: Dict) -> Dict:
 # KEY METRICS CALCULATION
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def calculate_key_metrics() -> Dict:
     """
     Calculate key metrics for dashboard display
@@ -321,7 +345,7 @@ def validate_data() -> Tuple[bool, str]:
 # AGGREGATE FUNCTIONS
 # ═══════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=CACHE_TTL)
+@cache_data(ttl=CACHE_TTL)
 def load_all_data() -> Dict:
     """
     Load all data at once for efficient dashboard initialization
@@ -417,3 +441,18 @@ def initialize_data():
 # Run initialization on import
 if __name__ != "__main__":
     initialize_data()
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# PUBLIC API
+# ═══════════════════════════════════════════════════════════════════════════
+
+def generate_data() -> Dict:
+    """
+    Generate all dashboard data.
+    Public API function that loads all datasets.
+    
+    Returns:
+        Dict: Dictionary with all data (five_year, quarterly, sectors, downgrades)
+    """
+    return load_all_data()
