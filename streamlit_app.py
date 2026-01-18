@@ -343,6 +343,115 @@ elif page == PAGES[1]:
     
     render_divider()
     
+    # COMPREHENSIVE SUMMARY
+    render_subsection_header("📋 5-Year Performance Summary")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        **Revenue Growth Story**
+        
+        - FY21: 10.5%
+        - FY22: 15.4% (Peak)
+        - FY23: 13.8%
+        - FY24: 10.7%
+        - FY25: 6.9% ⬇️
+        
+        **CAGR: 9.2%**
+        
+        **Trend:** Consistent deceleration
+        """)
+    
+    with col2:
+        st.markdown("""
+        **Profit Growth Story**
+        
+        - FY21: 8.3%
+        - FY22: 25.7% (Peak)
+        - FY23: 22.1%
+        - FY24: 16.8%
+        - FY25: 4.6% ⬇️
+        
+        **CAGR: 15.5%**
+        
+        **Trend:** Sharper decline than revenue
+        """)
+    
+    with col3:
+        st.markdown("""
+        **Margin Story**
+        
+        - EBITDA: 32.1% → 33.1% (stable)
+        - PAT: 9.8% → 10.7% (slight gain)
+        
+        **Peak:** FY22 EBITDA 33.5%
+        
+        **Status:** Margin expansion phase over
+        """)
+    
+    render_divider()
+    
+    # Key Insights
+    render_subsection_header("🔍 Key Findings")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_success_box(
+            "**FY2021-2024: Strong Performance**\n\n"
+            "✅ Revenue CAGR: 12.6% (FY21-24)\n"
+            "✅ Profit CAGR: 18.6% (FY21-24)\n"
+            "✅ Margin expansion: +140 bps\n"
+            "✅ Dual drivers: Volume + Margin"
+        )
+    
+    with col2:
+        render_warning_box(
+            "**FY2025: Inflection Point**\n\n"
+            "⚠️ Revenue growth slows: 6.9%\n"
+            "⚠️ Profit growth halves: 4.6%\n"
+            "⚠️ Margin gains plateau\n"
+            "❌ Profit growth now dependent on revenue"
+        )
+    
+    render_divider()
+    
+    # Growth Divergence Analysis
+    render_subsection_header("📊 Growth Divergence Analysis")
+    
+    divergence_data = pd.DataFrame({
+        'Fiscal Year': five_year['Fiscal Year'],
+        'Revenue Growth %': five_year['Revenue Growth (%)'].round(1),
+        'Profit Growth %': five_year['PAT Growth (%)'].round(1),
+        'Divergence (pts)': (five_year['PAT Growth (%)'] - five_year['Revenue Growth (%)']).round(1),
+        'Driver': ['Vol+Mar', 'Vol+Mar', 'Vol+Mar', 'Vol+Mar', 'Margin']
+    })
+    
+    display_styled_dataframe(
+        divergence_data,
+        width='stretch'
+    )
+    
+    render_divider()
+    
+    # Investment Perspective
+    render_subsection_header("💼 Investment Conclusion")
+    
+    render_info_box(
+        "**5-Year Analysis Verdict**\n\n"
+        "The Nifty 50 demonstrated strong operational leverage through FY21-FY24, with profit growth (15.5% CAGR) significantly "
+        "outpacing revenue growth (9.2% CAGR). However, FY2025 marks an inflection point where profit growth (4.6%) has collapsed "
+        "disproportionately to revenue deceleration (6.9%), signaling margin expansion limits. \n\n"
+        "**Going Forward:** Investors should monitor revenue growth closely as further revenue deceleration will directly impact "
+        "profitability given margin headrooms are exhausted. The current valuation may not adequately price this transition risk."
+    )
+    
+    render_divider()
+    
+    # Full Data Table
+    render_subsection_header("📈 Complete 5-Year Data")
+    
     display_styled_dataframe(
         five_year,
         columns_to_style=['Revenue Growth (%)', 'EBITDA Growth (%)', 'PAT Growth (%)'],
