@@ -67,6 +67,18 @@ page_index = pages_list.index(page) if page in pages_list else 0
 
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"📍 {LOCATION} | {YEAR}")
+st.sidebar.markdown("---")
+
+# Social Links
+st.sidebar.markdown("""
+**Connect with me:**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/trichyravis)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/trichyravis)
+
+[📧 LinkedIn](https://www.linkedin.com/in/trichyravis)  
+[💻 GitHub](https://github.com/trichyravis)
+""")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LOAD DATA
