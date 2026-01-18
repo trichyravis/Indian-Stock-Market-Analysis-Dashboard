@@ -975,9 +975,46 @@ elif page == PAGES[6]:
     
     render_divider()
     
+    # Custom CSS for tab styling
+    st.markdown("""
+    <style>
+    [data-testid="stTabs"] [data-testid="stTabBar"] button {
+        background-color: #f0f2f6;
+        border: 2px solid #003366;
+        border-radius: 8px;
+        padding: 10px 16px;
+        margin: 5px;
+        font-weight: 600;
+        color: #003366;
+        transition: all 0.3s ease;
+    }
+    
+    [data-testid="stTabs"] [data-testid="stTabBar"] button:hover {
+        background-color: #e0e8f5;
+        border-color: #005599;
+        transform: translateY(-2px);
+    }
+    
+    [data-testid="stTabs"] [data-testid="stTabBar"] button[aria-selected="true"] {
+        background: linear-gradient(135deg, #003366 0%, #005599 100%);
+        color: #FFFFFF;
+        border-color: #003366;
+        box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3);
+    }
+    
+    [data-testid="stTabBar"] svg {
+        display: none;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades", "Data Notes"])
     
     with tab1:
+        st.markdown("""
+        <div style="background-color: #f8fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #003366;">
+        """, unsafe_allow_html=True)
+        
         render_subsection_header("📈 5-Year Performance Data")
         st.markdown("""
         **Coverage:** FY2021 to FY2025 YTD
@@ -992,8 +1029,14 @@ elif page == PAGES[6]:
         **Use Case:** Analyze 5-year trends, identify inflection points, assess margin evolution
         """)
         display_styled_dataframe(data['five_year'], width='stretch', hide_index=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
     
     with tab2:
+        st.markdown("""
+        <div style="background-color: #f8fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #FF6B6B;">
+        """, unsafe_allow_html=True)
+        
         render_subsection_header("📊 Quarterly Performance Data")
         st.markdown("""
         **Coverage:** Q1 FY2025 to Q3 FY2025
@@ -1007,8 +1050,14 @@ elif page == PAGES[6]:
         **Use Case:** Analyze intra-year deceleration trends, identify seasonal patterns, assess quarterly momentum
         """)
         display_styled_dataframe(data['quarterly'], width='stretch', hide_index=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
     
     with tab3:
+        st.markdown("""
+        <div style="background-color: #f8fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #FFD700;">
+        """, unsafe_allow_html=True)
+        
         render_subsection_header("🏢 Sector Performance Data")
         st.markdown("""
         **Coverage:** Top 10 sectors in Nifty 50
@@ -1023,8 +1072,14 @@ elif page == PAGES[6]:
         **Use Case:** Identify sector-specific trends, assess diversification, spot sector strength/weakness
         """)
         display_styled_dataframe(data['sector'], width='stretch', hide_index=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
     
     with tab4:
+        st.markdown("""
+        <div style="background-color: #f8fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #4B8BF4;">
+        """, unsafe_allow_html=True)
+        
         render_subsection_header("📉 Earnings Revision Data")
         st.markdown("""
         **Coverage:** 6-month earnings revision history (Sep 2024 - Feb 2025)
@@ -1037,8 +1092,14 @@ elif page == PAGES[6]:
         **Use Case:** Track analyst sentiment shifts, identify consensus changes, assess earnings risk
         """)
         display_styled_dataframe(data['downgrades'], width='stretch', hide_index=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
     
     with tab5:
+        st.markdown("""
+        <div style="background-color: #f8fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #31A24C;">
+        """, unsafe_allow_html=True)
+        
         render_subsection_header("📝 Data Documentation & Sources")
         
         st.markdown("**Data Collection & Methodology**")
@@ -1182,6 +1243,8 @@ elif page == PAGES[6]:
         - All data presented as of February 2025; check sources for latest updates
         - Quarterly estimates are preliminary; subject to revision with final results
         """)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FOOTER
