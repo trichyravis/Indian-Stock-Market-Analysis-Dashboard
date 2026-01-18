@@ -525,10 +525,10 @@ elif page == PAGES[1]:
     )
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PAGE 1: 5-YEAR TREND
+# PAGE 2: 5-YEAR TREND
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[1]:
+elif page == PAGES[2]:
     render_section_header("📈 5-Year Trend Analysis")
     
     render_subsection_header("💹 5-Year Performance")
@@ -722,7 +722,7 @@ elif page == PAGES[1]:
 # PAGE 2: QUARTERLY DEEP-DIVE
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[7]:
+elif page == PAGES[3]:
     render_section_header("📊 FY2025 Quarterly Deep-Dive Analysis")
     
     st.markdown("""
@@ -877,7 +877,7 @@ elif page == PAGES[7]:
 # PAGE 3: SECTOR ANALYSIS
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[7]:
+elif page == PAGES[4]:
     render_section_header("🏦 Sector Performance Analysis")
     
     sectors = data['sector']
@@ -892,7 +892,7 @@ elif page == PAGES[7]:
 # PAGE 4: EARNINGS DOWNGRADES
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[7]:
+elif page == PAGES[5]:
     render_section_header("📉 6-Month Earnings Revision Trend")
     
     st.markdown("""
@@ -1036,7 +1036,7 @@ elif page == PAGES[7]:
 # PAGE 5: SCENARIOS
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[7]:
+elif page == PAGES[6]:
     render_section_header("🎯 Investment Scenarios - Detailed Analysis")
     
     st.markdown("""
