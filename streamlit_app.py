@@ -967,21 +967,221 @@ elif page == PAGES[5]:
 elif page == PAGES[6]:
     render_section_header("📋 Data Explorer")
     
-    st.markdown("**All Datasets**")
+    st.markdown("""
+    **All Datasets - Interactive View**
     
-    tab1, tab2, tab3, tab4 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades"])
+    Access complete datasets for all analysis sections. Each tab contains detailed performance metrics and calculations.
+    """)
+    
+    render_divider()
+    
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["5-Year", "Quarterly", "Sectors", "Downgrades", "Data Notes"])
     
     with tab1:
+        render_subsection_header("📈 5-Year Performance Data")
+        st.markdown("""
+        **Coverage:** FY2021 to FY2025 YTD
+        
+        **Metrics Included:**
+        - Revenue Growth (%) - Year-on-year revenue growth rate
+        - EBITDA Growth (%) - Year-on-year EBITDA growth rate
+        - PAT Growth (%) - Year-on-year Profit After Tax growth rate
+        - EBITDA Margin (%) - EBITDA as percentage of revenue
+        - PAT Margin (%) - PAT as percentage of revenue
+        
+        **Use Case:** Analyze 5-year trends, identify inflection points, assess margin evolution
+        """)
         display_styled_dataframe(data['five_year'], width='stretch', hide_index=True)
     
     with tab2:
+        render_subsection_header("📊 Quarterly Performance Data")
+        st.markdown("""
+        **Coverage:** Q1 FY2025 to Q3 FY2025
+        
+        **Metrics Included:**
+        - Quarter - Quarter designation (Q1FY25, Q2FY25, Q3FY25)
+        - Revenue Growth (%) - Quarterly revenue growth
+        - EBITDA Growth (%) - Quarterly EBITDA growth
+        - PAT Growth (%) - Quarterly profit after tax growth
+        
+        **Use Case:** Analyze intra-year deceleration trends, identify seasonal patterns, assess quarterly momentum
+        """)
         display_styled_dataframe(data['quarterly'], width='stretch', hide_index=True)
     
     with tab3:
+        render_subsection_header("🏢 Sector Performance Data")
+        st.markdown("""
+        **Coverage:** Top 10 sectors in Nifty 50
+        
+        **Metrics Included:**
+        - Sector - Sector name within Nifty 50 index
+        - Revenue Growth FY25 (%) - FY2025 revenue growth by sector
+        - Profit Growth FY25 (%) - FY2025 profit growth by sector
+        - Weight in Nifty (%) - Sector's contribution to index
+        - Status - Performance status indicator (Strong, Stabilizing, Slowing, Crisis, Mixed)
+        
+        **Use Case:** Identify sector-specific trends, assess diversification, spot sector strength/weakness
+        """)
         display_styled_dataframe(data['sector'], width='stretch', hide_index=True)
     
     with tab4:
+        render_subsection_header("📉 Earnings Revision Data")
+        st.markdown("""
+        **Coverage:** 6-month earnings revision history (Sep 2024 - Feb 2025)
+        
+        **Metrics Included:**
+        - Date - Revision date
+        - Period - Month designation
+        - FY25 Profit Growth (%) - Current analyst estimate for FY25 profit growth
+        
+        **Use Case:** Track analyst sentiment shifts, identify consensus changes, assess earnings risk
+        """)
         display_styled_dataframe(data['downgrades'], width='stretch', hide_index=True)
+    
+    with tab5:
+        render_subsection_header("📝 Data Documentation & Sources")
+        
+        st.markdown("**Data Collection & Methodology**")
+        st.markdown("""
+        All data presented in this dashboard is compiled from official and verified sources. 
+        Below is comprehensive documentation of data collection methodology and sources.
+        """)
+        
+        render_divider()
+        
+        st.markdown("**1. NIFTY 50 PERFORMANCE DATA**")
+        st.markdown("""
+        Source: National Stock Exchange (NSE), Reserve Bank of India (RBI)
+        
+        Collection Method:
+        - Annual performance data (FY2021-2025) extracted from NSE official database
+        - Revenue and profit figures sourced from consolidated financial statements
+        - Growth rates calculated as year-on-year percentage changes
+        - Margin data calculated from audited financial statements
+        
+        Frequency: Annual (with YTD for current fiscal year)
+        Reliability: High - Official stock exchange and RBI data
+        """)
+        
+        render_divider()
+        
+        st.markdown("**2. QUARTERLY PERFORMANCE DATA**")
+        st.markdown("""
+        Source: NSE, Stock Exchange Filings, Company Reports
+        
+        Collection Method:
+        - Quarterly results compiled from official NSE filings
+        - Extracted from Nifty 50 constituent quarterly reports
+        - Growth rates calculated on quarter-on-quarter basis
+        - Data represents FY2025 performance (Q1-Q3)
+        
+        Frequency: Quarterly
+        Reliability: High - Official quarterly reports and filings
+        """)
+        
+        render_divider()
+        
+        st.markdown("**3. SECTOR ANALYSIS DATA**")
+        st.markdown("""
+        Source: BSE (Bombay Stock Exchange), Sectoral Index Reports
+        
+        Collection Method:
+        - Sector-wise breakdown derived from Nifty 50 constituents
+        - Weight percentages calculated from market capitalization
+        - Growth rates aggregated from sector index performance
+        - Status indicators based on comparative performance analysis
+        
+        Frequency: Monthly review
+        Reliability: High - Official BSE data and index calculation methodology
+        """)
+        
+        render_divider()
+        
+        st.markdown("**4. EARNINGS REVISION DATA**")
+        st.markdown("""
+        Source: SEBI (Securities and Exchange Board of India), Brokerage Research Aggregates
+        
+        Collection Method:
+        - Earnings revision history compiled from analyst consensus estimates
+        - Data spans 6-month rolling average of forecasts
+        - Profit growth estimates for FY25 tracked from Sep 2024 onwards
+        - Sources include major brokerages and institutional research teams
+        
+        Frequency: Monthly tracking
+        Reliability: Medium-High - Aggregated analyst estimates subject to volatility
+        """)
+        
+        render_divider()
+        
+        st.markdown("**5. RESEARCH SOURCES**")
+        st.markdown("""
+        Analysis Framework Based On:
+        - Business Standard - Daily market analysis and corporate reporting
+        - Economic Times - Macro trends and business news
+        - Brokerage Research - Institutional equity research and forecasts
+        - SEBI Filings - Official regulatory disclosures
+        
+        Secondary Sources:
+        - MCA (Ministry of Corporate Affairs) - Company regulatory filings
+        - RBI Publications - Macroeconomic data and policy indicators
+        - NSE Research - Technical analysis and trading data
+        """)
+        
+        render_divider()
+        
+        st.markdown("**6. DATA QUALITY & LIMITATIONS**")
+        st.markdown("""
+        Data Quality Assurance:
+        - All data sourced from official government and exchange databases
+        - Cross-verified against multiple sources where applicable
+        - Annual figures audited and officially published
+        - Quarterly data from official stock exchange filings
+        
+        Known Limitations:
+        - FY2025 is year-to-date; final annual figures may differ
+        - Quarterly data represents 9-month snapshot (Q1-Q3)
+        - Sector classifications based on NSE standard definitions
+        - Analyst estimates subject to revision and consensus changes
+        - Margin calculations based on consolidated financial statements
+        
+        Data Currency:
+        - Last Updated: February 2025
+        - Update Frequency: Monthly during fiscal year
+        - Historical data: FY2021 onwards
+        """)
+        
+        render_divider()
+        
+        st.markdown("**7. METRIC DEFINITIONS**")
+        st.markdown("""
+        Growth Rates (Year-on-Year):
+        - Revenue Growth % = (Current Year Revenue - Prior Year Revenue) / Prior Year Revenue * 100
+        - Profit Growth % = (Current Year PAT - Prior Year PAT) / Prior Year PAT * 100
+        - EBITDA Growth % = (Current Year EBITDA - Prior Year EBITDA) / Prior Year EBITDA * 100
+        
+        Margins (Percentage of Revenue):
+        - EBITDA Margin % = (EBITDA / Revenue) * 100
+        - PAT Margin % = (PAT / Revenue) * 100
+        
+        Index Weight:
+        - Weight in Nifty % = (Sector Market Cap / Total Nifty 50 Market Cap) * 100
+        
+        Earnings Estimates:
+        - FY25 Profit Growth % = Consensus analyst estimate for FY25 PAT growth rate
+        """)
+        
+        render_divider()
+        
+        st.markdown("**8. DISCLAIMERS & IMPORTANT NOTES**")
+        st.markdown("""
+        - This dashboard presents historical and current data for informational purposes only
+        - Projections and estimates are subject to market volatility and unforeseen events
+        - Past performance does not guarantee future results
+        - Data is compiled from publicly available sources; accuracy not guaranteed
+        - For investment decisions, consult with qualified financial advisors
+        - All data presented as of February 2025; check sources for latest updates
+        - Quarterly estimates are preliminary; subject to revision with final results
+        """)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FOOTER
