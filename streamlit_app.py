@@ -33,68 +33,70 @@ st.set_page_config(
 
 st.markdown(get_custom_css(), unsafe_allow_html=True)
 
-# Sidebar Radio Button Styling - Textbox Style
+# Complete Sidebar Styling - Aggressive Approach
 st.markdown("""
 <style>
-/* Sidebar background */
-[data-testid="stSidebar"] {
-    background-color: #F5F5F5 !important;
+/* Main sidebar container */
+section[data-testid="stSidebar"] {
+    background-color: #E8EDEF !important;
 }
 
-/* Radio option container - Like textbox */
-[data-testid="stSidebar"] [role="radiogroup"] {
+/* Hide default radio styling */
+section[data-testid="stSidebar"] [role="radiogroup"] {
+    display: flex !important;
+    flex-direction: column !important;
     gap: 10px !important;
 }
 
-/* Each radio option as textbox */
-[data-testid="stSidebar"] [role="radio"] {
+/* Style each radio button as box */
+section[data-testid="stSidebar"] [role="radio"] {
     background-color: #FFFFFF !important;
-    border: 2px solid #003366 !important;
-    border-radius: 8px !important;
-    padding: 12px 16px !important;
-    margin: 8px 0 !important;
-    font-weight: 600 !important;
-    color: #003366 !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-/* Radio option text styling */
-[data-testid="stSidebar"] [role="radio"] label {
-    color: #003366 !important;
-    font-weight: 600 !important;
-    cursor: pointer !important;
-    margin: 0 !important;
-}
-
-/* Hover effect - Like textbox focus */
-[data-testid="stSidebar"] [role="radio"]:hover {
-    background-color: #F0F7FF !important;
-    border-color: #005599 !important;
-    box-shadow: 0 2px 6px rgba(0, 51, 102, 0.15) !important;
-}
-
-/* Selected/Active radio button */
-[data-testid="stSidebar"] [role="radio"][aria-checked="true"] {
-    background: linear-gradient(135deg, #003366 0%, #005599 100%) !important;
-    border-color: #003366 !important;
-    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.25) !important;
-}
-
-/* Selected text color */
-[data-testid="stSidebar"] [role="radio"][aria-checked="true"] label {
-    color: #FFFFFF !important;
+    border: 3px solid #003366 !important;
+    border-radius: 10px !important;
+    padding: 15px 18px !important;
+    margin: 5px 0 !important;
     font-weight: 700 !important;
+    font-size: 15px !important;
+    color: #003366 !important;
+    cursor: pointer !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
-/* Radio circle/indicator */
-[data-testid="stSidebar"] input[type="radio"] {
-    accent-color: #003366 !important;
+/* Hover effect */
+section[data-testid="stSidebar"] [role="radio"]:hover {
+    background-color: #F5F9FF !important;
+    border-color: #005599 !important;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Active/selected state */
+section[data-testid="stSidebar"] [role="radio"][aria-checked="true"] {
+    background: linear-gradient(135deg, #003366 0%, #004d80 100%) !important;
+    border-color: #003366 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 6px 16px rgba(0, 51, 102, 0.35) !important;
+    font-weight: 800 !important;
+}
+
+/* Radio circle styling */
+section[data-testid="stSidebar"] [role="radio"] [role="presentation"] {
+    flex-shrink: 0 !important;
+}
+
+section[data-testid="stSidebar"] input[type="radio"] {
+    margin-right: 12px !important;
+    width: 20px !important;
+    height: 20px !important;
     cursor: pointer !important;
-    width: 18px !important;
-    height: 18px !important;
+    accent-color: #003366 !important;
+}
+
+section[data-testid="stSidebar"] input[type="radio"]:checked {
+    accent-color: #FFFFFF !important;
 }
 </style>
 """, unsafe_allow_html=True)
