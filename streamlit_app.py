@@ -62,6 +62,9 @@ page = st.sidebar.radio(
     key="main_nav"
 )
 
+# Convert selected page string to index for comparison
+page_index = pages_list.index(page) if page in pages_list else 0
+
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"📍 {LOCATION} | {YEAR}")
 
@@ -79,7 +82,7 @@ data = load_dashboard_data()
 # PAGE 0: ABOUT THIS RESEARCH
 # ═══════════════════════════════════════════════════════════════════════════
 
-if page == PAGES[0]:
+if page_index == 0:
     render_section_header("📚 About This Research Analysis")
     
     st.markdown("""
@@ -338,7 +341,7 @@ if page == PAGES[0]:
         "The dashboard provides comprehensive analysis tools to navigate this transition."
     )
 
-elif page == PAGES[1]:
+elif page_index == 1:
     render_section_header("📈 Nifty 50 Analysis: Growth Drivers & Sustainability")
     
     st.markdown("""
@@ -538,7 +541,7 @@ elif page == PAGES[1]:
 # PAGE 2: 5-YEAR TREND
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[2]:
+elif page_index == 2:
     render_section_header("📈 5-Year Trend Analysis")
     
     render_subsection_header("💹 5-Year Performance")
@@ -732,7 +735,7 @@ elif page == PAGES[2]:
 # PAGE 2: QUARTERLY DEEP-DIVE
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[3]:
+elif page_index == 3:
     render_section_header("📊 FY2025 Quarterly Deep-Dive Analysis")
     
     st.markdown("""
@@ -887,7 +890,7 @@ elif page == PAGES[3]:
 # PAGE 3: SECTOR ANALYSIS
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[4]:
+elif page_index == 4:
     render_section_header("🏦 Sector Performance Analysis")
     
     sectors = data['sector']
@@ -902,7 +905,7 @@ elif page == PAGES[4]:
 # PAGE 4: EARNINGS DOWNGRADES
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[5]:
+elif page_index == 5:
     render_section_header("📉 6-Month Earnings Revision Trend")
     
     st.markdown("""
@@ -1046,7 +1049,7 @@ elif page == PAGES[5]:
 # PAGE 5: SCENARIOS
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[6]:
+elif page_index == 6:
     render_section_header("🎯 Investment Scenarios - Detailed Analysis")
     
     st.markdown("""
@@ -1233,7 +1236,7 @@ elif page == PAGES[6]:
 # PAGE 6: DATA EXPLORER
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[7]:
+elif page_index == 7:
     render_section_header("📋 Data Explorer")
     
     st.markdown("""
