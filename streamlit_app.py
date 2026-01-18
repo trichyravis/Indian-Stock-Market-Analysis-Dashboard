@@ -1366,7 +1366,7 @@ elif page_index == 7:
     </style>
     """, unsafe_allow_html=True)
     
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 5-Year", "📊 Quarterly", "🏢 Sectors", "📉 Downgrades", "📝 Data Notes"])
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📈 5-Year", "📊 Quarterly", "🏢 Sectors", "📉 Downgrades", "📝 Data Notes", "📥 Downloads"])
     
     with tab1:
         render_subsection_header("📈 5-Year Performance Data")
@@ -1572,6 +1572,148 @@ elif page_index == 7:
         - For investment decisions, consult with qualified financial advisors
         - All data presented as of February 2025; check sources for latest updates
         - Quarterly estimates are preliminary; subject to revision with final results
+        """)
+    
+    with tab6:
+        render_subsection_header("📥 Download All Datasets")
+        
+        st.markdown("""
+        **Download all analysis datasets in CSV format for external analysis, modeling, or integration with your tools.**
+        """)
+        
+        render_divider()
+        
+        # Create downloadable datasets
+        five_year_df = data['five_year']
+        quarterly_df = data['quarterly']
+        sectors_df = data['sectors']
+        downgrades_df = data['earnings_revisions']
+        
+        # Convert to CSV
+        five_year_csv = five_year_df.to_csv(index=False)
+        quarterly_csv = quarterly_df.to_csv(index=False)
+        sectors_csv = sectors_df.to_csv(index=False)
+        downgrades_csv = downgrades_df.to_csv(index=False)
+        
+        # Download buttons in columns
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**📈 5-Year Performance Data**")
+            st.markdown(f"*Records: {len(five_year_df)} | Metrics: {len(five_year_df.columns)}*")
+            st.download_button(
+                label="📥 Download 5-Year Data (CSV)",
+                data=five_year_csv,
+                file_name="nifty50_5year_performance.csv",
+                mime="text/csv",
+                key="download_5year"
+            )
+        
+        with col2:
+            st.markdown("**📊 Quarterly Performance Data**")
+            st.markdown(f"*Records: {len(quarterly_df)} | Metrics: {len(quarterly_df.columns)}*")
+            st.download_button(
+                label="📥 Download Quarterly Data (CSV)",
+                data=quarterly_csv,
+                file_name="nifty50_quarterly_performance.csv",
+                mime="text/csv",
+                key="download_quarterly"
+            )
+        
+        st.markdown("---")
+        
+        col3, col4 = st.columns(2)
+        
+        with col3:
+            st.markdown("**🏢 Sector Analysis Data**")
+            st.markdown(f"*Records: {len(sectors_df)} | Metrics: {len(sectors_df.columns)}*")
+            st.download_button(
+                label="📥 Download Sector Data (CSV)",
+                data=sectors_csv,
+                file_name="nifty50_sector_analysis.csv",
+                mime="text/csv",
+                key="download_sectors"
+            )
+        
+        with col4:
+            st.markdown("**📉 Earnings Revisions Data**")
+            st.markdown(f"*Records: {len(downgrades_df)} | Metrics: {len(downgrades_df.columns)}*")
+            st.download_button(
+                label="📥 Download Earnings Revisions (CSV)",
+                data=downgrades_csv,
+                file_name="nifty50_earnings_revisions.csv",
+                mime="text/csv",
+                key="download_downgrades"
+            )
+        
+        st.markdown("---")
+        
+        render_subsection_header("📦 Combined Download")
+        
+        st.markdown("""
+        **Download all datasets combined into a single CSV file**
+        """)
+        
+        # Create combined dataset
+        combined_data = {
+            'Dataset Type': [],
+            'Data': []
+        }
+        
+        all_datasets = {
+            '5-Year Performance': five_year_df,
+            'Quarterly Performance': quarterly_df,
+            'Sector Analysis': sectors_df,
+            'Earnings Revisions': downgrades_df
+        }
+        
+        combined_text = "=== NIFTY 50 ANALYSIS DASHBOARD - COMPLETE DATA EXPORT ===\n"
+        combined_text += f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        combined_text += "=" * 70 + "\n\n"
+        
+        for dataset_name, df in all_datasets.items():
+            combined_text += f"\n{'='*70}\n"
+            combined_text += f"{dataset_name.upper()}\n"
+            combined_text += f"{'='*70}\n"
+            combined_text += df.to_csv(index=False)
+            combined_text += "\n"
+        
+        st.download_button(
+            label="📥 Download All Data Combined (TXT)",
+            data=combined_text,
+            file_name="nifty50_complete_analysis_export.txt",
+            mime="text/plain",
+            key="download_combined"
+        )
+        
+        st.markdown("---")
+        
+        render_subsection_header("ℹ️ Download Information")
+        
+        st.markdown("""
+        **Available Formats:**
+        - Individual datasets: CSV format (recommended for data analysis tools)
+        - Combined export: TXT format (for quick reference)
+        
+        **Files Include:**
+        - All historical performance data
+        - Quarterly analysis metrics
+        - Sector-wise breakdown
+        - Analyst earnings revisions
+        
+        **Usage:**
+        - Import into Excel, Python, R, Power BI, Tableau
+        - Conduct custom analysis
+        - Build predictive models
+        - Create custom visualizations
+        - Integration with data pipelines
+        
+        **File Naming Convention:**
+        - `nifty50_5year_performance.csv` - 5-year historical data
+        - `nifty50_quarterly_performance.csv` - Quarterly FY2025 data
+        - `nifty50_sector_analysis.csv` - Top 10 sector contribution
+        - `nifty50_earnings_revisions.csv` - 6-month analyst revisions
+        - `nifty50_complete_analysis_export.txt` - All data combined
         """)
 
 # ═══════════════════════════════════════════════════════════════════════════
