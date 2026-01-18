@@ -249,11 +249,14 @@ def render_main_title(title, subtitle):
 
 
 def render_section_header(text):
-    """Render section header with divider"""
+    """Render section header with contrast background and color"""
     if st is None:
         return
-    st.markdown(f"### {text}")
-    st.markdown('<div class="header-divider"></div>', unsafe_allow_html=True)
+    # HTML with contrast background (dark blue) and white text
+    st.markdown(
+        f'<div style="background-color: #003366; color: #FFFFFF; padding: 20px; border-radius: 10px; margin-bottom: 20px;"><h2 style="margin: 0; font-size: 28px; font-weight: 700;">{text}</h2></div>',
+        unsafe_allow_html=True
+    )
 
 
 def render_subsection_header(text):
@@ -305,7 +308,9 @@ def display_styled_dataframe(df, columns_to_style=None, width='stretch', hide_in
         return
     
     try:
-        st.dataframe(df, width=width, hide_index=hide_index)
+        # Convert width parameter to use_container_width for st.dataframe
+        use_width = (width == 'stretch')
+        st.dataframe(df, use_container_width=use_width, hide_index=hide_index)
     except Exception as e:
         st.warning(f"Could not display dataframe: {str(e)}")
 
