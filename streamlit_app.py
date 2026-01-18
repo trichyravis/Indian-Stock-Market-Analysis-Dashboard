@@ -1586,7 +1586,7 @@ elif page_index == 7:
         # Create downloadable datasets
         five_year_df = data['five_year']
         quarterly_df = data['quarterly']
-        sectors_df = data['sectors']
+        sectors_df = data['sector']
         downgrades_df = data['earnings_revisions']
         
         # Convert to CSV
