@@ -426,30 +426,47 @@ elif page == PAGES[2]:
     
     fig = go.Figure()
     
+    # Create x-axis positions
+    # Annual: positions 0-4 (FY21-25)
+    # Quarterly: positions 4.2, 4.4, 4.6 (within FY25)
+    annual_x = list(range(len(five_year)))
+    annual_labels = five_year['Fiscal Year'].tolist()
+    
     # Annual trend (5-year)
     fig.add_trace(go.Scatter(
-        x=five_year['Fiscal Year'],
+        x=annual_x,
         y=five_year['Revenue Growth (%)'],
         mode='lines+markers',
         name='Annual Revenue Growth',
         line=dict(color=COLORS['chart_blue'], width=3, dash='solid'),
-        marker=dict(size=10)
+        marker=dict(size=10),
+        text=annual_labels,
+        hovertemplate='<b>%{text}</b><br>Revenue Growth: %{y:.1f}%<extra></extra>'
     ))
     
-    # Quarterly points
+    # Quarterly points (positioned within FY25)
+    quarterly_x = [4.2, 4.4, 4.6]  # Between FY24 (3) and beyond (5)
     q_labels = quarterly['Quarter'].tolist()
     fig.add_trace(go.Scatter(
-        x=q_labels,
+        x=quarterly_x,
         y=quarterly['Revenue Growth (%)'],
         mode='markers',
         name='Quarterly Revenue Growth',
-        marker=dict(size=12, color=COLORS['accent_red'], symbol='diamond')
+        marker=dict(size=14, color=COLORS['accent_red'], symbol='diamond'),
+        text=q_labels,
+        hovertemplate='<b>%{text}</b><br>Revenue Growth: %{y:.1f}%<extra></extra>'
     ))
     
+    # Update layout with custom x-axis
     fig.update_layout(
         title="Annual vs Quarterly Revenue Growth Trend",
         xaxis_title="Period",
         yaxis_title="Growth Rate (%)",
+        xaxis=dict(
+            ticktext=annual_labels + q_labels,
+            tickvals=annual_x + quarterly_x,
+            type='linear'
+        ),
         template='plotly_white',
         height=400,
         hovermode='x unified'
