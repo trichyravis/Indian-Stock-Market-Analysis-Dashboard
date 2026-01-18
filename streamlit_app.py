@@ -33,6 +33,58 @@ st.set_page_config(
 
 st.markdown(get_custom_css(), unsafe_allow_html=True)
 
+# Sidebar Radio Button Styling - Enhanced
+st.markdown("""
+<style>
+/* Target sidebar radio container */
+[data-testid="stSidebar"] [data-baseweb="radio"] {
+    padding: 5px 0 !important;
+}
+
+/* Style all radio option labels */
+[data-testid="stSidebar"] [data-baseweb="radio"] label div:first-child {
+    background-color: #E8EDEF !important;
+    border: 2px solid #003366 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    margin: 10px 0 !important;
+    font-weight: 600 !important;
+    color: #003366 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Hover effect on radio labels */
+[data-testid="stSidebar"] [data-baseweb="radio"] label:hover div:first-child {
+    background-color: #D0D8E8 !important;
+    border-color: #005599 !important;
+}
+
+/* Selected radio button styling */
+[data-testid="stSidebar"] [data-baseweb="radio"] label input[type="radio"]:checked ~ div {
+    background: linear-gradient(135deg, #003366 0%, #005599 100%) !important;
+    color: #FFFFFF !important;
+    border-color: #003366 !important;
+    box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3) !important;
+}
+
+[data-testid="stSidebar"] [data-baseweb="radio"] label input[type="radio"]:checked ~ div > div {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+}
+
+/* Radio circle itself */
+[data-testid="stSidebar"] [data-baseweb="radio"] input[type="radio"] {
+    accent-color: #003366 !important;
+    cursor: pointer !important;
+}
+
+/* Radio wrapper */
+[data-testid="stSidebar"] [data-baseweb="radio"] label {
+    cursor: pointer !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ═══════════════════════════════════════════════════════════════════════════
 # SIDEBAR & NAVIGATION
 # ═══════════════════════════════════════════════════════════════════════════
