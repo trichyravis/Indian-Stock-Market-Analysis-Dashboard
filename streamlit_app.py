@@ -1587,7 +1587,7 @@ elif page_index == 7:
         five_year_df = data['five_year']
         quarterly_df = data['quarterly']
         sectors_df = data['sector']
-        downgrades_df = data['earnings_revisions']
+        downgrades_df = data['downgrades']
         
         # Convert to CSV
         five_year_csv = five_year_df.to_csv(index=False)
