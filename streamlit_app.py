@@ -66,10 +66,269 @@ def load_dashboard_data():
 data = load_dashboard_data()
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PAGE 0: OVERVIEW
+# PAGE 0: ABOUT THIS RESEARCH
 # ═══════════════════════════════════════════════════════════════════════════
 
 if page == PAGES[0]:
+    render_section_header("📚 About This Research Analysis")
+    
+    st.markdown("""
+    **Indian Stock Market Analysis: Nifty 50 Growth Drivers & Sustainability**
+    
+    A comprehensive research dashboard analyzing the Nifty 50 index composition and performance drivers
+    """)
+    
+    render_divider()
+    
+    # Research Objective
+    render_subsection_header("🎯 Research Objective")
+    
+    render_info_box(
+        "**Understanding Nifty 50 Growth Drivers**\n\n"
+        "This analysis investigates whether the Nifty 50's impressive profit growth (19.8% CAGR) is driven by "
+        "sustainable revenue expansion or unsustainable margin re-rating. By examining growth divergence, we identify "
+        "critical inflection points and assess investment implications."
+    )
+    
+    render_divider()
+    
+    # Key Research Questions
+    render_subsection_header("❓ Key Research Questions")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **Primary Questions:**
+        
+        1. Is profit growth driven by revenue expansion or margin expansion?
+        2. Are margins sustainable at current levels?
+        3. What's the divergence between revenue and profit growth?
+        4. Where are the inflection points in growth trajectory?
+        5. What's the forward earnings outlook?
+        """)
+    
+    with col2:
+        st.markdown("""
+        **Secondary Questions:**
+        
+        6. How are different sectors contributing to growth?
+        7. What are analyst sentiment and revisions indicating?
+        8. What are possible future scenarios?
+        9. Which sectors are leading vs lagging?
+        10. What's the sustainability score?
+        """)
+    
+    render_divider()
+    
+    # Analysis Approach
+    render_subsection_header("📊 Analysis Approach")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        **1. Historical Analysis**
+        
+        • 5-year trend examination
+        • Revenue & profit decomposition
+        • Margin expansion analysis
+        • Growth rate trajectory
+        • Inflection point identification
+        """)
+    
+    with col2:
+        st.markdown("""
+        **2. Current Performance**
+        
+        • FY2025 quarterly breakdown
+        • Intra-year deceleration trends
+        • Quarterly vs annual comparison
+        • Momentum indicators
+        • Performance sustainability
+        """)
+    
+    with col3:
+        st.markdown("""
+        **3. Forward Analysis**
+        
+        • Analyst earnings revisions
+        • Scenario-based projections
+        • Multiple valuation models
+        • Risk assessment
+        • Investment recommendations
+        """)
+    
+    render_divider()
+    
+    # What You Can Explore
+    render_subsection_header("🔍 What You Can Explore Using This Dashboard")
+    
+    st.markdown("""
+    This dashboard provides 7 comprehensive analysis sections:
+    """)
+    
+    analysis_info = {
+        "1️⃣ Overview": {
+            "content": "Executive summary of Nifty 50 growth dynamics with key metrics, "
+                      "divergence analysis, margin breakdown, and investment recommendations. "
+                      "Perfect for understanding the big picture.",
+            "key_insights": "Growth divergence, margin limits, sustainability concerns"
+        },
+        "2️⃣ 5-Year Trend": {
+            "content": "Comprehensive 5-year performance analysis showing revenue vs profit growth trends, "
+                      "margin evolution, and growth divergence patterns. Includes historical data and analysis.",
+            "key_insights": "Revenue deceleration, profit CAGR divergence, margin expansion limits"
+        },
+        "3️⃣ Quarterly Deep-Dive": {
+            "content": "FY2025 quarterly performance breakdown with annual vs quarterly comparison. "
+                      "Shows the sharp deceleration within the fiscal year with detailed metrics.",
+            "key_insights": "Quarterly deceleration, intra-year trends, momentum shifts"
+        },
+        "4️⃣ Sector Analysis": {
+            "content": "Top 10 sectors contributing to Nifty 50 with their growth rates, index weights, "
+                      "and performance status. Identify sector-specific opportunities and risks.",
+            "key_insights": "Sector contribution, growth heterogeneity, diversification insights"
+        },
+        "5️⃣ Earnings Downgrades": {
+            "content": "6-month analyst earnings revision trend showing consensus changes. "
+                      "Track the dramatic 67% downgrade from 9.8% to 3.2% in profit growth expectations.",
+            "key_insights": "Analyst sentiment, consensus shifts, earnings risk, forecast reliability"
+        },
+        "6️⃣ Scenarios": {
+            "content": "Three investment scenarios (Base/Bear/Bull) with earnings projections, "
+                      "valuation multiples, and Nifty targets. Interactive scenario selector with probability-weighted analysis.",
+            "key_insights": "Risk scenarios, valuation ranges, target price calculations"
+        },
+        "7️⃣ Data Explorer": {
+            "content": "Interactive tabbed interface to explore all underlying datasets with comprehensive "
+                      "documentation on data sources, methodology, and metric definitions.",
+            "key_insights": "Raw data access, source transparency, calculation verification"
+        }
+    }
+    
+    for title, info in analysis_info.items():
+        with st.expander(f"**{title}**", expanded=False):
+            st.markdown(f"**Description:** {info['content']}")
+            st.markdown(f"\n**Key Insights:** {info['key_insights']}")
+    
+    render_divider()
+    
+    # Data Sources
+    render_subsection_header("📋 Data Sources & Reliability")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **Primary Data Sources:**
+        
+        • NSE (National Stock Exchange) - Official index data
+        • RBI (Reserve Bank of India) - Macro indicators
+        • BSE (Bombay Stock Exchange) - Sector analysis
+        • SEBI (Securities & Exchange Board) - Regulatory data
+        • Company Financial Statements - Audited reports
+        """)
+    
+    with col2:
+        st.markdown("""
+        **Secondary Sources:**
+        
+        • Business Standard - Market analysis
+        • Economic Times - Business news
+        • Brokerage Research - Institutional forecasts
+        • MCA Filings - Corporate disclosures
+        • Stock Exchange Reports - Official data
+        """)
+    
+    render_divider()
+    
+    # Who Should Use This
+    render_subsection_header("👥 Who Should Use This Dashboard?")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        render_success_box(
+            "**Portfolio Managers**\n\n"
+            "✓ Index rebalancing decisions\n"
+            "✓ Sector allocation insights\n"
+            "✓ Risk assessment\n"
+            "✓ Growth trend analysis"
+        )
+    
+    with col2:
+        render_warning_box(
+            "**Equity Analysts**\n\n"
+            "⚠️ Earnings forecast validation\n"
+            "⚠️ Sector performance tracking\n"
+            "⚠️ Growth divergence analysis\n"
+            "⚠️ Valuation benchmarking"
+        )
+    
+    with col3:
+        render_info_box(
+            "**Individual Investors**\n\n"
+            "ℹ️ Market trend understanding\n"
+            "ℹ️ Growth sustainability assessment\n"
+            "ℹ️ Scenario planning\n"
+            "ℹ️ Data-driven decision making"
+        )
+    
+    render_divider()
+    
+    # Key Findings Preview
+    render_subsection_header("🔑 Key Findings (Preview)")
+    
+    findings = {
+        "Revenue Growth": "Decelerating from 15.4% (FY22) to 6.9% (FY25)",
+        "Profit Growth": "Higher but vulnerable at 4.6% (FY25)",
+        "CAGR Divergence": "Profit 15.5% vs Revenue 9.2% (unsustainable)",
+        "Margin Status": "Expansion complete, now facing limits",
+        "Earnings Revisions": "Dramatic 67% downgrade in 6 months",
+        "Analyst Sentiment": "Shifting from optimistic to cautious",
+        "Sector Concentration": "Financials 35% + Energy 30% = 65% of index",
+        "Investment Implication": "Revenue recovery critical for profit sustainability"
+    }
+    
+    for key, value in findings.items():
+        st.markdown(f"**{key}:** {value}")
+    
+    render_divider()
+    
+    # Navigation Guide
+    render_subsection_header("🧭 How to Navigate This Dashboard")
+    
+    st.markdown("""
+    **Recommended Analysis Path:**
+    
+    1. **Start Here** (📚 About This Research) - Understand objectives and context
+    2. **Overview** (🏠) - Get executive summary of key findings
+    3. **5-Year Trend** (📈) - Understand historical context and patterns
+    4. **Quarterly Deep-Dive** (📊) - See current deceleration in detail
+    5. **Sector Analysis** (🏦) - Identify sector-specific risks/opportunities
+    6. **Earnings Downgrades** (📉) - Assess analyst sentiment and revisions
+    7. **Scenarios** (🎯) - Explore future possibilities and valuations
+    8. **Data Explorer** (📋) - Verify sources and explore raw data
+    
+    **Or jump directly to sections most relevant to your questions!**
+    """)
+    
+    render_divider()
+    
+    # Investment Perspective
+    render_subsection_header("💡 Investment Perspective")
+    
+    render_info_box(
+        "**Critical Insight:**\n\n"
+        "The Nifty 50 has benefited from impressive profit growth (19.8% CAGR FY21-25), but this masks a concerning reality: "
+        "profit growth is decelerating faster than revenue growth, indicating margin expansion is losing steam. With revenue growth "
+        "down to 6.9% and analysts cutting profit forecasts by 67%, the index faces a critical inflection point. "
+        "\n\nInvestors must focus on revenue recovery and sector-specific opportunities rather than relying on broad-based margin expansion. "
+        "The dashboard provides comprehensive analysis tools to navigate this transition."
+    )
+
+elif page == PAGES[1]:
     render_section_header("📈 Nifty 50 Analysis: Growth Drivers & Sustainability")
     
     st.markdown("""
@@ -463,7 +722,7 @@ elif page == PAGES[1]:
 # PAGE 2: QUARTERLY DEEP-DIVE
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[2]:
+elif page == PAGES[7]:
     render_section_header("📊 FY2025 Quarterly Deep-Dive Analysis")
     
     st.markdown("""
@@ -618,7 +877,7 @@ elif page == PAGES[2]:
 # PAGE 3: SECTOR ANALYSIS
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[3]:
+elif page == PAGES[7]:
     render_section_header("🏦 Sector Performance Analysis")
     
     sectors = data['sector']
@@ -633,7 +892,7 @@ elif page == PAGES[3]:
 # PAGE 4: EARNINGS DOWNGRADES
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[4]:
+elif page == PAGES[7]:
     render_section_header("📉 6-Month Earnings Revision Trend")
     
     st.markdown("""
@@ -777,7 +1036,7 @@ elif page == PAGES[4]:
 # PAGE 5: SCENARIOS
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[5]:
+elif page == PAGES[7]:
     render_section_header("🎯 Investment Scenarios - Detailed Analysis")
     
     st.markdown("""
@@ -964,7 +1223,7 @@ elif page == PAGES[5]:
 # PAGE 6: DATA EXPLORER
 # ═══════════════════════════════════════════════════════════════════════════
 
-elif page == PAGES[6]:
+elif page == PAGES[7]:
     render_section_header("📋 Data Explorer")
     
     st.markdown("""
