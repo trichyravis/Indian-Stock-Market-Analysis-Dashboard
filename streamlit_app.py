@@ -40,10 +40,13 @@ st.markdown(get_custom_css(), unsafe_allow_html=True)
 
 st.markdown("""
 <div style="background-color: #003366; color: #FFD700; padding: 20px 20px; border-radius: 0; margin: -16px -16px 25px -16px; text-align: center;">
-    <h1 style="margin: 0 0 10px 0; font-size: 24px; font-weight: 700;">
+    <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">
         📚 The Mountain Path - World of Finance
     </h1>
-    <p style="margin: 0; font-size: 14px; font-weight: 500; color: #FFD700; letter-spacing: 0.5px;">
+    <h2 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 700; color: #FFD700;">
+        Indian Stock Market Analysis: Nifty 50 (Year 2021-25) Growth Drivers & Sustainability
+    </h2>
+    <p style="margin: 0; font-size: 24px; font-weight: 700; color: #FFD700; letter-spacing: 0.5px;">
         Is profit growth driven by revenue expansion or margin expansion?
     </p>
 </div>
