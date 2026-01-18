@@ -421,63 +421,80 @@ elif page == PAGES[2]:
     
     render_divider()
     
-    # COMPARATIVE CHART
-    render_subsection_header("📈 Annual Trend with Quarterly Details")
+    # ANNUAL TREND CHART
+    render_subsection_header("📈 Annual Revenue Growth Trend (FY2021-2025)")
     
-    fig = go.Figure()
+    fig_annual = go.Figure()
     
-    # Create better x-axis positions
-    # Spread data across the chart for visibility
-    annual_x = [0, 1, 2, 3, 4]
-    quarterly_x = [4.5, 4.8, 5.1]  # Extended further right for clarity
-    
+    annual_x = list(range(len(five_year)))
     annual_labels = five_year['Fiscal Year'].tolist()
-    q_labels = quarterly['Quarter'].tolist()
     
-    # Annual trend (5-year) - as a line
-    fig.add_trace(go.Scatter(
+    # Annual trend line
+    fig_annual.add_trace(go.Scatter(
         x=annual_x,
         y=five_year['Revenue Growth (%)'],
         mode='lines+markers',
         name='Annual Revenue Growth',
         line=dict(color=COLORS['chart_blue'], width=4),
-        marker=dict(size=12),
+        marker=dict(size=14),
+        fill='tozeroy',
         text=annual_labels,
         hovertemplate='<b>%{text}</b><br>Revenue Growth: %{y:.1f}%<extra></extra>'
     ))
     
-    # Quarterly points - as larger, more visible markers
-    fig.add_trace(go.Scatter(
+    fig_annual.update_layout(
+        title="Annual Revenue Growth Trajectory",
+        xaxis_title="Fiscal Year",
+        yaxis_title="Revenue Growth Rate (%)",
+        xaxis=dict(
+            ticktext=annual_labels,
+            tickvals=annual_x
+        ),
+        template='plotly_white',
+        height=450,
+        showlegend=False
+    )
+    
+    st.plotly_chart(fig_annual, use_container_width=True)
+    
+    render_divider()
+    
+    # QUARTERLY TREND CHART
+    render_subsection_header("📊 Quarterly Revenue Growth Trend (FY2025)")
+    
+    fig_quarterly = go.Figure()
+    
+    quarterly_x = list(range(len(quarterly)))
+    q_labels = quarterly['Quarter'].tolist()
+    
+    # Quarterly trend
+    fig_quarterly.add_trace(go.Scatter(
         x=quarterly_x,
         y=quarterly['Revenue Growth (%)'],
-        mode='markers',
+        mode='lines+markers',
         name='Quarterly Revenue Growth',
-        marker=dict(size=16, color=COLORS['accent_red'], symbol='diamond', line=dict(width=2, color='darkred')),
+        line=dict(color=COLORS['accent_red'], width=4),
+        marker=dict(size=14, symbol='diamond'),
+        fill='tozeroy',
+        fillcolor='rgba(255, 0, 0, 0.2)',
         text=q_labels,
         hovertemplate='<b>%{text}</b><br>Revenue Growth: %{y:.1f}%<extra></extra>'
     ))
     
-    # Combine all labels and positions for x-axis
-    all_labels = annual_labels + q_labels
-    all_positions = annual_x + quarterly_x
-    
-    fig.update_layout(
-        title="Annual vs Quarterly Revenue Growth Trend",
-        xaxis_title="Period",
-        yaxis_title="Growth Rate (%)",
+    fig_quarterly.update_layout(
+        title="Quarterly Revenue Growth Deceleration",
+        xaxis_title="Quarter (FY2025)",
+        yaxis_title="Revenue Growth Rate (%)",
         xaxis=dict(
-            ticktext=all_labels,
-            tickvals=all_positions,
-            type='linear',
-            tickangle=-45
+            ticktext=q_labels,
+            tickvals=quarterly_x
         ),
         template='plotly_white',
-        height=500,
-        hovermode='closest',
-        showlegend=True
+        height=450,
+        showlegend=False
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig_quarterly, use_container_width=True)
     
     render_divider()
     
