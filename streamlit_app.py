@@ -39,8 +39,8 @@ st.markdown(get_custom_css(), unsafe_allow_html=True)
 # ═══════════════════════════════════════════════════════════════════════════
 
 st.markdown("""
-<div style="background-color: #003366; color: #FFFFFF; padding: 16px 20px; border-radius: 0; margin: -16px -16px 20px -16px;">
-    <h1 style="margin: 0; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+<div style="background-color: #1E90FF; color: #FFFFFF; padding: 16px 20px; border-radius: 0; margin: -16px -16px 20px -16px; text-align: center;">
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700;">
         📚 The Mountain Path - World of Finance
     </h1>
 </div>
