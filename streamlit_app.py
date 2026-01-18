@@ -34,6 +34,65 @@ st.set_page_config(
 
 st.markdown(get_custom_css(), unsafe_allow_html=True)
 
+# Sidebar Radio Button Styling - Contrast Background
+st.markdown("""
+<style>
+/* Sidebar container background */
+section[data-testid="stSidebar"] {
+    background-color: #F5F5F5 !important;
+}
+
+/* Radio button group container */
+section[data-testid="stSidebar"] [role="radiogroup"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+/* Individual radio button styling */
+section[data-testid="stSidebar"] [role="radio"] {
+    background-color: #FFFFFF !important;
+    border: 2px solid #003366 !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    margin: 4px 0 !important;
+    font-weight: 600 !important;
+    color: #003366 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Hover state - light blue background */
+section[data-testid="stSidebar"] [role="radio"]:hover {
+    background-color: #F0F7FF !important;
+    border-color: #005599 !important;
+    box-shadow: 0 2px 6px rgba(0, 51, 102, 0.15) !important;
+}
+
+/* Selected/Active radio button - dark blue background with white text */
+section[data-testid="stSidebar"] [role="radio"][aria-checked="true"] {
+    background: linear-gradient(135deg, #003366 0%, #005599 100%) !important;
+    color: #FFFFFF !important;
+    border-color: #003366 !important;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.25) !important;
+    font-weight: 700 !important;
+}
+
+/* Radio circle styling */
+section[data-testid="stSidebar"] input[type="radio"] {
+    accent-color: #003366 !important;
+    cursor: pointer !important;
+}
+
+/* Selected radio circle white */
+section[data-testid="stSidebar"] [aria-checked="true"] input[type="radio"] {
+    accent-color: #FFFFFF !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ═══════════════════════════════════════════════════════════════════════════
 # SIDEBAR & NAVIGATION
 # ═══════════════════════════════════════════════════════════════════════════
