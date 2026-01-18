@@ -527,12 +527,141 @@ elif page == PAGES[3]:
 elif page == PAGES[4]:
     render_section_header("📉 6-Month Earnings Revision Trend")
     
+    st.markdown("""
+    **Analysis Period:** Sep 2024 - Feb 2025  
+    **Focus:** FY2025 Profit Growth Revisions
+    """)
+    
+    render_divider()
+    
     downgrades = data['downgrades']
+    
+    # Display data table
+    render_subsection_header("📊 Earnings Revision History")
     display_styled_dataframe(
         downgrades,
-        columns_to_style=['Direction (%)'],
         width='stretch',
         hide_index=True
+    )
+    
+    render_divider()
+    
+    # Key Metrics
+    render_subsection_header("📈 Revision Metrics")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Latest Estimate", f"{downgrades.iloc[-1]['FY25 Profit Growth (%)']:.1f}%", delta="Current")
+    with col2:
+        st.metric("Highest Estimate", f"{downgrades['FY25 Profit Growth (%)'].max():.1f}%", delta="Sep 2024")
+    with col3:
+        st.metric("Lowest Estimate", f"{downgrades['FY25 Profit Growth (%)'].min():.1f}%", delta="Recent")
+    with col4:
+        total_revision = downgrades['FY25 Profit Growth (%)'].iloc[0] - downgrades['FY25 Profit Growth (%)'].iloc[-1]
+        st.metric("Total Revision", f"{total_revision:.1f}%", delta="Downgrade")
+    
+    render_divider()
+    
+    # Revision Trend Chart
+    render_subsection_header("📉 Revision Trend Over Time")
+    
+    fig = go.Figure()
+    
+    # Create x-axis positions
+    x_pos = list(range(len(downgrades)))
+    date_labels = downgrades['Date'].tolist()
+    
+    # Revision line
+    fig.add_trace(go.Scatter(
+        x=x_pos,
+        y=downgrades['FY25 Profit Growth (%)'],
+        mode='lines+markers',
+        name='FY25 Profit Growth Estimate',
+        line=dict(color=COLORS['accent_red'], width=4),
+        marker=dict(size=12, symbol='circle'),
+        fill='tozeroy',
+        fillcolor='rgba(255, 0, 0, 0.1)',
+        text=date_labels,
+        hovertemplate='<b>%{text}</b><br>Estimate: %{y:.1f}%<extra></extra>'
+    ))
+    
+    fig.update_layout(
+        title="FY2025 Profit Growth Estimate Revision",
+        xaxis_title="Revision Date",
+        yaxis_title="FY25 Profit Growth (%)",
+        xaxis=dict(
+            ticktext=date_labels,
+            tickvals=x_pos,
+            tickangle=-45
+        ),
+        template='plotly_white',
+        height=400,
+        showlegend=False
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+    
+    render_divider()
+    
+    # Analysis Boxes
+    render_subsection_header("🔍 Revision Analysis")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        render_warning_box(
+            "**Downgrade Trend**\n\n"
+            "• Sep 2024: 9.8% (Initial estimate)\n"
+            "• Dec 2024: 3.2% (Sharp decline)\n"
+            "• Feb 2025: 3.2% (Stabilized)\n\n"
+            "**Observation:** 67% downgrade in 6 months"
+        )
+    
+    with col2:
+        render_info_box(
+            "**What This Means**\n\n"
+            "• Analysts have cut profit growth expectations significantly\n"
+            "• Recent estimates stable (suggesting capitulation)\n"
+            "• Current estimate: 3.2% (down from 9.8%)\n"
+            "• Risk: Further downgrades possible if revenue weakens"
+        )
+    
+    render_divider()
+    
+    # Monthly Revision Rates
+    render_subsection_header("📋 Monthly Revision Details")
+    
+    revision_data = pd.DataFrame({
+        'Date': downgrades['Date'],
+        'Period': downgrades['Period'],
+        'FY25 Profit Growth %': downgrades['FY25 Profit Growth (%)'].round(1),
+        'Revision from Previous': [
+            '-',
+            f"{downgrades.iloc[1]['FY25 Profit Growth (%)'] - downgrades.iloc[0]['FY25 Profit Growth (%)']:.1f}%",
+            f"{downgrades.iloc[2]['FY25 Profit Growth (%)'] - downgrades.iloc[1]['FY25 Profit Growth (%)']:.1f}%",
+            f"{downgrades.iloc[3]['FY25 Profit Growth (%)'] - downgrades.iloc[2]['FY25 Profit Growth (%)']:.1f}%",
+            f"{downgrades.iloc[4]['FY25 Profit Growth (%)'] - downgrades.iloc[3]['FY25 Profit Growth (%)']:.1f}%",
+            f"{downgrades.iloc[5]['FY25 Profit Growth (%)'] - downgrades.iloc[4]['FY25 Profit Growth (%)']:.1f}%"
+        ]
+    })
+    
+    display_styled_dataframe(
+        revision_data,
+        width='stretch'
+    )
+    
+    render_divider()
+    
+    # Investment Perspective
+    render_subsection_header("💼 Investment Perspective")
+    
+    render_info_box(
+        "**Key Takeaway**\n\n"
+        "The dramatic downgrade from 9.8% to 3.2% reflects deteriorating profit growth expectations. "
+        "While the recent stabilization suggests consensus has been reached, the current 3.2% estimate is concerning given: "
+        "(1) Revenue growth declining to 6.9%, (2) Margin expansion limits, (3) Lack of operational catalysts. "
+        "Monitor Q3 results closely—further deterioration could trigger additional downgrades."
     )
 
 # ═══════════════════════════════════════════════════════════════════════════
