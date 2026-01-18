@@ -33,54 +33,68 @@ st.set_page_config(
 
 st.markdown(get_custom_css(), unsafe_allow_html=True)
 
-# Sidebar Radio Button Styling - Enhanced
+# Sidebar Radio Button Styling - Textbox Style
 st.markdown("""
 <style>
-/* Target sidebar radio container */
-[data-testid="stSidebar"] [data-baseweb="radio"] {
-    padding: 5px 0 !important;
+/* Sidebar background */
+[data-testid="stSidebar"] {
+    background-color: #F5F5F5 !important;
 }
 
-/* Style all radio option labels */
-[data-testid="stSidebar"] [data-baseweb="radio"] label div:first-child {
-    background-color: #E8EDEF !important;
+/* Radio option container - Like textbox */
+[data-testid="stSidebar"] [role="radiogroup"] {
+    gap: 10px !important;
+}
+
+/* Each radio option as textbox */
+[data-testid="stSidebar"] [role="radio"] {
+    background-color: #FFFFFF !important;
     border: 2px solid #003366 !important;
     border-radius: 8px !important;
     padding: 12px 16px !important;
-    margin: 10px 0 !important;
+    margin: 8px 0 !important;
     font-weight: 600 !important;
     color: #003366 !important;
+    cursor: pointer !important;
     transition: all 0.3s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-/* Hover effect on radio labels */
-[data-testid="stSidebar"] [data-baseweb="radio"] label:hover div:first-child {
-    background-color: #D0D8E8 !important;
+/* Radio option text styling */
+[data-testid="stSidebar"] [role="radio"] label {
+    color: #003366 !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+}
+
+/* Hover effect - Like textbox focus */
+[data-testid="stSidebar"] [role="radio"]:hover {
+    background-color: #F0F7FF !important;
     border-color: #005599 !important;
+    box-shadow: 0 2px 6px rgba(0, 51, 102, 0.15) !important;
 }
 
-/* Selected radio button styling */
-[data-testid="stSidebar"] [data-baseweb="radio"] label input[type="radio"]:checked ~ div {
+/* Selected/Active radio button */
+[data-testid="stSidebar"] [role="radio"][aria-checked="true"] {
     background: linear-gradient(135deg, #003366 0%, #005599 100%) !important;
-    color: #FFFFFF !important;
     border-color: #003366 !important;
-    box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.25) !important;
 }
 
-[data-testid="stSidebar"] [data-baseweb="radio"] label input[type="radio"]:checked ~ div > div {
+/* Selected text color */
+[data-testid="stSidebar"] [role="radio"][aria-checked="true"] label {
     color: #FFFFFF !important;
     font-weight: 700 !important;
 }
 
-/* Radio circle itself */
-[data-testid="stSidebar"] [data-baseweb="radio"] input[type="radio"] {
+/* Radio circle/indicator */
+[data-testid="stSidebar"] input[type="radio"] {
     accent-color: #003366 !important;
     cursor: pointer !important;
-}
-
-/* Radio wrapper */
-[data-testid="stSidebar"] [data-baseweb="radio"] label {
-    cursor: pointer !important;
+    width: 18px !important;
+    height: 18px !important;
 }
 </style>
 """, unsafe_allow_html=True)
