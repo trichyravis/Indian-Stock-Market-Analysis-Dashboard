@@ -2,7 +2,8 @@
 """
 Indian Stock Market Analysis Dashboard
 Analysis of Nifty 50 Growth: Revenue Expansion vs Margin Re-Rating
-Version 2.4.0 - Restored Original State (7 Pages)
+Version 2.5.0 - 9 Pages with "About This Research" Landing Page
+Cache Buster: FORCE_REFRESH_PAGES_20250118_001
 """
 
 import streamlit as st
@@ -43,8 +44,17 @@ st.sidebar.markdown(f"**Prof. V. Ravichandran**")
 st.sidebar.markdown(f"*{EXPERIENCE}*")
 st.sidebar.markdown("---")
 
-# Show all 8 pages (exclude data sources page which is PAGES[8])
-pages_list = PAGES[:8]
+# Show all 8 pages with explicit list
+pages_list = [
+    "📚 About This Research",
+    "🏠 Overview",
+    "📈 5-Year Trend",
+    "📊 Quarterly Deep-Dive",
+    "🏦 Sector Analysis",
+    "📉 Earnings Downgrades",
+    "🎯 Scenarios",
+    "📋 Data Explorer"
+]
 
 page = st.sidebar.radio(
     "📍 Choose Analysis:",
