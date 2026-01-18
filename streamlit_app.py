@@ -43,8 +43,8 @@ st.sidebar.markdown(f"**Prof. V. Ravichandran**")
 st.sidebar.markdown(f"*{EXPERIENCE}*")
 st.sidebar.markdown("---")
 
-# Only show first 7 pages (exclude data sources)
-pages_list = PAGES[:7]
+# Show all 8 pages (exclude data sources page which is PAGES[8])
+pages_list = PAGES[:8]
 
 page = st.sidebar.radio(
     "📍 Choose Analysis:",
